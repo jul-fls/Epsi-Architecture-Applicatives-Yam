@@ -1,20 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import io from "socket.io-client";
-
+import { SocketContext } from "../contexts/socket.context";
 
 export default function HomeScreen() {
-  const [hasConnection, setConnection] = useState(false);
+  const socket = useContext(SocketContext);
   const [time, setTime] = useState(null);
 
   useEffect(function didMount() {
-    const socket = io(socketEndpoint, {
-      transports: ["websocket"],
-    });
-
-    socket.io.on("open", () => setConnection(true));
-    socket.io.on("close", () => setConnection(false));
-
     socket.on("time-msg", (data) => {
       setTime(new Date(data.time).toString());
     });
@@ -27,7 +20,7 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      {!hasConnection && (
+      {!socket && (
         <>
           <Text style={styles.paragraph}>
             Connecting to {socketEndpoint}...
@@ -37,15 +30,12 @@ export default function HomeScreen() {
           </Text>
         </>
       )}
-
-      {hasConnection && (
-        <>
-          <Text style={[styles.paragraph, { fontWeight: "bold" }]}>
-            Server time
-          </Text>
-          <Text style={styles.paragraph}>{time}</Text>
-        </>
-      )}
+      <>
+        <Text style={[styles.paragraph, { fontWeight: "bold" }]}>
+          Server time
+        </Text>
+        <Text style={styles.paragraph}>{time}</Text>
+      </>
     </View>
   );
 }

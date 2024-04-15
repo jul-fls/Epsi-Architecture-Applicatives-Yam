@@ -1,16 +1,17 @@
 // app/contexts/socket.context.js
 
 import React from "react";
-import { Platform } from 'react-native';
+import { Platform } from "react-native";
 import io from "socket.io-client";
 
-console.log('Emulation OS Platform: ', Platform.OS);
+console.log("Emulation OS Platform: ", Platform.OS);
 // Also usable : "http://10.0.2.2:3000"
-export const socketEndpoint = Platform.OS === 'web' ? "http://localhost:3000" : "http://172.20.10.3:3000";
+export const socketEndpoint =
+  Platform.OS === "web" ? "http://localhost:3000" : "http://10.60.104.117:3000";
 
 export const socket = io(socketEndpoint, {
   transports: ["websocket"],
-});;
+});
 
 export let hasConnection = false;
 
@@ -24,6 +25,5 @@ socket.on("disconnect", () => {
   console.log("disconnected from server"); // undefined
   socket.removeAllListeners();
 });
-
 
 export const SocketContext = React.createContext();
