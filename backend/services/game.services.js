@@ -42,6 +42,19 @@ const GameService = {
           inGame: false,
         };
       },
+      gameTimer: (playerKey, gameState) => {
+        // Selon la clé du joueur on adapte la réponse (player / opponent)
+        const playerTimer =
+          gameState.currentTurn === playerKey ? gameState.timer : 0;
+        const opponentTimer =
+          gameState.currentTurn === playerKey ? 0 : gameState.timer;
+        return { playerTimer: playerTimer, opponentTimer: opponentTimer };
+      },
+    },
+  },
+  timer: {
+    getTurnDuration: () => {
+      return TURN_DURATION;
     },
   },
   utils: {
