@@ -177,6 +177,7 @@ const GameService = {
       let hasFourOfAKind = false; // check: carré
       let hasFiveOfAKind = false; // check: yam
       let hasStraight = false; // check: suite
+      let isLessThanEqual8 = false; // check: ≤8
       let sum = 0; // sum of dices
 
       // -----------------------------------
@@ -216,6 +217,12 @@ const GameService = {
       // TODO : (7) calculate sum
       // calculateSum() {
       //  sum = sum of dices
+      // }
+
+      // TODO : (8) check isLessThanEqual8
+      // checkIsLessThanEqual8() {
+      //  isLessThanEqual8 = sum <= 8
+      // return isLessThanEqual8
       // }
 
       // return available combinations
