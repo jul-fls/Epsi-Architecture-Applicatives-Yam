@@ -11,7 +11,6 @@ const PlayerDeck = () => {
   const [rollsCounter, setRollsCounter] = useState(0);
   const [rollsMaximum, setRollsMaximum] = useState(3);
 
-  console.log("dices ::: ", dices);
   useEffect(() => {
     socket.on("game.deck.view-state", (data) => {
       setDisplayPlayerDeck(data["displayPlayerDeck"]);
@@ -89,6 +88,12 @@ const styles = StyleSheet.create({
     width: "70%",
     justifyContent: "space-between",
     marginBottom: 10,
+  },
+  rollButtonText: {
+    backgroundColor: "lightblue",
+    padding: 10,
+    borderBlockColor: "black",
+    borderRadius: 5,
   },
 });
 
