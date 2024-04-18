@@ -183,6 +183,41 @@ const GameService = {
       // TODO: Vérifier les combinaisons possibles
       // -----------------------------------
 
+      // TODO : (1) check hasPair
+      // checkHasPair() {
+      //  hasPair = true / false
+      // }
+
+      // TODO : (2) check threeOfAKindValue
+      // checkThreeOfAKindValue() {
+      //  threeOfAKindValue = value brelan
+      // }
+
+      // TODO : (3) check hasThreeOfAKind
+      // checkHasThreeOfAKind() {
+      //  hasThreeOfAKind = true / false
+      // }
+
+      // TODO : (4) check hasFourOfAKind
+      // checkHasFourOfAKind() {
+      //  hasFourOfAKind = true / false
+      // }
+
+      // TODO : (5) check hasFiveOfAKind
+      // checkHasFiveOfAKind() {
+      //  hasFiveOfAKind = true / false
+      // }
+
+      // TODO : (6) check hasStraight
+      // checkHasStraight() {
+      //  hasStraight = true / false
+      // }
+
+      // TODO : (7) calculate sum
+      // calculateSum() {
+      //  sum = sum of dices
+      // }
+
       // return available combinations
       allCombinations.forEach((combination) => {
         if (
