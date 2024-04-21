@@ -224,7 +224,6 @@ const GameService = {
       //  isLessThanEqual8 = sum <= 8
       // return isLessThanEqual8
       // }
-
       // return available combinations
       allCombinations.forEach((combination) => {
         if (
