@@ -43,7 +43,6 @@ const updateClientViewDecks = (game) => {
       "game.deck.view-state",
       GameService.send.forPlayer.deckViewState("player:1", game.gameState)
     );
-    console.log("game.gameState: ", game.gameState);
     game.player2Socket.emit(
       "game.deck.view-state",
       GameService.send.forPlayer.deckViewState("player:2", game.gameState)
