@@ -123,6 +123,16 @@ const GameService = {
         };
       },
 
+      chociesViewState: (playerKey, gameState) => {
+        const chociesViewState = {
+          displayChoices: true,
+          canMakeChoice: playerKey === gameState.currentTurn,
+          idSelectedChoice: gameState.choices.idSelectedChoice,
+          availableChoices: gameState.choices.availableChoices,
+        };
+        return chociesViewState;
+      },
+
       viewQueueState: () => {
         return {
           inQueue: true,
