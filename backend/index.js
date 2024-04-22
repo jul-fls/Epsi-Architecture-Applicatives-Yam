@@ -212,12 +212,12 @@ io.on("connection", (socket) => {
       // Combinations management
       const dices = games[gameIndex].gameState.deck.dices;
       const isDefi = false;
-      const isSec = games[gameIndex].gameState.deck.rollsCounter === 2;
+      const isFirstRoll = games[gameIndex].gameState.deck.rollsCounter === 1;
 
       const combinations = GameService.choices.findCombinations(
         dices,
         isDefi,
-        isSec
+        isFirstRoll
       );
 
       games[gameIndex].gameState.choices.availableCombinations = combinations;

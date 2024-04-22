@@ -172,75 +172,43 @@ const GameService = {
   },
 
   choices: {
-    findCombinations: (dices, isDefi, isSec) => {
+    findCombinations: (dices, isDefi, isFirstRoll) => {
       const allCombinations = ALL_COMBINATIONS;
-
-      // Tableau des objets 'combinations' disponibles parmi 'ALL_COMBINATIONS'
       const availableCombinations = [];
+      const counts = Array(7).fill(0); // Counts for dice values from 1 to 6
+      let sum = 0;
 
-      // Tableau pour compter le nombre de dés de chaque valeur (de 1 à 6)
-      const counts = Array(7).fill(0);
+      // Count dice values and calculate the total sum
+      dices.forEach((dice) => {
+        const value = parseInt(dice.value);
+        counts[value]++;
+        sum += value;
+      });
 
-      let hasPair = false; // check: paire
-      let threeOfAKindValue = null; // check: valeur brelan
-      let hasThreeOfAKind = false; // check: brelan
-      let hasFourOfAKind = false; // check: carré
-      let hasFiveOfAKind = false; // check: yam
-      let hasStraight = false; // check: suite
-      let isLessThanEqual8 = false; // check: ≤8
-      let sum = 0; // sum of dices
+      // Check for basic combinations
+      const hasThreeOfAKind = counts.some((count) => count === 3);
+      const hasPair = counts.some((count) => count === 2);
+      const hasFourOfAKind = counts.some((count) => count >= 4);
+      const hasFiveOfAKind = counts.some((count) => count === 5);
+      const hasStraight =
+        counts.slice(1, 6).every((count) => count >= 1) ||
+        counts.slice(2, 7).every((count) => count >= 1); // Check for sequences 1-2-3-4-5 or 2-3-4-5-6
+      const isLessThanEqual8 = sum <= 8;
 
-      // -----------------------------------
-      // TODO: Vérifier les combinaisons possibles
-      // -----------------------------------
+      // Check for a Full: exactly one triplet and one pair of different values
+      let full = false;
+      if (hasThreeOfAKind && hasPair) {
+        const threeOfAKindValue = counts.findIndex((count) => count === 3);
+        const pairValue = counts.findIndex((count) => count === 2);
+        full = threeOfAKindValue !== pairValue;
+      }
 
-      // TODO : (1) check hasPair
-      // checkHasPair() {
-      //  hasPair = true / false
-      // }
-
-      // TODO : (2) check threeOfAKindValue
-      // checkThreeOfAKindValue() {
-      //  threeOfAKindValue = value brelan
-      // }
-
-      // TODO : (3) check hasThreeOfAKind
-      // checkHasThreeOfAKind() {
-      //  hasThreeOfAKind = true / false
-      // }
-
-      // TODO : (4) check hasFourOfAKind
-      // checkHasFourOfAKind() {
-      //  hasFourOfAKind = true / false
-      // }
-
-      // TODO : (5) check hasFiveOfAKind
-      // checkHasFiveOfAKind() {
-      //  hasFiveOfAKind = true / false
-      // }
-
-      // TODO : (6) check hasStraight
-      // checkHasStraight() {
-      //  hasStraight = true / false
-      // }
-
-      // TODO : (7) calculate sum
-      // calculateSum() {
-      //  sum = sum of dices
-      // }
-
-      // TODO : (8) check isLessThanEqual8
-      // checkIsLessThanEqual8() {
-      //  isLessThanEqual8 = sum <= 8
-      // return isLessThanEqual8
-      // }
-      // return available combinations
+      // Determine available combinations based on the current state of the dices
       allCombinations.forEach((combination) => {
         if (
-          (combination.id.includes("brelan") &&
-            hasThreeOfAKind &&
-            parseInt(combination.id.slice(-1)) === threeOfAKindValue) ||
-          (combination.id === "full" && hasPair && hasThreeOfAKind) ||
+          (combination.id.startsWith("brelan") &&
+            counts[parseInt(combination.id.slice(-1))] === 3) ||
+          (combination.id === "full" && full) ||
           (combination.id === "carre" && hasFourOfAKind) ||
           (combination.id === "yam" && hasFiveOfAKind) ||
           (combination.id === "suite" && hasStraight) ||
@@ -251,6 +219,18 @@ const GameService = {
         }
       });
 
+      // Automatically determine if 'Sec' should be added
+
+      if (isFirstRoll) {
+        const nonBrelanCombinations = availableCombinations.filter(
+          (combination) => !combination.id.startsWith("brelan")
+        );
+        if (nonBrelanCombinations.length > 0) {
+          availableCombinations.push({ id: "sec", value: "Sec" });
+        }
+      }
+
+      console.log("availableCombinations :: ", availableCombinations);
       return availableCombinations;
     },
   },
