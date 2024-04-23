@@ -62,7 +62,7 @@ const PlayerDeck = () => {
             ))}
           </View>
 
-          {displayRollButton && (
+          {displayRollButton && rollsCounter < rollsMaximum && (
             <>
               <TouchableOpacity style={styles.rollButton} onPress={rollDices}>
                 <Text style={styles.rollButtonText}>Roll</Text>
