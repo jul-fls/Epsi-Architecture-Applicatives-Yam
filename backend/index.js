@@ -278,6 +278,9 @@ io.on("connection", (socket) => {
       games,
       socket.id
     );
+
+    // TODO :On doit vérifier avec le grid si le choix est valide
+
     games[gameIndex].gameState.choices.idSelectedChoice = data.choiceId;
 
     updateClientsViewChoices(games[gameIndex]);
