@@ -254,6 +254,63 @@ io.on("connection", (socket) => {
     updateClientsViewChoices(games[gameIndex]);
   });
 
+  socket.on("game.grid.selected", (data) => {
+    const gameIndex = GameService.utils.findGameIndexBySocketId(
+      games,
+      socket.id
+    );
+
+    // La sélection d'une cellule signifie la fin du tour (ou plus tard le check des conditions de victoires)
+    // On reset l'état des cases qui étaient précédemment clicables.
+    games[gameIndex].gameState.grid = GameService.grid.resetcanBeCheckedCells(
+      games[gameIndex].gameState.grid
+    );
+    games[gameIndex].gameState.grid = GameService.grid.selectCell(
+      data.cellId,
+      data.rowIndex,
+      data.cellIndex,
+      games[gameIndex].gameState.currentTurn,
+      games[gameIndex].gameState.grid
+    );
+
+    // TODO: Ici calculer le score
+    // TODO: Puis check si la partie s'arrête (lines / diagolales / no-more-gametokens)
+
+    // Sinon on finit le tour
+    games[gameIndex].gameState.currentTurn =
+      games[gameIndex].gameState.currentTurn === "player:1"
+        ? "player:2"
+        : "player:1";
+    games[gameIndex].gameState.timer = GameService.timer.getTurnDuration();
+
+    // On remet le deck et les choix à zéro (la grille, elle, ne change pas)
+    games[gameIndex].gameState.deck = GameService.init.deck();
+    games[gameIndex].gameState.choices = GameService.init.choices();
+
+    // On reset le timer
+    games[gameIndex].player1Socket.emit(
+      "game.timer",
+      GameService.send.forPlayer.gameTimer(
+        "player:1",
+        games[gameIndex].gameState
+      )
+    );
+    games[gameIndex].player2Socket.emit(
+      "game.timer",
+      GameService.send.forPlayer.gameTimer(
+        "player:2",
+        games[gameIndex].gameState
+      )
+    );
+
+    // et on remet à jour la vue
+    updateClientsViewDecks(games[gameIndex]);
+    updateClientsViewChoices(games[gameIndex]);
+
+    // TODO: make updateClientsViewGrid(games[gameIndex]);
+    // updateClientsViewGrid(games[gameIndex]);
+  });
+
   socket.on("disconnect", (reason) => {
     console.log(`[${socket.id}] socket disconnected - ${reason}`);
   });
