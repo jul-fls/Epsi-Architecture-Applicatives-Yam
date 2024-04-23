@@ -220,7 +220,7 @@ io.on("connection", (socket) => {
         isFirstRoll
       );
 
-      games[gameIndex].gameState.choices.availableCombinations = combinations;
+      games[gameIndex].gameState.choices.availableChoices = combinations;
 
       updateClientsViewDecks(games[gameIndex]);
       updateClientsViewChoices(games[gameIndex]);
@@ -236,25 +236,24 @@ io.on("connection", (socket) => {
         games[gameIndex].gameState.deck.dices
       );
 
-      // Combinations management
-      const dices = games[gameIndex].gameState.deck.dices;
-      const isDefi = false;
-      const isSec = games[gameIndex].gameState.deck.rollsCounter === 2;
-
-      const combinations = GameService.choices.findCombinations(
-        dices,
-        isDefi,
-        isSec
-      );
-      games[gameIndex].gameState.choices.availableCombinations = combinations;
-
-      // Temporary put timer at 5 sec to test turn switching
       games[gameIndex].gameState.timer = 5;
-
-      // emit to views new state
-      updateClientsViewDecks(games[gameIndex]);
-      updateClientsViewChoices(games[gameIndex]);
     }
+
+    // Combinations management
+    const dices = games[gameIndex].gameState.deck.dices;
+    const isDefi = false;
+    const isFirstRoll = games[gameIndex].gameState.deck.rollsCounter === 1;
+
+    const combinations = GameService.choices.findCombinations(
+      dices,
+      isDefi,
+      isFirstRoll
+    );
+
+    games[gameIndex].gameState.choices.availableChoices = combinations;
+
+    updateClientsViewDecks(games[gameIndex]);
+    updateClientsViewChoices(games[gameIndex]);
   });
 
   socket.on("game.dices.lock", (idDice) => {

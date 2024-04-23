@@ -123,7 +123,7 @@ const GameService = {
         };
       },
 
-      chociesViewState: (playerKey, gameState) => {
+      choicesViewState: (playerKey, gameState) => {
         const chociesViewState = {
           displayChoices: true,
           canMakeChoice: playerKey === gameState.currentTurn,
@@ -185,17 +185,45 @@ const GameService = {
         sum += value;
       });
 
-      // Check for basic combinations
+      // -------------------------------- //
+      // CHECK Combination -------------- //
+      // -------------------------------- //
+
+      // -------------------------------- //
+      // (1) Brelan
+      // -------------------------------- //
       const hasThreeOfAKind = counts.some((count) => count === 3);
+
+      // -------------------------------- //
+      // (2) Pairs (Not used in the game but in full)
+      // -------------------------------- //
       const hasPair = counts.some((count) => count === 2);
+
+      // -------------------------------- //
+      // (3) Carré
+      // -------------------------------- //
       const hasFourOfAKind = counts.some((count) => count >= 4);
-      const hasFiveOfAKind = counts.some((count) => count === 5);
+
+      // -------------------------------- //
+      // (4) Yam
+      // -------------------------------- //
+      const yam = counts.some((count) => count === 5);
+
+      // -------------------------------- //
+      // (5) Suite
+      // -------------------------------- //
       const hasStraight =
         counts.slice(1, 6).every((count) => count >= 1) ||
         counts.slice(2, 7).every((count) => count >= 1); // Check for sequences 1-2-3-4-5 or 2-3-4-5-6
+
+      // -------------------------------- //
+      // (6) ≤8
+      // -------------------------------- //
       const isLessThanEqual8 = sum <= 8;
 
-      // Check for a Full: exactly one triplet and one pair of different values
+      // -------------------------------- //
+      // (7) Full
+      // -------------------------------- //
       let full = false;
       if (hasThreeOfAKind && hasPair) {
         const threeOfAKindValue = counts.findIndex((count) => count === 3);
@@ -210,7 +238,7 @@ const GameService = {
             counts[parseInt(combination.id.slice(-1))] === 3) ||
           (combination.id === "full" && full) ||
           (combination.id === "carre" && hasFourOfAKind) ||
-          (combination.id === "yam" && hasFiveOfAKind) ||
+          (combination.id === "yam" && yam) ||
           (combination.id === "suite" && hasStraight) ||
           (combination.id === "moinshuit" && isLessThanEqual8) ||
           (combination.id === "defi" && isDefi)
@@ -219,8 +247,9 @@ const GameService = {
         }
       });
 
-      // Automatically determine if 'Sec' should be added
-
+      // -------------------------------- //
+      // (8) Sec
+      // -------------------------------- //
       if (isFirstRoll) {
         const nonBrelanCombinations = availableCombinations.filter(
           (combination) => !combination.id.startsWith("brelan")
@@ -230,7 +259,6 @@ const GameService = {
         }
       }
 
-      console.log("availableCombinations :: ", availableCombinations);
       return availableCombinations;
     },
   },
