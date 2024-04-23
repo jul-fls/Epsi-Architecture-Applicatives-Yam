@@ -15,17 +15,6 @@ let games = [];
 // -------- GAME METHODS -----------
 // ---------------------------------
 
-const emitGameStart = (game) => {
-  game.player1Socket.emit(
-    "game.start",
-    GameService.send.forPlayer.gameViewState("player:1", game)
-  );
-  game.player2Socket.emit(
-    "game.start",
-    GameService.send.forPlayer.gameViewState("player:2", game)
-  );
-};
-
 const updateClientsViewTimers = (game) => {
   game.player1Socket.emit(
     "game.timer",
@@ -59,27 +48,6 @@ const updateClientsViewChoices = (game) => {
     "game.choices.view-state",
     GameService.send.forPlayer.choicesViewState("player:2", game.gameState)
   );
-};
-
-const updateGameInterval = (game) => {
-  game.gameState.timer--;
-
-  // Si le timer tombe à zéro
-  if (game.gameState.timer === 0) {
-    // On change de tour en inversant le clé dans 'currentTurn'
-    game.gameState.currentTurn =
-      game.gameState.currentTurn === "player:1" ? "player:2" : "player:1";
-
-    // Méthode du service qui renvoie la constante 'TURN_DURATION'
-    game.gameState.timer = GameService.timer.getTurnDuration();
-
-    // On remet le compteur de lancer de dés à zéro
-    game.gameState.deck = GameService.init.deck();
-    updateClientsViewDecks(game);
-  }
-
-  // On notifie finalement les clients que les données sont mises à jour.
-  updateClientsViewTimers(game);
 };
 
 const newPlayerInQueue = (socket) => {
