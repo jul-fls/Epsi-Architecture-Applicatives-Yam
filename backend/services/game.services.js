@@ -8,7 +8,7 @@ const DECK_INIT = {
     { id: 4, value: "", locked: true },
     { id: 5, value: "", locked: true },
   ],
-  rollsCounter: 0,
+  rollsCounter: 1,
   rollsMaximum: 3,
 };
 
@@ -187,6 +187,7 @@ const GameService = {
             playerKey === gameState.currentTurn &&
             gameState.choices.availableChoices.length > 0,
           grid: updatedGrid,
+          currentTurn: gameState.currentTurn,
         };
       },
       viewQueueState: () => {
@@ -321,8 +322,6 @@ const GameService = {
 
   grid: {
     resetcanBeCheckedCells: (grid) => {
-      // TODO
-      // La grille retournée doit avoir le flag 'canBeChecked' de toutes les cases de la 'grid' à 'false'
       const updatedGrid = grid.map((row) =>
         row.map((cell) => ({ ...cell, canBeChecked: false }))
       );
@@ -331,8 +330,6 @@ const GameService = {
     },
 
     updateGridAfterSelectingChoice: (idSelectedChoice, grid) => {
-      // TODO
-      // La grille retournée doit avoir toutes les 'cells' qui ont le même 'id' que le 'idSelectedChoice' à 'canBeChecked: true'
       const updatedGrid = grid.map((row) =>
         row.map((cell) =>
           cell.id === idSelectedChoice ? { ...cell, canBeChecked: true } : cell
@@ -342,9 +339,6 @@ const GameService = {
     },
 
     selectCell: (idCell, rowIndex, cellIndex, currentTurn, grid) => {
-      // TODO
-      // La grille retournée doit avoir la case selectionnée par le joueur du tour en cours à 'owner: currentTurn'
-      // Nous avons besoin de rowIndex et cellIndex pour différencier les deux combinaisons similaires du plateau
       const updatedGrid = grid.map((row, rowIndexGrid) =>
         row.map((cell, cellIndexGrid) =>
           rowIndexGrid === rowIndex && cellIndexGrid === cellIndex

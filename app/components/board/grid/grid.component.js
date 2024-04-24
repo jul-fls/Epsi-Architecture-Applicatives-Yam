@@ -8,6 +8,7 @@ const Grid = () => {
   const [displayGrid, setDisplayGrid] = useState(true);
   const [canSelectCells, setCanSelectCells] = useState(false);
   const [grid, setGrid] = useState([]);
+  const [currentTurn, setCurrentTurn] = useState("");
 
   const handleSelectCell = (cellId, rowIndex, cellIndex) => {
     if (canSelectCells) {
@@ -20,9 +21,11 @@ const Grid = () => {
       setDisplayGrid(data["displayGrid"]);
       setCanSelectCells(data["canSelectCells"]);
       setGrid(data["grid"]);
+      setCurrentTurn(data["currentTurn"]);
     });
   }, []);
 
+  console.log("currentTurn :: ", currentTurn);
   return (
     <View style={styles.gridContainer}>
       {displayGrid &&
@@ -33,8 +36,12 @@ const Grid = () => {
                 key={cell.id + rowIndex}
                 style={[
                   styles.cell,
-                  cell.owner === "player:1" && styles.playerOwnedCell,
-                  cell.owner === "player:2" && styles.opponentOwnedCell,
+                  cell.owner === "player:1" &&
+                    // cell.owner === cell.currentTurn &&
+                    styles.playerOwnedCell,
+                  cell.owner === "player:2" &&
+                    // cell.owner !== cell.currentTurn &&
+                    styles.opponentOwnedCell,
                   cell.canBeChecked &&
                     !(cell.owner === "player:1") &&
                     !(cell.owner === "player:2") &&

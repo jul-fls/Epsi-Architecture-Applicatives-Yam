@@ -180,11 +180,10 @@ io.on("connection", (socket) => {
       games,
       socket.id
     );
-
-    // If not last throw : rollsCounter < rollsMaximum
+    // If not last throw : rollsCounter(1,2,3) <= rollsMaximum(3)
     if (
-      games[gameIndex].gameState.deck.rollsCounter <
-      games[gameIndex].gameState.deck.rollsMaximum
+      games[gameIndex].gameState.deck.rollsCounter <=
+      games[gameIndex].gameState.deck.rollsMaximum - 1
     ) {
       // Dices management
       games[gameIndex].gameState.deck.dices = GameService.dices.roll(
@@ -192,7 +191,30 @@ io.on("connection", (socket) => {
       );
       games[gameIndex].gameState.deck.rollsCounter++;
 
-      // Combinations management
+      const dices = games[gameIndex].gameState.deck.dices;
+      const isDefi = false;
+      const isFirstRoll = games[gameIndex].gameState.deck.rollsCounter === 1;
+
+      const combinations = GameService.choices.findCombinations(
+        dices,
+        isDefi,
+        isFirstRoll
+      );
+
+      games[gameIndex].gameState.choices.availableChoices = combinations;
+    }
+    // If last throw
+    else {
+      // Dices management
+      games[gameIndex].gameState.deck.dices = GameService.dices.roll(
+        games[gameIndex].gameState.deck.dices
+      );
+      games[gameIndex].gameState.deck.rollsCounter++;
+
+      games[gameIndex].gameState.deck.dices = GameService.dices.lockEveryDice(
+        games[gameIndex].gameState.deck.dices
+      );
+
       const dices = games[gameIndex].gameState.deck.dices;
       const isDefi = false;
       const isFirstRoll = games[gameIndex].gameState.deck.rollsCounter === 1;
@@ -205,35 +227,13 @@ io.on("connection", (socket) => {
 
       games[gameIndex].gameState.choices.availableChoices = combinations;
 
-      updateClientsViewDecks(games[gameIndex]);
-      updateClientsViewChoices(games[gameIndex]);
+      if (combinations.length == 0) {
+        games[gameIndex].gameState.timer = 3;
+      } else {
+        // TODO : Quand Player séléctionne le grid, on met à jour le timer à 5
+        games[gameIndex].gameState.timer = 5;
+      }
     }
-    // If last throw
-    else {
-      // Dices management
-      games[gameIndex].gameState.deck.dices = GameService.dices.roll(
-        games[gameIndex].gameState.deck.dices
-      );
-      games[gameIndex].gameState.deck.rollsCounter++;
-      games[gameIndex].gameState.deck.dices = GameService.dices.lockEveryDice(
-        games[gameIndex].gameState.deck.dices
-      );
-
-      games[gameIndex].gameState.timer = 5;
-    }
-
-    // Combinations management
-    const dices = games[gameIndex].gameState.deck.dices;
-    const isDefi = false;
-    const isFirstRoll = games[gameIndex].gameState.deck.rollsCounter === 1;
-
-    const combinations = GameService.choices.findCombinations(
-      dices,
-      isDefi,
-      isFirstRoll
-    );
-
-    games[gameIndex].gameState.choices.availableChoices = combinations;
 
     updateClientsViewDecks(games[gameIndex]);
     updateClientsViewChoices(games[gameIndex]);
