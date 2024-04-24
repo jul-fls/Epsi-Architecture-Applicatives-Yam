@@ -176,12 +176,17 @@ const GameService = {
       },
 
       gridViewState: (playerKey, gameState) => {
+        // set canBeChecked to true to cells that has owner to null and the id matches the selected choice
+        const updatedGrid = GameService.grid.updateGridAfterSelectingChoice(
+          gameState.choices.idSelectedChoice,
+          gameState.grid
+        );
         return {
           displayGrid: true,
           canSelectCells:
             playerKey === gameState.currentTurn &&
             gameState.choices.availableChoices.length > 0,
-          grid: gameState.grid,
+          grid: updatedGrid,
         };
       },
       viewQueueState: () => {
