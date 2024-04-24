@@ -187,7 +187,10 @@ const GameService = {
             playerKey === gameState.currentTurn &&
             gameState.choices.availableChoices.length > 0,
           grid: updatedGrid,
-          currentTurn: gameState.currentTurn,
+          // use this findPlayerIdBySocketId to get the player key by socket id
+          socketIdPlayer1: gameState.player1Socket.id,
+          socketIdPlayer2: gameState.player2Socket.id,
+          ,
         };
       },
       viewQueueState: () => {
