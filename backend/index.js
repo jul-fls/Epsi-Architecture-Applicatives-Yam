@@ -50,6 +50,19 @@ const updateClientsViewChoices = (game) => {
   );
 };
 
+const updateClientsViewGrid = (game) => {
+  setTimeout(() => {
+    game.player1Socket.emit(
+      "game.grid.view-state",
+      GameService.send.forPlayer.gridViewState("player:1", game.gameState)
+    );
+    game.player2Socket.emit(
+      "game.grid.view-state",
+      GameService.send.forPlayer.gridViewState("player:2", game.gameState)
+    );
+  }, 200);
+};
+
 const newPlayerInQueue = (socket) => {
   queue.push(socket);
 
@@ -91,6 +104,7 @@ const createGame = (player1Socket, player2Socket) => {
 
   updateClientsViewTimers(games[gameIndex]);
   updateClientsViewDecks(games[gameIndex]);
+  updateClientsViewGrid(games[gameIndex]);
 
   // timer every second
   const gameInterval = setInterval(() => {
@@ -120,6 +134,7 @@ const createGame = (player1Socket, player2Socket) => {
       updateClientsViewTimers(games[gameIndex]);
       updateClientsViewDecks(games[gameIndex]);
       updateClientsViewChoices(games[gameIndex]);
+      updateClientsViewGrid(games[gameIndex]);
     }
   }, 1000);
 
@@ -252,6 +267,7 @@ io.on("connection", (socket) => {
     games[gameIndex].gameState.choices.idSelectedChoice = data.choiceId;
 
     updateClientsViewChoices(games[gameIndex]);
+    updateClientsViewGrid(games[gameIndex]);
   });
 
   socket.on("game.grid.selected", (data) => {
@@ -306,9 +322,7 @@ io.on("connection", (socket) => {
     // et on remet à jour la vue
     updateClientsViewDecks(games[gameIndex]);
     updateClientsViewChoices(games[gameIndex]);
-
-    // TODO: make updateClientsViewGrid(games[gameIndex]);
-    // updateClientsViewGrid(games[gameIndex]);
+    updateClientsViewGrid(games[gameIndex]);
   });
 
   socket.on("disconnect", (reason) => {
