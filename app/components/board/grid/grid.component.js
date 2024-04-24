@@ -6,7 +6,7 @@ const Grid = () => {
   const socket = useContext(SocketContext);
 
   const [displayGrid, setDisplayGrid] = useState(true);
-  const [canSelectCells, setCanSelectCells] = useState([]);
+  const [canSelectCells, setCanSelectCells] = useState(false);
   const [grid, setGrid] = useState([]);
 
   const handleSelectCell = (cellId, rowIndex, cellIndex) => {
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "black",
+    borderColor: "blue",
   },
   cellText: {
     fontSize: 11,
