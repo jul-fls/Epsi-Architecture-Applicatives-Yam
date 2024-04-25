@@ -10,6 +10,10 @@ const Grid = () => {
   const [grid, setGrid] = useState([]);
   const [currentTurn, setCurrentTurn] = useState("");
 
+  const [socketIdPlayer1, setSocketIdPlayer1] = useState("");
+  const [socketIdPlayer2, setSocketIdPlayer2] = useState("");
+  let myPlayerId = "";
+
   const handleSelectCell = (cellId, rowIndex, cellIndex) => {
     if (canSelectCells) {
       socket.emit("game.grid.selected", { cellId, rowIndex, cellIndex });
@@ -22,10 +26,17 @@ const Grid = () => {
       setCanSelectCells(data["canSelectCells"]);
       setGrid(data["grid"]);
       setCurrentTurn(data["currentTurn"]);
+      setSocketIdPlayer1(data["socketIdPlayer1"]);
+      setSocketIdPlayer2(data["socketIdPlayer2"]);
     });
   }, []);
 
-  console.log("currentTurn :: ", currentTurn);
+  if (socketIdPlayer1 === socket.id) {
+    myPlayerId = "player:1";
+  } else {
+    myPlayerId = "player:2";
+  }
+
   return (
     <View style={styles.gridContainer}>
       {displayGrid &&
@@ -36,11 +47,9 @@ const Grid = () => {
                 key={cell.id + rowIndex}
                 style={[
                   styles.cell,
-                  cell.owner === "player:1" &&
-                    // cell.owner === cell.currentTurn &&
-                    styles.playerOwnedCell,
-                  cell.owner === "player:2" &&
-                    // cell.owner !== cell.currentTurn &&
+                  cell.owner === myPlayerId && styles.playerOwnedCell,
+                  cell.owner !== myPlayerId &&
+                    cell.owner !== null &&
                     styles.opponentOwnedCell,
                   cell.canBeChecked &&
                     !(cell.owner === "player:1") &&
@@ -52,7 +61,11 @@ const Grid = () => {
                 onPress={() => handleSelectCell(cell.id, rowIndex, cellIndex)}
                 disabled={!cell.canBeChecked}
               >
-                <Text style={styles.cellText}>{cell.viewContent}</Text>
+                <Text style={styles.cellText}>
+                  [viewContent : {cell.viewContent}, id : {cell.id}, owner :{" "}
+                  {cell.owner}, canBeChecked:{" "}
+                  {cell.canBeChecked ? "true" : "false"}]
+                </Text>
               </TouchableOpacity>
             ))}
           </View>
@@ -97,7 +110,7 @@ const styles = StyleSheet.create({
     opacity: 0.9,
   },
   canBeCheckedCell: {
-    backgroundColor: "lightyellow",
+    backgroundColor: "lightblue",
   },
   topBorder: {
     borderTopWidth: 1,

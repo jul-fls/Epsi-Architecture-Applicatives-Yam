@@ -118,7 +118,8 @@ const GameService = {
       const rolledDices = dicesToRoll.map((dice) => {
         if (dice.value === "") {
           // Si la valeur du dé est vide, alors on le lance en mettant le flag locked à false
-          const newValue = String(Math.floor(Math.random() * 6) + 1);
+          const newValue = 2;
+          // String(Math.floor(Math.random() * 6) + 1);
           return {
             id: dice.id,
             value: newValue,
@@ -126,7 +127,8 @@ const GameService = {
           };
         } else if (!dice.locked) {
           // Si le dé n'est pas verrouillé et possède déjà une valeur, alors on le relance
-          const newValue = String(Math.floor(Math.random() * 6) + 1);
+          const newValue = 1;
+          // String(Math.floor(Math.random() * 6) + 1);
           return {
             ...dice,
             value: newValue,
@@ -175,22 +177,22 @@ const GameService = {
         return chociesViewState;
       },
 
-      gridViewState: (playerKey, gameState) => {
+      gridViewState: (playerKey, game) => {
         // set canBeChecked to true to cells that has owner to null and the id matches the selected choice
         const updatedGrid = GameService.grid.updateGridAfterSelectingChoice(
-          gameState.choices.idSelectedChoice,
-          gameState.grid
+          game.gameState.choices.idSelectedChoice,
+          game.gameState.grid
         );
+
         return {
           displayGrid: true,
           canSelectCells:
-            playerKey === gameState.currentTurn &&
-            gameState.choices.availableChoices.length > 0,
+            playerKey === game.gameState.currentTurn &&
+            game.gameState.choices.availableChoices.length > 0,
           grid: updatedGrid,
           // use this findPlayerIdBySocketId to get the player key by socket id
-          socketIdPlayer1: gameState.player1Socket.id,
-          socketIdPlayer2: gameState.player2Socket.id,
-          ,
+          socketIdPlayer1: game.player1Socket.id,
+          socketIdPlayer2: game.player2Socket.id,
         };
       },
       viewQueueState: () => {
@@ -318,7 +320,6 @@ const GameService = {
           availableCombinations.push({ id: "sec", value: "Sec" });
         }
       }
-
       return availableCombinations;
     },
   },
@@ -335,7 +336,9 @@ const GameService = {
     updateGridAfterSelectingChoice: (idSelectedChoice, grid) => {
       const updatedGrid = grid.map((row) =>
         row.map((cell) =>
-          cell.id === idSelectedChoice ? { ...cell, canBeChecked: true } : cell
+          cell.id === idSelectedChoice && cell.owner === null
+            ? { ...cell, canBeChecked: true }
+            : cell
         )
       );
       return updatedGrid;

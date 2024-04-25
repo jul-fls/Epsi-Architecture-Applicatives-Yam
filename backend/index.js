@@ -54,11 +54,11 @@ const updateClientsViewGrid = (game) => {
   setTimeout(() => {
     game.player1Socket.emit(
       "game.grid.view-state",
-      GameService.send.forPlayer.gridViewState("player:1", game.gameState)
+      GameService.send.forPlayer.gridViewState("player:1", game)
     );
     game.player2Socket.emit(
       "game.grid.view-state",
-      GameService.send.forPlayer.gridViewState("player:2", game.gameState)
+      GameService.send.forPlayer.gridViewState("player:2", game)
     );
   }, 200);
 };
@@ -231,7 +231,8 @@ io.on("connection", (socket) => {
         games[gameIndex].gameState.timer = 3;
       } else {
         // TODO : Quand Player séléctionne le grid, on met à jour le timer à 5
-        games[gameIndex].gameState.timer = 5;
+        // TODO : On check si chaque combination est posable sur le grid - button able/disable
+        games[gameIndex].gameState.timer = 10;
       }
     }
 
@@ -262,8 +263,6 @@ io.on("connection", (socket) => {
       socket.id
     );
 
-    // TODO :On doit vérifier avec le grid si le choix est valide
-
     games[gameIndex].gameState.choices.idSelectedChoice = data.choiceId;
 
     updateClientsViewChoices(games[gameIndex]);
@@ -281,6 +280,7 @@ io.on("connection", (socket) => {
     games[gameIndex].gameState.grid = GameService.grid.resetcanBeCheckedCells(
       games[gameIndex].gameState.grid
     );
+
     games[gameIndex].gameState.grid = GameService.grid.selectCell(
       data.cellId,
       data.rowIndex,
