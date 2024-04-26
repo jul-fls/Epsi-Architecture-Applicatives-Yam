@@ -1,5 +1,5 @@
 const TURN_DURATION = 30;
-
+const MAX_TOKENS = 3;
 const DECK_INIT = {
   dices: [
     { id: 1, value: "", locked: true },
@@ -18,6 +18,8 @@ const GAME_INIT = {
     timer: TURN_DURATION,
     player1Score: 0,
     player2Score: 0,
+    player1Tokens: MAX_TOKENS,
+    player2Tokens: MAX_TOKENS,
     grid: [],
     choices: {},
     deck: {},
@@ -118,8 +120,7 @@ const GameService = {
       const rolledDices = dicesToRoll.map((dice) => {
         if (dice.value === "") {
           // Si la valeur du dé est vide, alors on le lance en mettant le flag locked à false
-          const newValue = 2;
-          // String(Math.floor(Math.random() * 6) + 1);
+          const newValue = String(Math.floor(Math.random() * 6) + 1);
           return {
             id: dice.id,
             value: newValue,
@@ -127,8 +128,7 @@ const GameService = {
           };
         } else if (!dice.locked) {
           // Si le dé n'est pas verrouillé et possède déjà une valeur, alors on le relance
-          const newValue = 1;
-          // String(Math.floor(Math.random() * 6) + 1);
+          const newValue = String(Math.floor(Math.random() * 6) + 1);
           return {
             ...dice,
             value: newValue,
@@ -297,7 +297,7 @@ const GameService = {
       allCombinations.forEach((combination) => {
         if (
           (combination.id.startsWith("brelan") &&
-            counts[parseInt(combination.id.slice(-1))] === 3) ||
+            counts[parseInt(combination.id.slice(-1))] >= 3) ||
           (combination.id === "full" && full) ||
           (combination.id === "carre" && hasFourOfAKind) ||
           (combination.id === "yam" && yam) ||
@@ -381,6 +381,35 @@ const GameService = {
       );
 
       return updatedGrid;
+    },
+  },
+
+  tokens: {
+    checkAvailablePlayerTokens: (gameState) => {
+      TokensOnGridForPlayers = {
+        player1: 0,
+        player2: 0,
+      };
+
+      TokensOnGridForPlayers.player1 = gameState.grid.reduce((acc, row) => {
+        return acc + row.filter((cell) => cell.owner === "player:1").length;
+      }, 0);
+
+      TokensOnGridForPlayers.player2 = gameState.grid.reduce((acc, row) => {
+        return acc + row.filter((cell) => cell.owner === "player:2").length;
+      }, 0);
+
+      AvailableTokensForPlayers = {
+        player1: (MAX_TOKENS - TokensOnGridForPlayers.player1),
+        player2: (MAX_TOKENS - TokensOnGridForPlayers.player2),
+      };
+      gameState.player1Tokens = AvailableTokensForPlayers.player1;
+      gameState.player2Tokens = AvailableTokensForPlayers.player2;
+      if(AvailableTokensForPlayers.player1 === 0 || AvailableTokensForPlayers.player2 === 0){
+        return false;
+      }else{
+        return true;
+      }
     },
   },
 

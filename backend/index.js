@@ -307,7 +307,13 @@ io.on("connection", (socket) => {
         ? "player:2"
         : "player:1";
     games[gameIndex].gameState.timer = GameService.timer.getTurnDuration();
-
+    const playersHaveRemainingTokens = GameService.tokens.checkAvailablePlayerTokens(games[gameIndex].gameState.grid);
+    console.log("playersHaveRemainingTokens", playersHaveRemainingTokens);
+    if (!playersHaveRemainingTokens) {
+      games[gameIndex].gameState.timer = 0;
+      // TODO : Fin de partie
+      console.log("Fin de partie");
+    }
     // On remet le deck et les choix à zéro (la grille, elle, ne change pas)
     games[gameIndex].gameState.deck = GameService.init.deck();
     games[gameIndex].gameState.choices = GameService.init.choices();
