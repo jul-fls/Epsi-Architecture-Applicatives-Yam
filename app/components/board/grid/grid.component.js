@@ -61,11 +61,7 @@ const Grid = () => {
                 onPress={() => handleSelectCell(cell.id, rowIndex, cellIndex)}
                 disabled={!cell.canBeChecked}
               >
-                <Text style={styles.cellText}>
-                  [viewContent : {cell.viewContent}, id : {cell.id}, owner :{" "}
-                  {cell.owner}, canBeChecked:{" "}
-                  {cell.canBeChecked ? "true" : "false"}]
-                </Text>
+                <Text style={styles.cellText}>{cell.viewContent}</Text>
               </TouchableOpacity>
             ))}
           </View>

@@ -322,6 +322,33 @@ const GameService = {
       }
       return availableCombinations;
     },
+
+    filterChoicesEnabler: (grid, combinations) => {
+      combinations.map((combination) => {
+        // Check if any row has at least one cell that can use this combination
+        const isCombinationUsable = grid.some((row, rowIndex) => {
+          return row.some((cell) => {
+            return cell.id === combination.id && cell.owner === null;
+          });
+        });
+
+        // Set the combination enabled property based on the result
+        combination.enabled = isCombinationUsable;
+
+        // Log once per combination with its final enabled status
+        if (combination.enabled) {
+          console.log(
+            `combination ${combination.id} can be used in at least one row.`
+          );
+        } else {
+          console.log(
+            `combination ${combination.id} can't be used in any row.`
+          );
+        }
+      });
+      console.log("---------------------------------");
+      return combinations;
+    },
   },
 
   grid: {

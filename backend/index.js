@@ -231,9 +231,18 @@ io.on("connection", (socket) => {
         games[gameIndex].gameState.timer = 3;
       } else {
         // TODO : Quand Player séléctionne le grid, on met à jour le timer à 5
-        // TODO : On check si chaque combination est posable sur le grid - button able/disable
         games[gameIndex].gameState.timer = 10;
       }
+    }
+
+    if (games[gameIndex].gameState.choices.availableChoices.length > 0) {
+      const updatedAvailableChoices = GameService.choices.filterChoicesEnabler(
+        games[gameIndex].gameState.grid,
+        games[gameIndex].gameState.choices.availableChoices
+      );
+
+      games[gameIndex].gameState.choices.availableChoices =
+        updatedAvailableChoices;
     }
 
     updateClientsViewDecks(games[gameIndex]);

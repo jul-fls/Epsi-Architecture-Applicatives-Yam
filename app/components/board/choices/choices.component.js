@@ -36,9 +36,10 @@ const Choices = () => {
               styles.choiceButton,
               idSelectedChoice === choice.id && styles.selectedChoice,
               !canMakeChoice && styles.disabledChoice,
+              !choice.enabled && styles.disabledChoice,
             ]}
             onPress={() => handleSelectChoice(choice.id)}
-            disabled={!canMakeChoice}
+            disabled={!canMakeChoice || !choice.enabled}
           >
             <Text style={styles.choiceText}>{choice.value}</Text>
           </TouchableOpacity>
