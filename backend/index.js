@@ -65,22 +65,22 @@ const updateClientsViewGrid = (game) => {
 
 const updateClientsViewPlayersInfos = (game) => {
   setTimeout(() => {
-  game.player1Socket.emit(
-    "game.players-infos.view-state",
-    GameService.send.forPlayer.playerAndOppnonentInfosState(
-      "player:1",
-      game.gameState
-    )
-  );
-  game.player2Socket.emit(
-    "game.players-infos.view-state",
-    GameService.send.forPlayer.playerAndOppnonentInfosState(
-      "player:2",
-      game.gameState
-    )
-  );
+    game.player1Socket.emit(
+      "game.players-infos.view-state",
+      GameService.send.forPlayer.playerAndOppnonentInfosState(
+        "player:1",
+        game.gameState
+      )
+    );
+    game.player2Socket.emit(
+      "game.players-infos.view-state",
+      GameService.send.forPlayer.playerAndOppnonentInfosState(
+        "player:2",
+        game.gameState
+      )
+    );
   }, 200);
-}
+};
 
 const newPlayerInQueue = (socket) => {
   queue.push(socket);
@@ -120,7 +120,7 @@ const createGame = (player1Socket, player2Socket) => {
     "game.start",
     GameService.send.forPlayer.gameViewState("player:2", games[gameIndex])
   );
-  
+
   updateClientsViewTimers(games[gameIndex]);
   updateClientsViewDecks(games[gameIndex]);
   updateClientsViewGrid(games[gameIndex]);
@@ -325,11 +325,20 @@ io.on("connection", (socket) => {
         ? "player:2"
         : "player:1";
     games[gameIndex].gameState.timer = GameService.timer.getTurnDuration();
-    const playersHaveRemainingTokens = GameService.tokens.checkAvailablePlayerTokens(games[gameIndex].gameState);
+    const playersHaveRemainingTokens =
+      GameService.tokens.checkAvailablePlayerTokens(games[gameIndex].gameState);
     if (!playersHaveRemainingTokens) {
       games[gameIndex].gameState.timer = 0;
-      // TODO : Fin de partie
+      // TODO : Fin de partie. clearInterval est une code temporaire
       console.log("Fin de partie");
+
+      player1Socket.on("disconnect", () => {
+        clearInterval(gameInterval);
+      });
+
+      player2Socket.on("disconnect", () => {
+        clearInterval(gameInterval);
+      });
     }
     // On remet le deck et les choix à zéro (la grille, elle, ne change pas)
     games[gameIndex].gameState.deck = GameService.init.deck();
