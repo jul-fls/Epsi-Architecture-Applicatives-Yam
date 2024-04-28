@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import PlayerTimer from "./timers/player-timer.component";
 import OpponentTimer from "./timers/opponent-timer.component";
@@ -6,23 +6,9 @@ import PlayerDeck from "./decks/player-deck.component";
 import OpponentDeck from "./decks/opponent-deck.component";
 import Choices from "./choices/choices.component";
 import Grid from "./grid/grid.component";
-
+import PlayerInfos from "./infos/player-infos.component";
+import OpponentInfos from "./infos/opponent-infos.component";
 import { SocketContext } from "../../contexts/socket.context";
-
-const OpponentInfos = () => {
-  const socket = useContext(SocketContext);
-  const [opponentInfos, setOpponentInfos] = useState({});
-  useEffect(() => {
-    socket.on("game.players-infos.view-state", (data) => {
-      setOpponentInfos(data["opponentInfos"]);
-    });
-  }, []);
-  return (
-    <View style={styles.opponentInfosContainer}>
-      <Text>{opponentInfos.playerKey}</Text>
-    </View>
-  );
-};
 
 const OpponentScore = () => {
   const socket = useContext(SocketContext);
@@ -35,22 +21,6 @@ const OpponentScore = () => {
   return (
     <View style={styles.opponentScoreContainer}>
       <Text>Score: {opponentScore}</Text>
-    </View>
-  );
-};
-
-const PlayerInfos = () => {
-  const socket = useContext(SocketContext);
-  const [playerInfos, setPlayerInfos] = useState({});
-
-  useEffect(() => {
-    socket.on("game.players-infos.view-state", (data) => {
-      setPlayerInfos(data["playerInfos"]);
-    });
-  }, []);
-  return (
-    <View style={styles.playerInfosContainer}>
-      <Text>{playerInfos.playerKey}</Text>
     </View>
   );
 };
@@ -83,7 +53,7 @@ const PlayerTokens = () => {
       <Text>Pions restants: {playerTokens}</Text>
     </View>
   );
-}
+};
 
 const OpponentTokens = () => {
   const socket = useContext(SocketContext);
@@ -98,7 +68,7 @@ const OpponentTokens = () => {
       <Text>Pions restants: {opponentTokens}</Text>
     </View>
   );
-}
+};
 
 const Board = ({ gameViewState }) => {
   return (
@@ -148,14 +118,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: "black",
   },
-  opponentInfosContainer: {
-    flex: 6,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRightWidth: 1,
-    borderColor: "black",
-    backgroundColor: "lightgrey",
-  },
   opponentTimerScoreContainer: {
     flex: 4, // increased flex to provide more space
     flexDirection: "column",
@@ -177,14 +139,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  playerInfosContainer: {
-    flex: 6,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRightWidth: 1,
-    borderColor: "black",
-    backgroundColor: "lightgrey",
   },
   playerTimerScoreContainer: {
     flex: 4, // increased flex to provide more space
