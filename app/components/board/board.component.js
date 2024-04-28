@@ -1,5 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import PlayerTimer from "./timers/player-timer.component";
 import OpponentTimer from "./timers/opponent-timer.component";
 import PlayerDeck from "./decks/player-deck.component";
@@ -12,7 +11,6 @@ import PlayerScore from "./infos/player-score.component";
 import OpponentScore from "./infos/opponent-score.component";
 import PlayerTokens from "./infos/player-tokens.component";
 import OpponentTokens from "./infos/opponent-tokens.component";
-import { SocketContext } from "../../contexts/socket.context";
 
 const Board = ({ gameViewState }) => {
   return (
@@ -69,22 +67,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "lightgrey",
   },
-  opponentTimerContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
   playerTimerScoreContainer: {
     flex: 4, // increased flex to provide more space
     flexDirection: "column",
     justifyContent: "space-around", // changed from center to space-around for better distribution
-    alignItems: "center",
-    backgroundColor: "lightgrey",
-  },
-  playerTimerContainer: {
-    flex: 1,
-    justifyContent: "center",
     alignItems: "center",
     backgroundColor: "lightgrey",
   },
