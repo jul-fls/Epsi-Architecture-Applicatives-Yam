@@ -63,6 +63,25 @@ const updateClientsViewGrid = (game) => {
   }, 200);
 };
 
+const updateClientsViewPlayersInfos = (game) => {
+  setTimeout(() => {
+  game.player1Socket.emit(
+    "game.players-infos.view-state",
+    GameService.send.forPlayer.playerAndOppnonentInfosState(
+      "player:1",
+      game.gameState
+    )
+  );
+  game.player2Socket.emit(
+    "game.players-infos.view-state",
+    GameService.send.forPlayer.playerAndOppnonentInfosState(
+      "player:2",
+      game.gameState
+    )
+  );
+  }, 200);
+}
+
 const newPlayerInQueue = (socket) => {
   queue.push(socket);
 
@@ -101,10 +120,11 @@ const createGame = (player1Socket, player2Socket) => {
     "game.start",
     GameService.send.forPlayer.gameViewState("player:2", games[gameIndex])
   );
-
+  
   updateClientsViewTimers(games[gameIndex]);
   updateClientsViewDecks(games[gameIndex]);
   updateClientsViewGrid(games[gameIndex]);
+  updateClientsViewPlayersInfos(games[gameIndex]);
 
   // timer every second
   const gameInterval = setInterval(() => {
@@ -148,12 +168,10 @@ const createGame = (player1Socket, player2Socket) => {
   });
 };
 const leaveQueue = (socket) => {
-  console.log("queue before: ", queue);
   const index = queue.indexOf(socket);
   if (index > -1) {
     queue.splice(index, 1);
   }
-  console.log("queue after: ", queue);
 
   socket.emit("queue.removed", GameService.send.forPlayer.viewQueueState());
 };
@@ -307,9 +325,7 @@ io.on("connection", (socket) => {
         ? "player:2"
         : "player:1";
     games[gameIndex].gameState.timer = GameService.timer.getTurnDuration();
-    const playersHaveRemainingTokens =
-      GameService.tokens.checkAvailablePlayerTokens(games[gameIndex].gameState);
-    console.log("playersHaveRemainingTokens", playersHaveRemainingTokens);
+    const playersHaveRemainingTokens = GameService.tokens.checkAvailablePlayerTokens(games[gameIndex].gameState);
     if (!playersHaveRemainingTokens) {
       games[gameIndex].gameState.timer = 0;
       // TODO : Fin de partie
@@ -339,6 +355,7 @@ io.on("connection", (socket) => {
     updateClientsViewDecks(games[gameIndex]);
     updateClientsViewChoices(games[gameIndex]);
     updateClientsViewGrid(games[gameIndex]);
+    updateClientsViewPlayersInfos(games[gameIndex]);
   });
 
   socket.on("disconnect", (reason) => {

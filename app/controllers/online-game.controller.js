@@ -11,32 +11,15 @@ export default function OnlineGameController() {
   const [inGame, setInGame] = useState(false);
   const [idOpponent, setIdOpponent] = useState(null);
   useEffect(() => {
-    console.log("[emit][queue.join]:", socket.id);
-    // -----------------------------------
-    // socket.emit("queue.join") :
-    // newPlayerInQueue(socket);
-    // --> queue.push(socket)
-    // -----------------------------------
     socket.emit("queue.join");
     setInQueue(false);
     setInGame(false);
 
     socket.on("queue.added", (data) => {
-      console.log("[listen][queue.added]:", data);
-      // -----------------------------------
-      // socket.on("queue.added") :
-      // viewQueueState: () => {}
-      // --> { inQueue: true, inGame: false }
       setInQueue(data["inQueue"]);
       setInGame(data["inGame"]);
     });
     socket.on("game.start", (data) => {
-      console.log("[listen][game.start]:", data);
-      // -----------------------------------
-      // socket.on("game.start") :
-      // gameViewState: (playerKey, game) => {}
-      // --> { inQueue: false, inGame: true, idPlayer: player1 id, idOpponent: player2 id }
-      // -----------------------------------
       setInQueue(data["inQueue"]);
       setInGame(data["inGame"]);
       setIdOpponent(data["idOpponent"]); // player1 id or player2 id

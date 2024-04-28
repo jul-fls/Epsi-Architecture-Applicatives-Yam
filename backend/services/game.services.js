@@ -230,6 +230,21 @@ const GameService = {
         };
         return choicesViewState;
       },
+
+      playerAndOppnonentInfosState: (playerKey, gameState) => {
+        // i want to return the player and opponent infos about score and remaining tokens
+        const playerInfos = {
+          score: playerKey === "player:1" ? gameState.player1Score : gameState.player2Score,
+          tokens: playerKey === "player:1" ? gameState.player1Tokens : gameState.player2Tokens,
+          playerKey: playerKey,
+        };
+        const opponentInfos = {
+          score: playerKey === "player:1" ? gameState.player2Score : gameState.player1Score,
+          tokens: playerKey === "player:1" ? gameState.player2Tokens : gameState.player1Tokens,
+          playerKey: playerKey === "player:1" ? "player:2" : "player:1",
+        };
+        return { playerInfos: playerInfos, opponentInfos: opponentInfos };
+      }
     },
   },
 
@@ -334,19 +349,7 @@ const GameService = {
 
         // Set the combination enabled property based on the result
         combination.enabled = isCombinationUsable;
-
-        // Log once per combination with its final enabled status
-        if (combination.enabled) {
-          console.log(
-            `combination ${combination.id} can be used in at least one row.`
-          );
-        } else {
-          console.log(
-            `combination ${combination.id} can't be used in any row.`
-          );
-        }
       });
-      console.log("---------------------------------");
       return combinations;
     },
   },

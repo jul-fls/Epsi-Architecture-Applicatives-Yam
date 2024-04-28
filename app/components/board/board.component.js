@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from "react-native";
 import PlayerTimer from "./timers/player-timer.component";
 import OpponentTimer from "./timers/opponent-timer.component";
@@ -7,63 +7,126 @@ import OpponentDeck from "./decks/opponent-deck.component";
 import Choices from "./choices/choices.component";
 import Grid from "./grid/grid.component";
 
+import { SocketContext } from "../../contexts/socket.context";
+
 const OpponentInfos = () => {
+  const socket = useContext(SocketContext);
+  const [opponentInfos, setOpponentInfos] = useState({});
+  useEffect(() => {
+    socket.on("game.players-infos.view-state", (data) => {
+      setOpponentInfos(data["opponentInfos"]);
+    });
+  }, []);
   return (
     <View style={styles.opponentInfosContainer}>
-      <Text>Opponent infos</Text>
+      <Text>{opponentInfos.playerKey}</Text>
     </View>
   );
 };
 
 const OpponentScore = () => {
+  const socket = useContext(SocketContext);
+  const [opponentScore, setOpponentScore] = useState(0);
+  useEffect(() => {
+    socket.on("game.players-infos.view-state", (data) => {
+      setOpponentScore(data["opponentInfos"]["score"]);
+    });
+  }, []);
   return (
     <View style={styles.opponentScoreContainer}>
-      <Text>Score: </Text>
+      <Text>Score: {opponentScore}</Text>
     </View>
   );
 };
 
 const PlayerInfos = () => {
+  const socket = useContext(SocketContext);
+  const [playerInfos, setPlayerInfos] = useState({});
+
+  useEffect(() => {
+    socket.on("game.players-infos.view-state", (data) => {
+      setPlayerInfos(data["playerInfos"]);
+    });
+  }, []);
   return (
     <View style={styles.playerInfosContainer}>
-      <Text>Player Infos</Text>
+      <Text>{playerInfos.playerKey}</Text>
     </View>
   );
 };
 
 const PlayerScore = () => {
+  const socket = useContext(SocketContext);
+  const [playerScore, setPlayerScore] = useState(0);
+  useEffect(() => {
+    socket.on("game.players-infos.view-state", (data) => {
+      setPlayerScore(data["playerInfos"]["score"]);
+    });
+  }, []);
   return (
     <View style={styles.playerScoreContainer}>
-      <Text>PlayerScore</Text>
+      <Text>Score: {playerScore}</Text>
     </View>
   );
 };
 
+const PlayerTokens = () => {
+  const socket = useContext(SocketContext);
+  const [playerTokens, setPlayerTokens] = useState(0);
+  useEffect(() => {
+    socket.on("game.players-infos.view-state", (data) => {
+      setPlayerTokens(data["playerInfos"]["tokens"]);
+    });
+  }, []);
+  return (
+    <View style={styles.playerTokensContainer}>
+      <Text>Pions restants: {playerTokens}</Text>
+    </View>
+  );
+}
+
+const OpponentTokens = () => {
+  const socket = useContext(SocketContext);
+  const [opponentTokens, setOpponentTokens] = useState(0);
+  useEffect(() => {
+    socket.on("game.players-infos.view-state", (data) => {
+      setOpponentTokens(data["opponentInfos"]["tokens"]);
+    });
+  }, []);
+  return (
+    <View style={styles.opponentTokensContainer}>
+      <Text>Pions restants: {opponentTokens}</Text>
+    </View>
+  );
+}
+
 const Board = ({ gameViewState }) => {
   return (
     <View style={styles.container}>
-      <View style={[styles.row, { height: "5%" }]}>
+      <View style={[styles.row, { height: "8%" }]}>
         <OpponentInfos />
         <View style={styles.opponentTimerScoreContainer}>
           <OpponentTimer />
           <OpponentScore />
+          <OpponentTokens />
         </View>
       </View>
       <View style={[styles.row, { height: "25%" }]}>
         <OpponentDeck />
       </View>
-      <View style={[styles.row, { height: "40%" }]}>
+      <View style={[styles.row, { height: "34%" }]}>
         <Grid />
         <Choices />
       </View>
       <View style={[styles.row, { height: "25%" }]}>
         <PlayerDeck />
       </View>
-      <View style={[styles.row, { height: "5%" }]}>
+      <View style={[styles.row, { height: "8%" }]}>
         <PlayerInfos />
         <View style={styles.playerTimerScoreContainer}>
           <PlayerTimer />
           <PlayerScore />
+          <PlayerTokens />
         </View>
       </View>
     </View>
@@ -86,7 +149,7 @@ const styles = StyleSheet.create({
     borderColor: "black",
   },
   opponentInfosContainer: {
-    flex: 7,
+    flex: 6,
     justifyContent: "center",
     alignItems: "center",
     borderRightWidth: 1,
@@ -94,9 +157,9 @@ const styles = StyleSheet.create({
     backgroundColor: "lightgrey",
   },
   opponentTimerScoreContainer: {
-    flex: 3,
+    flex: 4, // increased flex to provide more space
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "space-around", // changed from center to space-around for better distribution
     alignItems: "center",
     backgroundColor: "lightgrey",
   },
@@ -110,20 +173,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  gridContainer: {
-    flex: 7,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRightWidth: 1,
-    borderColor: "black",
-  },
-  choicesContainer: {
-    flex: 3,
+  opponentTokensContainer: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
   playerInfosContainer: {
-    flex: 7,
+    flex: 6,
     justifyContent: "center",
     alignItems: "center",
     borderRightWidth: 1,
@@ -131,9 +187,9 @@ const styles = StyleSheet.create({
     backgroundColor: "lightgrey",
   },
   playerTimerScoreContainer: {
-    flex: 3,
+    flex: 4, // increased flex to provide more space
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "space-around", // changed from center to space-around for better distribution
     alignItems: "center",
     backgroundColor: "lightgrey",
   },
@@ -147,7 +203,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "lightgrey",
+  },
+  playerTokensContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
