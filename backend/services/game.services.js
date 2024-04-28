@@ -1,5 +1,5 @@
 const TURN_DURATION = 30;
-const MAX_TOKENS = 3;
+const MAX_TOKENS = 2;
 const DECK_INIT = {
   dices: [
     { id: 1, value: "", locked: true },
@@ -234,17 +234,29 @@ const GameService = {
       playerAndOppnonentInfosState: (playerKey, gameState) => {
         // i want to return the player and opponent infos about score and remaining tokens
         const playerInfos = {
-          score: playerKey === "player:1" ? gameState.player1Score : gameState.player2Score,
-          tokens: playerKey === "player:1" ? gameState.player1Tokens : gameState.player2Tokens,
+          score:
+            playerKey === "player:1"
+              ? gameState.player1Score
+              : gameState.player2Score,
+          tokens:
+            playerKey === "player:1"
+              ? gameState.player1Tokens
+              : gameState.player2Tokens,
           playerKey: playerKey,
         };
         const opponentInfos = {
-          score: playerKey === "player:1" ? gameState.player2Score : gameState.player1Score,
-          tokens: playerKey === "player:1" ? gameState.player2Tokens : gameState.player1Tokens,
+          score:
+            playerKey === "player:1"
+              ? gameState.player2Score
+              : gameState.player1Score,
+          tokens:
+            playerKey === "player:1"
+              ? gameState.player2Tokens
+              : gameState.player1Tokens,
           playerKey: playerKey === "player:1" ? "player:2" : "player:1",
         };
         return { playerInfos: playerInfos, opponentInfos: opponentInfos };
-      }
+      },
     },
   },
 
@@ -403,14 +415,17 @@ const GameService = {
       }, 0);
 
       AvailableTokensForPlayers = {
-        player1: (MAX_TOKENS - TokensOnGridForPlayers.player1),
-        player2: (MAX_TOKENS - TokensOnGridForPlayers.player2),
+        player1: MAX_TOKENS - TokensOnGridForPlayers.player1,
+        player2: MAX_TOKENS - TokensOnGridForPlayers.player2,
       };
       gameState.player1Tokens = AvailableTokensForPlayers.player1;
       gameState.player2Tokens = AvailableTokensForPlayers.player2;
-      if(AvailableTokensForPlayers.player1 === 0 || AvailableTokensForPlayers.player2 === 0){
+      if (
+        AvailableTokensForPlayers.player1 === 0 ||
+        AvailableTokensForPlayers.player2 === 0
+      ) {
         return false;
-      }else{
+      } else {
         return true;
       }
     },

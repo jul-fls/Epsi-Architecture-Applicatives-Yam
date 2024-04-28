@@ -329,16 +329,15 @@ io.on("connection", (socket) => {
       GameService.tokens.checkAvailablePlayerTokens(games[gameIndex].gameState);
     if (!playersHaveRemainingTokens) {
       games[gameIndex].gameState.timer = 0;
-      // TODO : Fin de partie. clearInterval est une code temporaire
+      // TODO : Fin de partie
       console.log("Fin de partie");
 
-      player1Socket.on("disconnect", () => {
-        clearInterval(gameInterval);
-      });
-
-      player2Socket.on("disconnect", () => {
-        clearInterval(gameInterval);
-      });
+      // TODO : Reset de la partie
+      // INIT
+      // GameService.init.gameState();
+      // GameService.init.grid();
+      // GameService.init.deck();
+      // GameService.init.choices();
     }
     // On remet le deck et les choix à zéro (la grille, elle, ne change pas)
     games[gameIndex].gameState.deck = GameService.init.deck();
