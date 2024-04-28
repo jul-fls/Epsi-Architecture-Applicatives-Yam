@@ -10,37 +10,9 @@ import PlayerInfos from "./infos/player-infos.component";
 import OpponentInfos from "./infos/opponent-infos.component";
 import PlayerScore from "./infos/player-score.component";
 import OpponentScore from "./infos/opponent-score.component";
+import PlayerTokens from "./infos/player-tokens.component";
+import OpponentTokens from "./infos/opponent-tokens.component";
 import { SocketContext } from "../../contexts/socket.context";
-
-const PlayerTokens = () => {
-  const socket = useContext(SocketContext);
-  const [playerTokens, setPlayerTokens] = useState(0);
-  useEffect(() => {
-    socket.on("game.players-infos.view-state", (data) => {
-      setPlayerTokens(data["playerInfos"]["tokens"]);
-    });
-  }, []);
-  return (
-    <View style={styles.playerTokensContainer}>
-      <Text>Pions restants: {playerTokens}</Text>
-    </View>
-  );
-};
-
-const OpponentTokens = () => {
-  const socket = useContext(SocketContext);
-  const [opponentTokens, setOpponentTokens] = useState(0);
-  useEffect(() => {
-    socket.on("game.players-infos.view-state", (data) => {
-      setOpponentTokens(data["opponentInfos"]["tokens"]);
-    });
-  }, []);
-  return (
-    <View style={styles.opponentTokensContainer}>
-      <Text>Pions restants: {opponentTokens}</Text>
-    </View>
-  );
-};
 
 const Board = ({ gameViewState }) => {
   return (
@@ -103,11 +75,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  opponentTokensContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   playerTimerScoreContainer: {
     flex: 4, // increased flex to provide more space
     flexDirection: "column",
@@ -120,12 +87,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "lightgrey",
-  },
-
-  playerTokensContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
 });
 
