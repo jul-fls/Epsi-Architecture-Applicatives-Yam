@@ -307,7 +307,8 @@ io.on("connection", (socket) => {
         ? "player:2"
         : "player:1";
     games[gameIndex].gameState.timer = GameService.timer.getTurnDuration();
-    const playersHaveRemainingTokens = GameService.tokens.checkAvailablePlayerTokens(games[gameIndex].gameState.grid);
+    const playersHaveRemainingTokens =
+      GameService.tokens.checkAvailablePlayerTokens(games[gameIndex].gameState);
     console.log("playersHaveRemainingTokens", playersHaveRemainingTokens);
     if (!playersHaveRemainingTokens) {
       games[gameIndex].gameState.timer = 0;
