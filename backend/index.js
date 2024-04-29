@@ -327,6 +327,7 @@ io.on("connection", (socket) => {
     games[gameIndex].gameState.timer = GameService.timer.getTurnDuration();
     const playersHaveRemainingTokens =
       GameService.tokens.checkAvailablePlayerTokens(games[gameIndex].gameState);
+
     if (!playersHaveRemainingTokens) {
       games[gameIndex].gameState.timer = 0;
       // TODO : Fin de partie
@@ -336,8 +337,6 @@ io.on("connection", (socket) => {
       // INIT
       // GameService.init.gameState();
       // GameService.init.grid();
-      // GameService.init.deck();
-      // GameService.init.choices();
     }
     // On remet le deck et les choix à zéro (la grille, elle, ne change pas)
     games[gameIndex].gameState.deck = GameService.init.deck();

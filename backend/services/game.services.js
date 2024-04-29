@@ -431,6 +431,34 @@ const GameService = {
     },
   },
 
+  score: {
+    checkPointsAlignment: (points) => {
+      if (points.length < 3) return 0;
+
+      const owner = points[0].owner;
+      if (owner === null) return 0;
+
+      if (points.length === 5) return owner;
+
+      return points.length === 4 ? 2 : 1;
+    },
+
+    calculateScoreHorizontal: (grid) => {
+      // Check for horizontal rows
+    },
+    calculateScoreVertical: (grid) => {
+      // Check for vertical columns
+    },
+    calculateScoreDiagonal: (grid) => {
+      // Check for diagonal from top left to bottom right
+      // Check for diagonal from top right to bottom left
+    },
+  },
+
+  victory: {
+    checkVictory: () => {},
+  },
+
   utils: {
     // Return game index in global games array by id
     findGameIndexById: (games, idGame) => {
