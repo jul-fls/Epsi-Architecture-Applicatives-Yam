@@ -263,8 +263,11 @@ io.on("connection", (socket) => {
         updatedAvailableChoices;
     }
 
-    updateClientsViewDecks(games[gameIndex]);
-    updateClientsViewChoices(games[gameIndex]);
+    // Dice Animation
+    setTimeout(() => {
+      updateClientsViewDecks(games[gameIndex]);
+      updateClientsViewChoices(games[gameIndex]);
+    }, 0);
   });
 
   socket.on("game.dices.lock", (idDice) => {

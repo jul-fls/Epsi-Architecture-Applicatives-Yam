@@ -10,6 +10,7 @@ const PlayerDeck = () => {
   const [displayRollButton, setDisplayRollButton] = useState(false);
   const [rollsCounter, setRollsCounter] = useState(0);
   const [rollsMaximum, setRollsMaximum] = useState(3);
+  const [isAnimated, setIsAnimated] = useState(false);
 
   useEffect(() => {
     socket.on("game.deck.view-state", (data) => {
@@ -27,12 +28,14 @@ const PlayerDeck = () => {
     const newDices = [...dices];
     if (newDices[index].value !== "" && displayRollButton) {
       socket.emit("game.dices.lock", newDices[index].id);
+      setIsAnimated(false);
     }
   };
 
   const rollDices = () => {
     if (rollsCounter <= rollsMaximum) {
       socket.emit("game.dices.roll");
+      setIsAnimated(true);
     }
   };
 
@@ -58,6 +61,7 @@ const PlayerDeck = () => {
                 locked={diceData.locked}
                 value={diceData.value}
                 onPress={toggleDiceLock}
+                isAnimated={isAnimated}
               />
             ))}
           </View>
