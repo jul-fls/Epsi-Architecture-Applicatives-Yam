@@ -1,5 +1,5 @@
 const TURN_DURATION = 30;
-const MAX_TOKENS = 2;
+const MAX_TOKENS = 30;
 const DECK_INIT = {
   dices: [
     { id: 1, value: "", locked: true },
@@ -16,6 +16,8 @@ const GAME_INIT = {
   gameState: {
     currentTurn: "player:1",
     timer: TURN_DURATION,
+    player1Count: 0,
+    player2Count: 0,
     player1Score: 0,
     player2Score: 0,
     player1Tokens: MAX_TOKENS,
@@ -347,7 +349,17 @@ const GameService = {
           availableCombinations.push({ id: "sec", value: "Sec" });
         }
       }
+
       return availableCombinations;
+      // return [
+      //   { value: "Brelan 2", id: "brelan2" },
+      //   { value: "Carré", id: "carre" },
+      //   { value: "Sec", id: "sec" },
+      //   { value: "Full", id: "full" },
+      //   { value: "Brelan 5", id: "brelan5" },
+      //   { value: "Brelan 3", id: "brelan3" },
+      //   { value: "Brelan 4", id: "brelan4" },
+      // ];
     },
 
     filterChoicesEnabler: (grid, combinations) => {
@@ -443,9 +455,92 @@ const GameService = {
       return points.length === 4 ? 2 : 1;
     },
 
-    calculateScoreHorizontal: (grid) => {
-      // Check for horizontal rows
+    calculateScoreHorizontal: (gameState, grid, consecutiveNeeded) => {
+      // Initialize consecutive counts with gameState values
+      let consecutiveCount = {
+        "player:1": gameState.player1Count,
+        "player:2": gameState.player2Count,
+      };
+
+      const isPlayer1Winner = grid.some((row) =>
+        row.every((cell) => cell.owner === "player:1")
+      );
+
+      const isPlayer2Winner = grid.some((row) =>
+        row.every((cell) => cell.owner === "player:2")
+      );
+
+      if (isPlayer1Winner) {
+        console.log("player 1 is the winner");
+        return;
+      }
+
+      if (isPlayer2Winner) {
+        console.log("player 2 is the winner");
+        return;
+      }
+
+      for (let row = 0; row < grid.length; row++) {
+        for (
+          let col = 0;
+          col < grid[row].length - (consecutiveNeeded - 1);
+          col++
+        ) {
+          if (grid[row][col].owner) {
+            if (grid[row][col].owner === "player:1") {
+              if (col === grid[row].length - consecutiveNeeded) {
+                if (
+                  grid[row][col].owner === grid[row][col + 1].owner &&
+                  grid[row][col + 1].owner === grid[row][col + 2].owner
+                ) {
+                  consecutiveCount["player:1"] = 1;
+                }
+              } else {
+                if (
+                  grid[row][col].owner === grid[row][col + 1].owner &&
+                  grid[row][col + 1].owner === grid[row][col + 2].owner &&
+                  grid[row][col + 2].owner === grid[row][col + 3].owner
+                ) {
+                  consecutiveCount["player:1"] = 2;
+                  break;
+                }
+                if (
+                  grid[row][col].owner === grid[row][col + 1].owner &&
+                  grid[row][col + 1].owner === grid[row][col + 2].owner
+                ) {
+                  consecutiveCount["player:1"] = 1;
+                }
+              }
+            } else {
+              if (col === grid[row].length - consecutiveNeeded) {
+                if (
+                  grid[row][col].owner === grid[row][col + 1].owner &&
+                  grid[row][col + 1].owner === grid[row][col + 2].owner
+                ) {
+                  consecutiveCount["player:2"] = 1;
+                }
+              } else {
+                if (
+                  grid[row][col].owner === grid[row][col + 1].owner &&
+                  grid[row][col + 1].owner === grid[row][col + 2].owner &&
+                  grid[row][col + 2].owner === grid[row][col + 3].owner
+                ) {
+                  consecutiveCount["player:2"] = 2;
+                  break;
+                }
+                if (
+                  grid[row][col].owner === grid[row][col + 1].owner &&
+                  grid[row][col + 1].owner === grid[row][col + 2].owner
+                ) {
+                  consecutiveCount["player:2"] = 1;
+                }
+              }
+            }
+          }
+        }
+      }
     },
+
     calculateScoreVertical: (grid) => {
       // Check for vertical columns
     },
