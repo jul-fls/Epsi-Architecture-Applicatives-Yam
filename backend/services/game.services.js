@@ -350,14 +350,14 @@ const GameService = {
         }
       }
 
-      return availableCombinations;
-      // return [
-      //   { value: "Brelan 1", id: "brelan1" },
-      //   { value: "Brelan 2", id: "brelan2" },
-      //   { value: "≤8", id: "moinshuit" },
-      //   { value: "Brelan 6", id: "brelan6" },
-      //   { value: "Brelan 3", id: "brelan3" },
-      // ];
+      // return availableCombinations;
+      return [
+        { value: "Brelan 2", id: "brelan2" },
+        { value: "≤8", id: "moinshuit" },
+        { value: "Brelan 1", id: "brelan1" },
+        { value: "Brelan 6", id: "brelan6" },
+        { value: "Brelan 3", id: "brelan3" },
+      ];
     },
 
     filterChoicesEnabler: (grid, combinations) => {
@@ -442,16 +442,22 @@ const GameService = {
   },
 
   score: {
-    checkPointsAlignment: (points) => {
-      if (points.length < 3) return 0;
+    // TODO : Implement the score calculation (total)
+    // calculateScoreTotal: (scoreHorizontal, scoreVertical, scoreDiagnol) => {
+    //   // Calculate the total score for each player
+    //   const totalScore = {
+    //     "player:1":
+    //       scoreHorizontal["player:1"] +
+    //       scoreVertical["player:1"] +
+    //       scoreDiagnol["player:1"],
+    //     "player:2":
+    //       scoreHorizontal["player:2"] +
+    //       scoreVertical["player:2"] +
+    //       scoreDiagnol["player:2"],
+    //   };
 
-      const owner = points[0].owner;
-      if (owner === null) return 0;
-
-      if (points.length === 5) return owner;
-
-      return points.length === 4 ? 2 : 1;
-    },
+    //   console.log("total score : ", totalScore);
+    // },
 
     calculateScoreHorizontal: (gameState, grid, consecutiveNeeded) => {
       // Initialize consecutive counts with gameState values
@@ -460,23 +466,7 @@ const GameService = {
         "player:2": gameState.player2Count,
       };
 
-      const isPlayer1Winner = grid.some((row) =>
-        row.every((cell) => cell.owner === "player:1")
-      );
-
-      const isPlayer2Winner = grid.some((row) =>
-        row.every((cell) => cell.owner === "player:2")
-      );
-
-      if (isPlayer1Winner) {
-        console.log("player 1 is the winner");
-        return;
-      }
-
-      if (isPlayer2Winner) {
-        console.log("player 2 is the winner");
-        return;
-      }
+      GameService.victory.checkVictoryHorizontal(grid);
 
       for (let row = 0; row < grid.length; row++) {
         for (
@@ -547,23 +537,7 @@ const GameService = {
         "player:2": gameState.player2Count,
       };
 
-      const isPlayer1Winner = grid[0]
-        .map((_, col) => grid.every((row) => row[col].owner === "player:1"))
-        .some(Boolean);
-
-      const isPlayer2Winner = grid[0]
-        .map((_, col) => grid.every((row) => row[col].owner === "player:2"))
-        .some(Boolean);
-
-      if (isPlayer1Winner) {
-        console.log("player 1 is the winner");
-        return;
-      }
-
-      if (isPlayer2Winner) {
-        console.log("player 2 is the winner");
-        return;
-      }
+      GameService.victory.checkVictoryVertical(grid);
 
       for (let col = 0; col < grid[0].length; col++) {
         for (let row = 0; row < grid.length - (consecutiveNeeded - 1); row++) {
@@ -623,14 +597,94 @@ const GameService = {
 
       console.log("vertical score : ", consecutiveCount);
     },
-    calculateScoreDiagonal: (grid) => {
-      // Check for diagonal from top left to bottom right
-      // Check for diagonal from top right to bottom left
+    calculateScoreDiagonal: (gameState, grid, consecutiveNeeded) => {
+      let consecutiveCount = {
+        "player:1": gameState.player1Count,
+        "player:2": gameState.player2Count,
+      };
+
+      GameService.victory.checkVictoryDiagonal(grid);
+
+      console.log("diagonal score : ", consecutiveCount);
     },
   },
 
   victory: {
-    checkVictory: () => {},
+    checkVictoryHorizontal: (grid) => {
+      const isPlayer1Winner = grid.some((row) =>
+        row.every((cell) => cell.owner === "player:1")
+      );
+
+      const isPlayer2Winner = grid.some((row) =>
+        row.every((cell) => cell.owner === "player:2")
+      );
+
+      if (isPlayer1Winner) {
+        console.log("(Horizontal) player 1 is the winner");
+        return;
+      }
+
+      if (isPlayer2Winner) {
+        console.log("(Horizontal) player 2 is the winner");
+        return;
+      }
+    },
+    checkVictoryVertical: (grid) => {
+      const isPlayer1Winner = grid[0]
+        .map((_, col) => grid.every((row) => row[col].owner === "player:1"))
+        .some(Boolean);
+
+      const isPlayer2Winner = grid[0]
+        .map((_, col) => grid.every((row) => row[col].owner === "player:2"))
+        .some(Boolean);
+
+      if (isPlayer1Winner) {
+        console.log("(Vertical) player 1 is the winner");
+        return;
+      }
+
+      if (isPlayer2Winner) {
+        console.log("(Vertical) player 2 is the winner");
+        return;
+      }
+    },
+    checkVictoryDiagonal: (grid) => {
+      // Check for diagonal from top left to bottom right
+      const isPlayer1WinnerFirstDiagonal = grid
+        .map((row, index) => row[index])
+        .every((cell) => cell.owner === "player:1");
+      const isPlayer2WinnerFirstDiagonal = grid
+        .map((row, index) => row[index])
+        .every((cell) => cell.owner === "player:2");
+
+      if (isPlayer1WinnerFirstDiagonal) {
+        console.log("(Diagonal) player 1 is the winner");
+        return;
+      }
+
+      if (isPlayer2WinnerFirstDiagonal) {
+        console.log("(Diagonal) player 2 is the winner");
+        return;
+      }
+
+      // Check for diagonal from top right to bottom left
+      const isPlayer1WinnerSecondDiagonal = grid
+        .map((row, index) => row[grid.length - index - 1])
+        .every((cell) => cell.owner === "player:1");
+      const isPlayer2WinnerSecondDiagonal = grid
+        .map((row, index) => row[grid.length - index - 1])
+        .every((cell) => cell.owner === "player:2");
+
+      if (isPlayer1WinnerSecondDiagonal) {
+        console.log("player 1 is the winner");
+        return;
+      }
+
+      if (isPlayer2WinnerSecondDiagonal) {
+        console.log("player 2 is the winner");
+        return;
+      }
+    },
   },
 
   utils: {
