@@ -327,6 +327,12 @@ io.on("connection", (socket) => {
       3
     );
 
+    GameService.score.calculateScoreVertical(
+      games[gameIndex].gameState,
+      games[gameIndex].gameState.grid,
+      3
+    );
+
     // Sinon on finit le tour
     games[gameIndex].gameState.currentTurn =
       games[gameIndex].gameState.currentTurn === "player:1"

@@ -352,13 +352,11 @@ const GameService = {
 
       return availableCombinations;
       // return [
+      //   { value: "Brelan 1", id: "brelan1" },
       //   { value: "Brelan 2", id: "brelan2" },
-      //   { value: "Carré", id: "carre" },
-      //   { value: "Sec", id: "sec" },
-      //   { value: "Full", id: "full" },
-      //   { value: "Brelan 5", id: "brelan5" },
+      //   { value: "≤8", id: "moinshuit" },
+      //   { value: "Brelan 6", id: "brelan6" },
       //   { value: "Brelan 3", id: "brelan3" },
-      //   { value: "Brelan 4", id: "brelan4" },
       // ];
     },
 
@@ -539,10 +537,91 @@ const GameService = {
           }
         }
       }
+
+      console.log("horizontal score : ", consecutiveCount);
     },
 
-    calculateScoreVertical: (grid) => {
-      // Check for vertical columns
+    calculateScoreVertical: (gameState, grid, consecutiveNeeded) => {
+      let consecutiveCount = {
+        "player:1": gameState.player1Count,
+        "player:2": gameState.player2Count,
+      };
+
+      const isPlayer1Winner = grid[0]
+        .map((_, col) => grid.every((row) => row[col].owner === "player:1"))
+        .some(Boolean);
+
+      const isPlayer2Winner = grid[0]
+        .map((_, col) => grid.every((row) => row[col].owner === "player:2"))
+        .some(Boolean);
+
+      if (isPlayer1Winner) {
+        console.log("player 1 is the winner");
+        return;
+      }
+
+      if (isPlayer2Winner) {
+        console.log("player 2 is the winner");
+        return;
+      }
+
+      for (let col = 0; col < grid[0].length; col++) {
+        for (let row = 0; row < grid.length - (consecutiveNeeded - 1); row++) {
+          if (grid[row][col].owner) {
+            if (grid[row][col].owner === "player:1") {
+              if (row === grid.length - consecutiveNeeded) {
+                if (
+                  grid[row][col].owner === grid[row + 1][col].owner &&
+                  grid[row + 1][col].owner === grid[row + 2][col].owner
+                ) {
+                  consecutiveCount["player:1"] = 1;
+                }
+              } else {
+                if (
+                  grid[row][col].owner === grid[row + 1][col].owner &&
+                  grid[row + 1][col].owner === grid[row + 2][col].owner &&
+                  grid[row + 2][col].owner === grid[row + 3][col].owner
+                ) {
+                  consecutiveCount["player:1"] = 2;
+                  break;
+                }
+                if (
+                  grid[row][col].owner === grid[row + 1][col].owner &&
+                  grid[row + 1][col].owner === grid[row + 2][col].owner
+                ) {
+                  consecutiveCount["player:1"] = 1;
+                }
+              }
+            } else {
+              if (row === grid.length - consecutiveNeeded) {
+                if (
+                  grid[row][col].owner === grid[row + 1][col].owner &&
+                  grid[row + 1][col].owner === grid[row + 2][col].owner
+                ) {
+                  consecutiveCount["player:2"] = 1;
+                }
+              } else {
+                if (
+                  grid[row][col].owner === grid[row + 1][col].owner &&
+                  grid[row + 1][col].owner === grid[row + 2][col].owner &&
+                  grid[row + 2][col].owner === grid[row + 3][col].owner
+                ) {
+                  consecutiveCount["player:2"] = 2;
+                  break;
+                }
+                if (
+                  grid[row][col].owner === grid[row + 1][col].owner &&
+                  grid[row + 1][col].owner === grid[row + 2][col].owner
+                ) {
+                  consecutiveCount["player:2"] = 1;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      console.log("vertical score : ", consecutiveCount);
     },
     calculateScoreDiagonal: (grid) => {
       // Check for diagonal from top left to bottom right
