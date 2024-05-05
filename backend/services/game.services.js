@@ -352,12 +352,19 @@ const GameService = {
 
       // return availableCombinations;
       return [
-        { value: "Brelan 2", id: "brelan2" },
+        { value: "Yam", id: "yam" },
         { value: "≤8", id: "moinshuit" },
         { value: "Brelan 1", id: "brelan1" },
-        { value: "Brelan 6", id: "brelan6" },
-        { value: "Brelan 3", id: "brelan3" },
+        { value: "Brelan 4", id: "brelan4" },
+        { value: "Carré", id: "carre" },
       ];
+      // return [
+      //   { value: "Brelan 1", id: "brelan1" },
+      //   { value: "Brelan 3", id: "brelan3" },
+      //   { value: "Défi", id: "defi" },
+      //   { value: "Brelan 4", id: "brelan4" },
+      //   { value: "Brelan 6", id: "brelan6" },
+      // ];
     },
 
     filterChoicesEnabler: (grid, combinations) => {
@@ -474,10 +481,14 @@ const GameService = {
           col < grid[row].length - (consecutiveNeeded - 1);
           col++
         ) {
+          // Check if the cell has an owner
           if (grid[row][col].owner) {
+            // Check if the owner is player 1
             if (grid[row][col].owner === "player:1") {
+              // Check if the row is at the end of the grid
               if (col === grid[row].length - consecutiveNeeded) {
                 if (
+                  // For example : [0,2], [0,3], [0,4]
                   grid[row][col].owner === grid[row][col + 1].owner &&
                   grid[row][col + 1].owner === grid[row][col + 2].owner
                 ) {
@@ -485,6 +496,7 @@ const GameService = {
                 }
               } else {
                 if (
+                  // For example : [0,0], [0,1], [0,2], [0,3] // [0,1], [0,2], [0,3], [0,4]
                   grid[row][col].owner === grid[row][col + 1].owner &&
                   grid[row][col + 1].owner === grid[row][col + 2].owner &&
                   grid[row][col + 2].owner === grid[row][col + 3].owner
@@ -493,21 +505,28 @@ const GameService = {
                   break;
                 }
                 if (
+                  // For example : [0,0], [0,1], [0,2] // [0,1], [0,2], [0,3]
                   grid[row][col].owner === grid[row][col + 1].owner &&
                   grid[row][col + 1].owner === grid[row][col + 2].owner
                 ) {
                   consecutiveCount["player:1"] = 1;
                 }
               }
+              // Check if the owner is player 2
             } else {
+              // Check if the row is at the end of the grid
+
+              // In yam case, col == 2 (consecutiveNeeded = 3)
               if (col === grid[row].length - consecutiveNeeded) {
                 if (
+                  // For example : [0,2], [0,3], [0,4]
                   grid[row][col].owner === grid[row][col + 1].owner &&
                   grid[row][col + 1].owner === grid[row][col + 2].owner
                 ) {
                   consecutiveCount["player:2"] = 1;
                 }
               } else {
+                // For example : [0,0], [0,1], [0,2], [0,3] // [0,1], [0,2], [0,3], [0,4]
                 if (
                   grid[row][col].owner === grid[row][col + 1].owner &&
                   grid[row][col + 1].owner === grid[row][col + 2].owner &&
@@ -516,6 +535,7 @@ const GameService = {
                   consecutiveCount["player:2"] = 2;
                   break;
                 }
+                // For example : [0,0], [0,1], [0,2] // [0,1], [0,2], [0,3]
                 if (
                   grid[row][col].owner === grid[row][col + 1].owner &&
                   grid[row][col + 1].owner === grid[row][col + 2].owner
@@ -530,21 +550,26 @@ const GameService = {
 
       console.log("horizontal score : ", consecutiveCount);
     },
-
     calculateScoreVertical: (gameState, grid, consecutiveNeeded) => {
       let consecutiveCount = {
         "player:1": gameState.player1Count,
         "player:2": gameState.player2Count,
       };
+      const gridColLength = grid[0].length;
 
       GameService.victory.checkVictoryVertical(grid);
 
-      for (let col = 0; col < grid[0].length; col++) {
+      for (let col = 0; col < gridColLength; col++) {
         for (let row = 0; row < grid.length - (consecutiveNeeded - 1); row++) {
+          //  Check if the cell has an owner
           if (grid[row][col].owner) {
+            // Check if the owner is player 1
             if (grid[row][col].owner === "player:1") {
+              // Check if the row is at the end of the grid
+              // In yam case, row == 2 (consecutiveNeeded = 3)
               if (row === grid.length - consecutiveNeeded) {
                 if (
+                  // For example : [2,0], [3,0], [4,0]
                   grid[row][col].owner === grid[row + 1][col].owner &&
                   grid[row + 1][col].owner === grid[row + 2][col].owner
                 ) {
@@ -552,6 +577,7 @@ const GameService = {
                 }
               } else {
                 if (
+                  // For example : [0,0], [1,0], [2,0], [3,0] // [1,0], [2,0], [3,0], [4,0]
                   grid[row][col].owner === grid[row + 1][col].owner &&
                   grid[row + 1][col].owner === grid[row + 2][col].owner &&
                   grid[row + 2][col].owner === grid[row + 3][col].owner
@@ -560,15 +586,19 @@ const GameService = {
                   break;
                 }
                 if (
+                  // For example : [0,0], [1,0], [2,0] / [1,0], [2,0], [3,0]
                   grid[row][col].owner === grid[row + 1][col].owner &&
                   grid[row + 1][col].owner === grid[row + 2][col].owner
                 ) {
                   consecutiveCount["player:1"] = 1;
                 }
               }
+              // Check if the owner is player 2
             } else {
+              // Check if the row is at the end of the grid
               if (row === grid.length - consecutiveNeeded) {
                 if (
+                  // For example : [2,0], [3,0], [4,0]
                   grid[row][col].owner === grid[row + 1][col].owner &&
                   grid[row + 1][col].owner === grid[row + 2][col].owner
                 ) {
@@ -576,6 +606,7 @@ const GameService = {
                 }
               } else {
                 if (
+                  // For example : [0,0], [1,0], [2,0], [3,0]
                   grid[row][col].owner === grid[row + 1][col].owner &&
                   grid[row + 1][col].owner === grid[row + 2][col].owner &&
                   grid[row + 2][col].owner === grid[row + 3][col].owner
@@ -584,6 +615,7 @@ const GameService = {
                   break;
                 }
                 if (
+                  // For example : [0,0], [1,0], [2,0] / [1,0], [2,0], [3,0]
                   grid[row][col].owner === grid[row + 1][col].owner &&
                   grid[row + 1][col].owner === grid[row + 2][col].owner
                 ) {
@@ -602,9 +634,81 @@ const GameService = {
         "player:1": gameState.player1Count,
         "player:2": gameState.player2Count,
       };
+      const gridColLength = grid[0].length;
 
       GameService.victory.checkVictoryDiagonal(grid);
 
+      // 1) Check for diagonal from top left to bottom right
+      let player1OwnedCells = [];
+      let player2OwnedCells = [];
+
+      for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < gridColLength; col++) {
+          // If row and col are the same and the cell has an owner
+          if (grid[row][col].owner) {
+            // Check if the owner is player 1
+            if (grid[row][col].owner === "player:1") {
+              player1OwnedCells.push({
+                index: [row, col],
+                grid: grid[row][col],
+              });
+              break;
+            }
+
+            // Check if the owner is player 2
+            if (grid[row][col].owner === "player:2") {
+              player2OwnedCells.push({
+                index: [row, col],
+                grid: grid[row][col],
+              });
+              break;
+            }
+          }
+        }
+      }
+
+      console.log(
+        "player1OwnedCells index : ",
+        player1OwnedCells.map((cell) => cell.index)
+      );
+      // console.log("player2OwnedCells index : ", player2OwnedCells.map((cell) => cell.index));
+
+      function getDiagonalSequences(gridSize, sequenceLength) {
+        const sequences = [];
+
+        // Iterate over each cell in the grid
+        for (let i = 0; i < gridSize; i++) {
+          for (let j = 0; j < gridSize; j++) {
+            // Check for diagonals starting from this cell
+            const diagonal1 = [];
+            const diagonal2 = [];
+            for (let k = 0; k < sequenceLength; k++) {
+              if (i + k < gridSize && j + k < gridSize) {
+                diagonal1.push([i + k, j + k]);
+              }
+              if (i + k < gridSize && j - k >= 0) {
+                diagonal2.push([i + k, j - k]);
+              }
+            }
+            if (diagonal1.length === sequenceLength) {
+              sequences.push(diagonal1);
+            }
+            if (diagonal2.length === sequenceLength) {
+              sequences.push(diagonal2);
+            }
+          }
+        }
+
+        return sequences;
+      }
+
+      const diagonalSequencesLength3 = getDiagonalSequences(5, 3);
+      const diagonalSequencesLength4 = getDiagonalSequences(5, 4);
+
+      console.log("Diagonal Sequences Length 3:", diagonalSequencesLength3);
+      console.log("Diagonal Sequences Length 4:", diagonalSequencesLength4);
+
+      // 2) Check for diagonal from top right to bottom left
       console.log("diagonal score : ", consecutiveCount);
     },
   },
