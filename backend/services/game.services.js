@@ -667,10 +667,10 @@ const GameService = {
         }
       }
 
-      console.log(
-        "player1OwnedCells index : ",
-        player1OwnedCells.map((cell) => cell.index)
+      const player1OwnedCellsIndexes = player1OwnedCells.map(
+        (cell) => cell.index
       );
+
       // console.log("player2OwnedCells index : ", player2OwnedCells.map((cell) => cell.index));
 
       const diagonalSequencesLength3 = GameService.score.getDiagonalSequences(
@@ -684,6 +684,57 @@ const GameService = {
 
       console.log("Diagonal Sequences Length 3:", diagonalSequencesLength3);
       console.log("Diagonal Sequences Length 4:", diagonalSequencesLength4);
+
+      console.log("player1OwnedCellsIndexes :: ", player1OwnedCellsIndexes);
+
+      // Function to check if a sequence is present in the given list of sequences
+      function isSequencePresent(sequences, targetSequence) {
+        const targetLength = targetSequence.length;
+
+        // Check if targetSequence has at least one element
+        if (targetLength === 0) return false;
+
+        for (const sequence of sequences) {
+          const sequenceLength = sequence.length;
+
+          // Check if the sequence has the same length as the targetSequence
+          if (sequenceLength !== targetLength) continue;
+
+          // Compare each element of the sequences
+          let isMatch = true;
+          for (let i = 0; i < sequenceLength; i++) {
+            if (
+              sequence[i][0] !== targetSequence[i][0] ||
+              sequence[i][1] !== targetSequence[i][1]
+            ) {
+              isMatch = false;
+              break;
+            }
+          }
+          if (isMatch) return true;
+        }
+
+        return false;
+      }
+      // Check if the sequence from player1OwnedCellsIndexes exists in sequencesLength3
+      if (
+        isSequencePresent(diagonalSequencesLength3, player1OwnedCellsIndexes)
+      ) {
+        console.log(
+          "Found combination in sequencesLength3:",
+          player1OwnedCellsIndexes
+        );
+      }
+
+      // Check if the sequence from player1OwnedCellsIndexes exists in sequencesLength4
+      if (
+        isSequencePresent(diagonalSequencesLength4, player1OwnedCellsIndexes)
+      ) {
+        console.log(
+          "Found combination in sequencesLength4:",
+          player1OwnedCellsIndexes
+        );
+      }
 
       // 2) Check for diagonal from top right to bottom left
       console.log("diagonal score : ", consecutiveCount);
