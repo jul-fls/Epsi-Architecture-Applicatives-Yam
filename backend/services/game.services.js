@@ -673,43 +673,49 @@ const GameService = {
       );
       // console.log("player2OwnedCells index : ", player2OwnedCells.map((cell) => cell.index));
 
-      function getDiagonalSequences(gridSize, sequenceLength) {
-        const sequences = [];
-
-        // Iterate over each cell in the grid
-        for (let i = 0; i < gridSize; i++) {
-          for (let j = 0; j < gridSize; j++) {
-            // Check for diagonals starting from this cell
-            const diagonal1 = [];
-            const diagonal2 = [];
-            for (let k = 0; k < sequenceLength; k++) {
-              if (i + k < gridSize && j + k < gridSize) {
-                diagonal1.push([i + k, j + k]);
-              }
-              if (i + k < gridSize && j - k >= 0) {
-                diagonal2.push([i + k, j - k]);
-              }
-            }
-            if (diagonal1.length === sequenceLength) {
-              sequences.push(diagonal1);
-            }
-            if (diagonal2.length === sequenceLength) {
-              sequences.push(diagonal2);
-            }
-          }
-        }
-
-        return sequences;
-      }
-
-      const diagonalSequencesLength3 = getDiagonalSequences(5, 3);
-      const diagonalSequencesLength4 = getDiagonalSequences(5, 4);
+      const diagonalSequencesLength3 = GameService.score.getDiagonalSequences(
+        5,
+        3
+      );
+      const diagonalSequencesLength4 = GameService.score.getDiagonalSequences(
+        5,
+        4
+      );
 
       console.log("Diagonal Sequences Length 3:", diagonalSequencesLength3);
       console.log("Diagonal Sequences Length 4:", diagonalSequencesLength4);
 
       // 2) Check for diagonal from top right to bottom left
       console.log("diagonal score : ", consecutiveCount);
+    },
+
+    getDiagonalSequences: (gridSize, sequenceLength) => {
+      const sequences = [];
+
+      // Iterate over each cell in the grid
+      for (let i = 0; i < gridSize; i++) {
+        for (let j = 0; j < gridSize; j++) {
+          // Check for diagonals starting from this cell
+          const diagonal1 = [];
+          const diagonal2 = [];
+          for (let k = 0; k < sequenceLength; k++) {
+            if (i + k < gridSize && j + k < gridSize) {
+              diagonal1.push([i + k, j + k]);
+            }
+            if (i + k < gridSize && j - k >= 0) {
+              diagonal2.push([i + k, j - k]);
+            }
+          }
+          if (diagonal1.length === sequenceLength) {
+            sequences.push(diagonal1);
+          }
+          if (diagonal2.length === sequenceLength) {
+            sequences.push(diagonal2);
+          }
+        }
+      }
+
+      return sequences;
     },
   },
 
