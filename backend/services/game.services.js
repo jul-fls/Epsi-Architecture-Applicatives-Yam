@@ -642,8 +642,110 @@ const GameService = {
 
       GameService.victory.checkVictoryDiagonal(grid);
 
-      // 2) Check for diagonal from top right to bottom left
+      let player1OwnedCells = [];
+
+      for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < gridColLength; col++) {
+          // If row and col are the same and the cell has an owner
+          if (grid[row][col].owner) {
+            // Check if the owner is player 1
+            if (grid[row][col].owner === "player:1") {
+              player1OwnedCells.push({
+                index: [row, col],
+                grid: grid[row][col],
+              });
+              // break;
+            }
+
+            // Check if the owner is player 2
+            if (grid[row][col].owner === "player:2") {
+              player2OwnedCells.push({
+                index: [row, col],
+                grid: grid[row][col],
+              });
+              // break;
+            }
+          }
+        }
+      }
+
+      const player1OwnedCellsIndexes = player1OwnedCells.map(
+        (cell) => cell.index
+      );
+
+      const diagonalSequencesLength3 = GameService.score.getDiagonalSequences(
+        5,
+        3
+      );
+      const diagonalSequencesLength4 = GameService.score.getDiagonalSequences(
+        5,
+        4
+      );
+
+      // console.log("Diagonal Sequences Length 3:", diagonalSequencesLength3);
+      // console.log("Diagonal Sequences Length 4:", diagonalSequencesLength4);
+
+      const player1Combinations3 =
+        GameService.utils.generateCombinationsFromArray(
+          player1OwnedCellsIndexes,
+          3
+        );
+
+      const player1Combinations4 =
+        GameService.utils.generateCombinationsFromArray(
+          player1OwnedCellsIndexes,
+          4
+        );
+
+      let point = 1;
+      diagonalSequencesLength3.forEach((sequence) => {
+        player1Combinations3.forEach((combination) => {
+          if (JSON.stringify(combination) === JSON.stringify(sequence)) {
+            consecutiveCount["player:1"] = point++;
+          }
+        });
+      });
+
+      diagonalSequencesLength4.forEach((sequence) => {
+        player1Combinations4.forEach((combination) => {
+          if (JSON.stringify(combination) === JSON.stringify(sequence)) {
+            console.log("combination 4 ", combination);
+            console.log("sequence 4 ", sequence);
+            consecutiveCount["player:1"] = point++ - 1;
+          }
+        });
+      });
+
       console.log("diagonal score : ", consecutiveCount);
+    },
+
+    getDiagonalSequences: (gridSize, sequenceLength) => {
+      const sequences = [];
+
+      // Iterate over each cell in the grid
+      for (let i = 0; i < gridSize; i++) {
+        for (let j = 0; j < gridSize; j++) {
+          // Check for diagonals starting from this cell
+          const diagonal1 = [];
+          const diagonal2 = [];
+          for (let k = 0; k < sequenceLength; k++) {
+            if (i + k < gridSize && j + k < gridSize) {
+              diagonal1.push([i + k, j + k]);
+            }
+            if (i + k < gridSize && j - k >= 0) {
+              diagonal2.push([i + k, j - k]);
+            }
+          }
+          if (diagonal1.length === sequenceLength) {
+            sequences.push(diagonal1);
+          }
+          if (diagonal2.length === sequenceLength) {
+            sequences.push(diagonal2);
+          }
+        }
+      }
+
+      return sequences;
     },
   },
 
@@ -755,6 +857,26 @@ const GameService = {
         }
       }
       return -1;
+    },
+
+    generateCombinationsFromArray: (array, combinationLength) => {
+      const result = [];
+
+      const combine = (startIndex, combination) => {
+        if (combination.length === combinationLength) {
+          result.push([...combination]);
+          return;
+        }
+
+        for (let i = startIndex; i < array.length; i++) {
+          combination.push(array[i]);
+          combine(i + 1, combination);
+          combination.pop();
+        }
+      };
+
+      combine(0, []);
+      return result;
     },
   },
 };
