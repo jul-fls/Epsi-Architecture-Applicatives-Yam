@@ -322,21 +322,15 @@ io.on("connection", (socket) => {
     // TODO: Ici calculer le score
     // TODO: Puis check si la partie s'arrête (lines / diagolales / no-more-gametokens)
     GameService.score.calculateScoreHorizontal(
-      games[gameIndex].gameState,
-      games[gameIndex].gameState.grid,
-      3
+      games[gameIndex].gameState
     );
 
     GameService.score.calculateScoreVertical(
-      games[gameIndex].gameState,
-      games[gameIndex].gameState.grid,
-      3
+      games[gameIndex].gameState
     );
 
     GameService.score.calculateScoreDiagonal(
-      games[gameIndex].gameState,
-      games[gameIndex].gameState.grid,
-      3
+      games[gameIndex].gameState
     );
 
     // Sinon on finit le tour
