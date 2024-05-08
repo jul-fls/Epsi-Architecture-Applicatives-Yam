@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
+import { COLOR } from "../../../constants/color";
 
 const PlayerScore = () => {
   const socket = useContext(SocketContext);
@@ -12,7 +13,7 @@ const PlayerScore = () => {
   }, []);
   return (
     <View style={styles.playerScoreContainer}>
-      <Text>Score: {playerScore}</Text>
+      <Text style={{ color: COLOR.WHITE }}>Score: {playerScore}</Text>
     </View>
   );
 };

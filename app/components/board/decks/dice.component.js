@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Image, View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import LottieView from "lottie-react-native";
+import { COLOR } from "../../../constants/color";
 
 const Dice = ({
   index,
@@ -17,6 +18,15 @@ const Dice = ({
     }
   };
 
+  const diceImages = {
+    1: require("../../../assets/dice_1.png"),
+    2: require("../../../assets/dice_2.png"),
+    3: require("../../../assets/dice_3.png"),
+    4: require("../../../assets/dice_4.png"),
+    5: require("../../../assets/dice_5.png"),
+    6: require("../../../assets/dice_6.png"),
+  };
+
   return (
     <TouchableOpacity
       style={[styles.dice, locked && styles.lockedDice]}
@@ -24,18 +34,28 @@ const Dice = ({
       disabled={opponent}
     >
       {isAnimated ? (
-        <>
+        <View style={styles.diceAnimation}>
           <LottieView
             source={require("../../../assets/dice.json")}
-            style={{ width: "100%", height: "100%" }}
+            style={{
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
             autoPlay
             onAnimationFinish={() => setIsAnimated(false)}
           />
-        </>
+        </View>
       ) : (
-        <>
-          <Text style={styles.diceText}>{value}</Text>
-        </>
+        <View>
+          {value !== "" && (
+            <Image
+              style={{ width: 30, height: 30 }}
+              source={diceImages[value]}
+            />
+          )}
+        </View>
       )}
     </TouchableOpacity>
   );
@@ -45,13 +65,18 @@ const styles = StyleSheet.create({
   dice: {
     width: 40,
     height: 40,
-    backgroundColor: "lightblue",
-    borderRadius: 5,
+    backgroundColor: COLOR.DARK_GREEN,
+    borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
   },
   lockedDice: {
-    backgroundColor: "gray",
+    backgroundColor: COLOR.WHITE,
+    borderWidth: 1,
+    borderColor: COLOR.DARK_GREEN,
+  },
+  diceAnimation: {
+    paddingBottom: 10,
   },
   diceText: {
     fontSize: 20,

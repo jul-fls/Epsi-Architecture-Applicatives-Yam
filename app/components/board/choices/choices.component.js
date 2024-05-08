@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
+import { COLOR } from "../../../constants/color";
 
 const Choices = () => {
   const socket = useContext(SocketContext);
@@ -57,10 +58,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderBottomWidth: 1,
     borderColor: "black",
-    backgroundColor: "lightgrey",
+    backgroundColor: COLOR.DARK_GREEN,
   },
   choiceButton: {
-    backgroundColor: "white",
+    backgroundColor: COLOR.BEIGE_LIGHT,
     borderRadius: 5,
     marginVertical: 5,
     alignItems: "center",
@@ -69,11 +70,12 @@ const styles = StyleSheet.create({
     height: "10%",
   },
   selectedChoice: {
-    backgroundColor: "lightgreen",
+    backgroundColor: COLOR.WHITE,
   },
   choiceText: {
     fontSize: 13,
     fontWeight: "bold",
+    color: COLOR.DARK_GREEN,
   },
   disabledChoice: {
     opacity: 0.5,

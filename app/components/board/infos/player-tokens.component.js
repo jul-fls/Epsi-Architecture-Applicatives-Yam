@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
+import { COLOR } from "../../../constants/color";
 
 const PlayerTokens = () => {
   const socket = useContext(SocketContext);
@@ -12,7 +13,7 @@ const PlayerTokens = () => {
   }, []);
   return (
     <View style={styles.playerTokensContainer}>
-      <Text>Pions restants: {playerTokens}</Text>
+      <Text style={{ color: COLOR.WHITE }}>Pions restants: {playerTokens}</Text>
     </View>
   );
 };

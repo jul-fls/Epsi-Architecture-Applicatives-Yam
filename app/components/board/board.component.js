@@ -11,6 +11,7 @@ import PlayerScore from "./infos/player-score.component";
 import OpponentScore from "./infos/opponent-score.component";
 import PlayerTokens from "./infos/player-tokens.component";
 import OpponentTokens from "./infos/opponent-tokens.component";
+import { COLOR } from "../../constants/color";
 
 const Board = ({ gameViewState }) => {
   return (
@@ -65,14 +66,14 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-around", // changed from center to space-around for better distribution
     alignItems: "center",
-    backgroundColor: "lightgrey",
+    backgroundColor: COLOR.DARK_GREEN,
   },
   playerTimerScoreContainer: {
     flex: 4, // increased flex to provide more space
     flexDirection: "column",
     justifyContent: "space-around", // changed from center to space-around for better distribution
     alignItems: "center",
-    backgroundColor: "lightgrey",
+    backgroundColor: COLOR.DARK_GREEN,
   },
 });
 

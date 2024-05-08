@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
+import { COLOR } from "../../../constants/color";
 
 const OpponentTokens = () => {
   const socket = useContext(SocketContext);
@@ -12,7 +13,9 @@ const OpponentTokens = () => {
   }, []);
   return (
     <View style={styles.opponentTokensContainer}>
-      <Text>Pions restants: {opponentTokens}</Text>
+      <Text style={{ color: COLOR.WHITE }}>
+        Pions restants: {opponentTokens}
+      </Text>
     </View>
   );
 };

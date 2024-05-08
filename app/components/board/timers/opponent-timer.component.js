@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { SocketContext, socket } from "../../../contexts/socket.context";
+import { COLOR } from "../../../constants/color";
 
 const OpponentTimer = () => {
   const socket = useContext(SocketContext);
@@ -13,7 +14,7 @@ const OpponentTimer = () => {
   }, []);
   return (
     <View style={styles.opponentTimerContainer}>
-      <Text>Timer: {opponentTimer}</Text>
+      <Text style={{ color: COLOR.WHITE }}>Timer: {opponentTimer}</Text>
     </View>
   );
 };

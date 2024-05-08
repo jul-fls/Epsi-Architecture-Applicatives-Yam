@@ -4,6 +4,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { SocketContext } from "../contexts/socket.context";
 import Board from "../components/board/board.component";
+import { COLOR } from "../constants/color";
 
 export default function OnlineGameController() {
   const socket = useContext(SocketContext);
@@ -48,7 +49,7 @@ export default function OnlineGameController() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: COLOR.BEIGE_LIGHT,
     alignItems: "center",
     justifyContent: "center",
     width: "100%",

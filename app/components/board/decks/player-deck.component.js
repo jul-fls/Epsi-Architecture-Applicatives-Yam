@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
 import Dice from "./dice.component";
+import { COLOR } from "../../../constants/color";
 
 const PlayerDeck = () => {
   const socket = useContext(SocketContext);
@@ -70,7 +71,7 @@ const PlayerDeck = () => {
           {displayRollButton && rollsCounter <= rollsMaximum && (
             <>
               <TouchableOpacity style={styles.rollButton} onPress={rollDices}>
-                <Text style={styles.rollButtonText}>Roll</Text>
+                <Text style={styles.rollButtonText}>ROLL</Text>
               </TouchableOpacity>
             </>
           )}
@@ -95,10 +96,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   rollButtonText: {
-    backgroundColor: "lightblue",
+    backgroundColor: COLOR.DARK_GREEN,
     padding: 10,
-    borderBlockColor: "black",
+    borderBlockColor: COLOR.BEIGE_LIGHT,
     borderRadius: 5,
+    color: COLOR.WHITE,
+    fontWeight: "bold",
+    fontFamily: "Arial",
   },
 });
 

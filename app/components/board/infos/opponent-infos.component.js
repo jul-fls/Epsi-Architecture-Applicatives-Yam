@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
+import { COLOR } from "../../../constants/color";
 
 const OpponentInfos = () => {
   const socket = useContext(SocketContext);
@@ -12,7 +13,7 @@ const OpponentInfos = () => {
   }, []);
   return (
     <View style={styles.opponentInfosContainer}>
-      <Text>{opponentInfos.playerKey}</Text>
+      <Text style={{ color: COLOR.WHITE }}>{opponentInfos.playerKey}</Text>
     </View>
   );
 };
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRightWidth: 1,
     borderColor: "black",
-    backgroundColor: "lightgrey",
+    backgroundColor: COLOR.DARK_GREEN,
   },
 });
 
