@@ -1,21 +1,21 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { Player } from "@lottiefiles/react-lottie-player";
+import LottieView from "lottie-react-native";
 
-const Dice = ({ index, locked, value, onPress, opponent, isAnimated }) => {
+const Dice = ({
+  index,
+  locked,
+  value,
+  onPress,
+  opponent,
+  isAnimated,
+  setIsAnimated,
+}) => {
   const handlePress = () => {
     if (!opponent) {
       onPress(index);
     }
   };
-
-  // const playerRef = useRef(Player);
-
-  // if (isAnimated) {
-  //   playerRef.current.play();
-  // } else {
-  //   playerRef.current.stop();
-  // }
 
   return (
     <TouchableOpacity
@@ -23,16 +23,15 @@ const Dice = ({ index, locked, value, onPress, opponent, isAnimated }) => {
       onPress={handlePress}
       disabled={opponent}
     >
-      {value === "" ? (
-        <Player
-          src={require("../../../assets/dice.json")}
-          className="dice"
-          loop={false}
-          autoplay={false}
-          // ref={playerRef}
-          // isStopped={!isAnimated}
-          // isPaused={!isAnimated}
-        />
+      {isAnimated ? (
+        <>
+          <LottieView
+            source={require("../../../assets/dice.json")}
+            style={{ width: "100%", height: "100%" }}
+            autoPlay
+            onAnimationFinish={() => setIsAnimated(false)}
+          />
+        </>
       ) : (
         <>
           <Text style={styles.diceText}>{value}</Text>
