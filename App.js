@@ -55,6 +55,7 @@ function App() {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
+    width: "100%",
   },
 });
 export default App;

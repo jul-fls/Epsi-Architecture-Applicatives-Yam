@@ -10,10 +10,13 @@ import {
 } from "react-native";
 import { SocketContext } from "../contexts/socket.context";
 import Board from "../components/board/board.component";
+import LottieView from "lottie-react-native";
 import { COLOR } from "../constants/color";
 
+const backgroundImage = require("../assets/background.png");
+const diceLoadingAnimation = require("../assets/lottie/dice_loading.json");
+
 export default function OnlineGameController() {
-  const backgroundImage = require("../assets/background.png");
   const socket = useContext(SocketContext);
   const [inQueue, setInQueue] = useState(false);
   const [inGame, setInGame] = useState(false);
@@ -47,11 +50,20 @@ export default function OnlineGameController() {
             resizeMode="stretch"
             style={styles.background}
           >
-            <View style={styles.paragraphContainer}>
-              <Text style={styles.paragraph}>
-                Waiting for another player...
-              </Text>
-              <ActivityIndicator size="large" color={COLOR.ZELDA_BLUE} />
+            <View style={styles.informationContainer}>
+              <View>
+                <Text style={styles.paragraph}>
+                  En attendant un autre joueur ...
+                </Text>
+              </View>
+              <View style={styles.diceLoadingAnimationContainer}>
+                <LottieView source={diceLoadingAnimation} autoPlay loop />
+              </View>
+              <View style={styles.tipsContainer}>
+                <Text style={styles.tips}>
+                  Saviez-vous que le jeu de Yam's a été créé par Milton Bradley
+                </Text>
+              </View>
             </View>
           </ImageBackground>
         </>
@@ -78,13 +90,31 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
-  paragraphContainer: {
+  informationContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    marginHorizontal: 30,
   },
   paragraph: {
-    fontSize: 16,
+    fontSize: 20,
     color: COLOR.WHITE,
+    fontFamily: "Roboto",
+    marginBottom: 10,
+  },
+  diceLoadingAnimationContainer: {},
+  tipsContainer: {
+    borderWidth: 1,
+    borderColor: COLOR.WHITE,
+    backgroundColor: COLOR.TRANSPARENT,
+    width: "100%",
+    position: "absolute",
+    bottom: 30,
+  },
+  tips: {
+    fontSize: 15,
+    color: COLOR.WHITE,
+    fontFamily: "Roboto",
+    textAlign: "center",
   },
 });

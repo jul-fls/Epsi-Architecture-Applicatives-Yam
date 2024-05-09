@@ -18,6 +18,7 @@ const Dice = ({
     }
   };
 
+  const diceAnimation = require("../../../assets/lottie/dice.json");
   const diceImages = {
     1: require("../../../assets/dice_1.png"),
     2: require("../../../assets/dice_2.png"),
@@ -34,15 +35,10 @@ const Dice = ({
       disabled={opponent}
     >
       {isAnimated ? (
-        <View style={styles.diceAnimation}>
+        <View style={styles.diceAnimationContainer}>
           <LottieView
-            source={require("../../../assets/dice.json")}
-            style={{
-              width: "100%",
-              height: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
+            source={diceAnimation}
+            styles={styles.diceAnimation}
             autoPlay
             onAnimationFinish={() => setIsAnimated(false)}
           />
@@ -75,8 +71,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLOR.DARK_GREEN,
   },
-  diceAnimation: {
+  diceAnimationContainer: {
     paddingBottom: 10,
+  },
+  diceAnimation: {
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
   diceText: {
     fontSize: 20,

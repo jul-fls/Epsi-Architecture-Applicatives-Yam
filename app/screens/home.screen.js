@@ -16,6 +16,7 @@ const backgroundImage = require("../assets/background.png");
 export default function HomeScreen({ navigation }) {
   const [fontsLoaded] = useFonts({
     "Hylia-Serif": require("../assets/fonts/HyliaSerif.ttf"),
+    Roboto: require("../assets/fonts/Roboto.ttf"),
   });
 
   return (
@@ -62,10 +63,6 @@ export default function HomeScreen({ navigation }) {
             <Image source={require("../assets/beasts.png")} />
           </View>
         </View>
-        <Image
-          style={{ position: "absolute", right: 0, bottom: 150 }}
-          source={require("../assets/sword.png")}
-        />
       </ImageBackground>
     </View>
   );
@@ -73,25 +70,26 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    overflow: "hidden",
   },
   wrapper: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    marginHorizontal: 30,
   },
   titleContainer: {
-    position: "absolute",
-    top: 100,
+    marginTop: 70,
   },
   title: {
+    textAlign: "center",
     color: COLOR.WHITE,
     fontFamily: "Hylia-Serif",
-    fontSize: 60,
+    fontSize: 50,
     marginBottom: 20,
   },
   footerContainer: {
-    position: "absolute",
-    bottom: 50,
+    marginBottom: 30,
   },
   imageContainer: {
     width: "100%",
@@ -101,19 +99,18 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
-    alignItems: "center",
     justifyContent: "center",
+    width: "100%",
   },
   button: {
     flex: 1,
     flexDirection: "row",
-    alignItems: "center",
     justifyContent: "center",
     borderWidth: 1,
     borderColor: COLOR.ZELDA_BLUE,
     padding: 25,
     marginVertical: 5,
-    width: 350,
+    width: "100%",
   },
   buttonText: {
     fontSize: 25,

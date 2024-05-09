@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     alignItems: "center",
-    marginTop: 10,
-    marginBottom: 10,
+    marginVertical: 10,
+    marginHorizontal: 15,
   },
   button: {
     flex: 1,
@@ -77,12 +77,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderWidth: 1,
     borderColor: COLOR.ZELDA_BLUE,
-    padding: 10,
-    marginVertical: 5,
-    width: 300,
+    paddingVertical: 10,
+    width: "100%",
   },
   buttonText: {
-    fontSize: 15,
+    fontSize: 20,
     fontFamily: "Hylia-Serif",
     color: COLOR.ZELDA_BLUE,
   },
