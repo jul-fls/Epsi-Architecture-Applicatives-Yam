@@ -28,19 +28,23 @@ const Dice = ({
     6: IMAGE.DICE_6,
   };
 
+  const handleAnimationFinish = () => {
+    console.log("hello");
+    setIsAnimated(false);
+  };
   return (
     <TouchableOpacity
       style={[styles.dice, locked && styles.lockedDice]}
       onPress={handlePress}
       disabled={opponent}
     >
-      {isAnimated ? (
+      {isAnimated && !locked ? (
         <View style={styles.diceAnimationContainer}>
           <LottieView
             source={ANIMATION.DICE}
             styles={styles.diceAnimation}
             autoPlay
-            onAnimationFinish={() => setIsAnimated(false)}
+            onAnimationFinish={() => handleAnimationFinish()}
           />
         </View>
       ) : (
@@ -61,15 +65,15 @@ const styles = StyleSheet.create({
   dice: {
     width: 40,
     height: 40,
-    backgroundColor: COLOR.DARK_GREEN,
+    backgroundColor: COLOR.ZELDA_BLUE,
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
   },
   lockedDice: {
-    backgroundColor: COLOR.WHITE,
+    backgroundColor: COLOR.LOCKED,
     borderWidth: 1,
-    borderColor: COLOR.DARK_GREEN,
+    borderColor: COLOR.WHITE,
   },
   diceAnimationContainer: {
     paddingBottom: 10,

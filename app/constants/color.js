@@ -5,5 +5,6 @@ export const COLOR = {
   DARK_GREEN: "#44594A",
   LIGHT_GREEN: "#72947C",
   DARK_RED: "#A52A2A",
+  LOCKED: "#5C5C5C",
   TRANSPARENT: "rgba(0, 0, 0, 0.2)",
 };

@@ -16,7 +16,10 @@ const Choices = () => {
       setDisplayChoices(data["displayChoices"]);
       setCanMakeChoice(data["canMakeChoice"]);
       setIdSelectedChoice(data["idSelectedChoice"]);
-      setAvailableChoices(data["availableChoices"]);
+
+      setTimeout(() => {
+        setAvailableChoices(data["availableChoices"]);
+      }, 3500);
     });
   }, []);
 

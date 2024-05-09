@@ -9,16 +9,15 @@ import { SocketContext, socket } from "./app/contexts/socket.context";
 import OnlineGameScreen from "./app/screens/online-game.screen";
 import VsBotGameScreen from "./app/screens/vs-bot-game.screen";
 import { COLOR } from "./app/constants/color";
-
+import { IMAGE } from "./app/constants/asset.js";
 const Stack = createStackNavigator();
-const backgroundTextureImage = require("./app/assets/background_texture.png");
 LogBox.ignoreAllLogs(true);
 
 function App() {
   return (
     <SocketContext.Provider value={socket}>
       <ImageBackground
-        source={backgroundTextureImage}
+        source={IMAGE.BACKGROUND_TEXTURE}
         resizeMode="cover"
         style={styles.background}
       >

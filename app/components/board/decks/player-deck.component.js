@@ -1,8 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
-import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import { View, TouchableOpacity, Text, StyleSheet, Image } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
 import Dice from "./dice.component";
 import { COLOR } from "../../../constants/color";
+import { IMAGE } from "../../../constants/asset";
 
 const PlayerDeck = () => {
   const socket = useContext(SocketContext);
@@ -48,7 +49,9 @@ const PlayerDeck = () => {
             <>
               <View style={styles.rollInfoContainer}>
                 <Text style={styles.rollInfoText}>
-                  Lancer {rollsCounter} / {rollsMaximum}
+                  Lancer{" "}
+                  <Text style={{ fontWeight: "bold" }}>{rollsCounter}</Text> /{" "}
+                  {rollsMaximum}
                 </Text>
               </View>
             </>
@@ -71,6 +74,7 @@ const PlayerDeck = () => {
           {displayRollButton && rollsCounter <= rollsMaximum && (
             <>
               <TouchableOpacity style={styles.rollButton} onPress={rollDices}>
+                <Image style={{ marginRight: 10 }} source={IMAGE.ARROW_RIGHT} />
                 <Text style={styles.rollButtonText}>ROLL</Text>
               </TouchableOpacity>
             </>
@@ -95,14 +99,35 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 10,
   },
-  rollButtonText: {
-    backgroundColor: COLOR.DARK_GREEN,
-    padding: 10,
-    borderBlockColor: COLOR.ZELDA_PRIMARY,
-    borderRadius: 5,
+  rollInfoText: {
     color: COLOR.WHITE,
+    fontFamily: "roboto",
+    fontSize: 15,
+    padding: 5,
+    borderWidth: 1,
+    borderColor: COLOR.WHITE,
+    marginBottom: 5,
+  },
+  rollButton: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: COLOR.TRANSPARENT,
+    padding: 5,
+    borderWidth: 1,
+    borderColor: COLOR.ZELDA_BLUE,
+    borderRadius: 5,
+    width: 100,
+    marginBottom: 5,
+  },
+
+  rollButtonText: {
+    color: COLOR.ZELDA_BLUE,
     fontWeight: "bold",
-    fontFamily: "Arial",
+    fontFamily: "Hylia-Serif",
+    fontSize: 15,
+    textAlign: "center",
   },
 });
 
