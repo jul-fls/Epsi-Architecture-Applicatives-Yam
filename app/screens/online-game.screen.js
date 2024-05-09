@@ -42,7 +42,7 @@ export default function OnlineGameScreen({ navigation }) {
               >
                 <Image
                   style={{ marginRight: 10 }}
-                  source={require("../assets/battle.png")}
+                  source={require("../assets/button_accessory.png")}
                 />
                 <Text style={styles.buttonText}>Revenir au menu</Text>
               </TouchableOpacity>

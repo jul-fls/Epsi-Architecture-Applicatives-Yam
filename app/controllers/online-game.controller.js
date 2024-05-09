@@ -56,7 +56,7 @@ export default function OnlineGameController() {
                   En attendant un autre joueur ...
                 </Text>
               </View>
-              <View style={styles.diceLoadingAnimationContainer}>
+              <View>
                 <LottieView source={diceLoadingAnimation} autoPlay loop />
               </View>
               <View style={styles.tipsContainer}>
@@ -102,14 +102,14 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto",
     marginBottom: 10,
   },
-  diceLoadingAnimationContainer: {},
   tipsContainer: {
     borderWidth: 1,
     borderColor: COLOR.WHITE,
+    borderRadius: 5,
+    padding: 5,
     backgroundColor: COLOR.TRANSPARENT,
     width: "100%",
-    position: "absolute",
-    bottom: 30,
+    marginTop: 30,
   },
   tips: {
     fontSize: 15,
