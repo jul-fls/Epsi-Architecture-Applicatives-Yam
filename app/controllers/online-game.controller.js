@@ -1,41 +1,42 @@
 // <app/controller / online - game.controller.js
 
 import React, { useEffect, useState, useContext } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ImageBackground,
-  ActivityIndicator,
-} from "react-native";
+import { StyleSheet, Text, View, ImageBackground } from "react-native";
 import { SocketContext } from "../contexts/socket.context";
 import Board from "../components/board/board.component";
 import LottieView from "lottie-react-native";
 import { COLOR } from "../constants/color";
-
-const backgroundImage = require("../assets/background.png");
-const diceLoadingAnimation = require("../assets/lottie/dice_loading.json");
+import { DID_YOU_KNOW } from "../constants/text";
+import { IMAGE, ANIMATION } from "../constants/asset";
 
 export default function OnlineGameController() {
   const socket = useContext(SocketContext);
   const [inQueue, setInQueue] = useState(false);
   const [inGame, setInGame] = useState(false);
   const [idOpponent, setIdOpponent] = useState(null);
-  useEffect(() => {
-    socket.emit("queue.join");
-    setInQueue(false);
-    setInGame(false);
 
-    socket.on("queue.added", (data) => {
-      setInQueue(data["inQueue"]);
-      setInGame(data["inGame"]);
-    });
-    socket.on("game.start", (data) => {
-      setInQueue(data["inQueue"]);
-      setInGame(data["inGame"]);
-      setIdOpponent(data["idOpponent"]); // player1 id or player2 id
-    });
-  }, []);
+  const randomIndex = Math.floor(Math.random() * 11);
+  const [tipText, setTipText] = useState(DID_YOU_KNOW[randomIndex]);
+
+  setInterval(() => {
+    const randomIndex = Math.floor(Math.random() * 11);
+    setTipText(DID_YOU_KNOW[randomIndex]);
+  }, 20000),
+    useEffect(() => {
+      socket.emit("queue.join");
+      setInQueue(false);
+      setInGame(false);
+
+      socket.on("queue.added", (data) => {
+        setInQueue(data["inQueue"]);
+        setInGame(data["inGame"]);
+      });
+      socket.on("game.start", (data) => {
+        setInQueue(data["inQueue"]);
+        setInGame(data["inGame"]);
+        setIdOpponent(data["idOpponent"]); // player1 id or player2 id
+      });
+    }, []);
   return (
     <View style={styles.container}>
       {!inQueue && !inGame && (
@@ -46,22 +47,29 @@ export default function OnlineGameController() {
       {inQueue && (
         <>
           <ImageBackground
-            source={backgroundImage}
+            source={IMAGE.BACKGROUND}
             resizeMode="stretch"
             style={styles.background}
           >
             <View style={styles.informationContainer}>
+              <View style={{ width: 100 }}>
+                <LottieView source={ANIMATION.BORED} autoPlay loop />
+              </View>
               <View>
                 <Text style={styles.paragraph}>
                   En attendant un autre joueur ...
                 </Text>
               </View>
               <View>
-                <LottieView source={diceLoadingAnimation} autoPlay loop />
+                <LottieView source={ANIMATION.DICE_LOADING} autoPlay loop />
               </View>
               <View style={styles.tipsContainer}>
-                <Text style={styles.tips}>
-                  Saviez-vous que le jeu de Yam's a été créé par Milton Bradley
+                <Text style={styles.tipsTitle}>LE SAVIEZ-VOUS ?</Text>
+                <Text style={[styles.tips, styles.tipsQuestion]}>
+                  QUESTION : {tipText.QUESTION}
+                </Text>
+                <Text style={[styles.tips, styles.tipsResponse]}>
+                  RESPONSE : {tipText.RESPONSE}
                 </Text>
               </View>
             </View>
@@ -81,7 +89,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLOR.ZELDA_PRIMARY,
     alignItems: "center",
-    justifyContent: "center",
     width: "100%",
     height: "100%",
   },
@@ -100,6 +107,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: COLOR.WHITE,
     fontFamily: "Roboto",
+    textAlign: "center",
+    marginTop: 30,
     marginBottom: 10,
   },
   tipsContainer: {
@@ -115,6 +124,23 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: COLOR.WHITE,
     fontFamily: "Roboto",
+    textAlign: "left",
+  },
+  tipsTitle: {
+    fontSize: 20,
+    color: COLOR.ZELDA_BLUE,
+    fontFamily: "Hylia-Serif",
     textAlign: "center",
+  },
+  tipsQuestion: {
+    paddingTop: 10,
+    paddingBottom: 5,
+    fontWeight: "bold",
+  },
+  tipsResponse: {
+    paddingTop: 5,
+    paddingBottom: 10,
+    fontWeight: "normal",
+    fontStyle: "italic",
   },
 });

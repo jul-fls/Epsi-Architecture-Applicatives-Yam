@@ -10,8 +10,7 @@ import {
 } from "react-native";
 import { COLOR } from "../constants/color";
 import { useFonts } from "expo-font";
-
-const backgroundImage = require("../assets/background.png");
+import { IMAGE } from "../constants/asset";
 
 export default function HomeScreen({ navigation }) {
   const [fontsLoaded] = useFonts({
@@ -22,7 +21,7 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={backgroundImage}
+        source={IMAGE.BACKGROUND}
         resizeMode="stretch"
         style={styles.background}
       >
@@ -30,22 +29,19 @@ export default function HomeScreen({ navigation }) {
           <View style={styles.titleContainer}>
             <Text style={styles.title}>YAM MASTER</Text>
             <View style={styles.imageContainer}>
-              <Image source={require("../assets/dices.png")} />
+              <Image source={IMAGE.DICES} />
             </View>
           </View>
           <View style={styles.buttonContainer}>
             <View style={styles.symbolFrameContainer}>
-              <Image source={require("../assets/symbol_frame.png")} />
+              <Image source={IMAGE.SYMBOL_FRAME} />
             </View>
             <View>
               <TouchableOpacity
                 onPress={() => navigation.navigate("OnlineGameScreen")}
                 style={styles.button}
               >
-                <Image
-                  style={{ marginRight: 10 }}
-                  source={require("../assets/battle.png")}
-                />
+                <Image style={{ marginRight: 10 }} source={IMAGE.BATTLE} />
                 <Text style={styles.buttonText}>Jouer en ligne</Text>
               </TouchableOpacity>
             </View>
@@ -54,19 +50,16 @@ export default function HomeScreen({ navigation }) {
                 onPress={() => navigation.navigate("VsBotGameScreen")}
                 style={styles.button}
               >
-                <Image
-                  style={{ marginRight: 10 }}
-                  source={require("../assets/battle.png")}
-                />
+                <Image style={{ marginRight: 10 }} source={IMAGE.BATTLE} />
                 <Text style={styles.buttonText}>Jouer contre le bot</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.symbolFrameContainer}>
-              <Image source={require("../assets/symbol_frame.png")} />
+              <Image source={IMAGE.SYMBOL_FRAME} />
             </View>
           </View>
           <View style={styles.imageContainer && styles.footerContainer}>
-            <Image source={require("../assets/beasts.png")} />
+            <Image source={IMAGE.BEASTS} />
           </View>
         </View>
       </ImageBackground>

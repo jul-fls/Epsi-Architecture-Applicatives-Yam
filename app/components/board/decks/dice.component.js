@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Image, View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import LottieView from "lottie-react-native";
 import { COLOR } from "../../../constants/color";
+import { ANIMATION, IMAGE } from "../../../constants/asset";
 
 const Dice = ({
   index,
@@ -18,14 +19,13 @@ const Dice = ({
     }
   };
 
-  const diceAnimation = require("../../../assets/lottie/dice.json");
   const diceImages = {
-    1: require("../../../assets/dice_1.png"),
-    2: require("../../../assets/dice_2.png"),
-    3: require("../../../assets/dice_3.png"),
-    4: require("../../../assets/dice_4.png"),
-    5: require("../../../assets/dice_5.png"),
-    6: require("../../../assets/dice_6.png"),
+    1: IMAGE.DICE_1,
+    2: IMAGE.DICE_2,
+    3: IMAGE.DICE_3,
+    4: IMAGE.DICE_4,
+    5: IMAGE.DICE_5,
+    6: IMAGE.DICE_6,
   };
 
   return (
@@ -37,7 +37,7 @@ const Dice = ({
       {isAnimated ? (
         <View style={styles.diceAnimationContainer}>
           <LottieView
-            source={diceAnimation}
+            source={ANIMATION.DICE}
             styles={styles.diceAnimation}
             autoPlay
             onAnimationFinish={() => setIsAnimated(false)}
