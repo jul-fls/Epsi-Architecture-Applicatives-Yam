@@ -17,8 +17,6 @@ const GAME_INIT = {
   gameState: {
     currentTurn: "player:1",
     timer: TURN_DURATION,
-    player1Count: 0,
-    player2Count: 0,
     player1Score: 0,
     player2Score: 0,
     player1Tokens: MAX_TOKENS,
@@ -475,14 +473,9 @@ const GameService = {
     // },
 
     calculateScoreHorizontal: (gameState) => {
-      // Initialize consecutive counts with gameState values
-      let consecutiveCount = {
-        "player:1": gameState.player1Count,
-        "player:2": gameState.player2Count,
-      };
-
       GameService.victory.checkVictoryHorizontal(gameState.grid);
 
+      let scoreToAdd = 0;
       for (let row = 0; row < gameState.grid.length; row++) {
         for (
           let col = 0;
@@ -500,7 +493,7 @@ const GameService = {
                   gameState.grid[row][col].owner === gameState.grid[row][col + 1].owner &&
                   gameState.grid[row][col + 1].owner === gameState.grid[row][col + 2].owner
                 ) {
-                  consecutiveCount["player:1"] = 1;
+                  scoreToAdd = 1;
                 }
               } else {
                 if (
@@ -509,7 +502,7 @@ const GameService = {
                   gameState.grid[row][col + 1].owner === gameState.grid[row][col + 2].owner &&
                   gameState.grid[row][col + 2].owner === gameState.grid[row][col + 3].owner
                 ) {
-                  consecutiveCount["player:1"] = 2;
+                  scoreToAdd = 2;
                   break;
                 }
                 if (
@@ -517,7 +510,7 @@ const GameService = {
                   gameState.grid[row][col].owner === gameState.grid[row][col + 1].owner &&
                   gameState.grid[row][col + 1].owner === gameState.grid[row][col + 2].owner
                 ) {
-                  consecutiveCount["player:1"] = 1;
+                  scoreToAdd = 1;
                 }
               }
               // Check if the owner is player 2
@@ -531,7 +524,7 @@ const GameService = {
                   gameState.grid[row][col].owner === gameState.grid[row][col + 1].owner &&
                   gameState.grid[row][col + 1].owner === gameState.grid[row][col + 2].owner
                 ) {
-                  consecutiveCount["player:2"] = 1;
+                  scoreToAdd = 1;
                 }
               } else {
                 // For example : [0,0], [0,1], [0,2], [0,3] // [0,1], [0,2], [0,3], [0,4]
@@ -540,7 +533,7 @@ const GameService = {
                   gameState.grid[row][col + 1].owner === gameState.grid[row][col + 2].owner &&
                   gameState.grid[row][col + 2].owner === gameState.grid[row][col + 3].owner
                 ) {
-                  consecutiveCount["player:2"] = 2;
+                  scoreToAdd = 2;
                   break;
                 }
                 // For example : [0,0], [0,1], [0,2] // [0,1], [0,2], [0,3]
@@ -548,7 +541,7 @@ const GameService = {
                   gameState.grid[row][col].owner === gameState.grid[row][col + 1].owner &&
                   gameState.grid[row][col + 1].owner === gameState.grid[row][col + 2].owner
                 ) {
-                  consecutiveCount["player:2"] = 1;
+                  scoreToAdd = 1;
                 }
               }
             }
@@ -556,15 +549,19 @@ const GameService = {
         }
       }
 
-      console.log("horizontal score : ", consecutiveCount);
+      if(gameState.currentTurn === "player:1") {
+        gameState.player1Score += scoreToAdd;
+      } else {
+        gameState.player2Score += scoreToAdd;
+      }
+      console.log("-----------------------------------------------------------------------------------------------");
+      console.log("horizontal score to add to ", gameState.currentTurn, " : ", scoreToAdd);
+      console.log("Global score of player 1 : ", gameState.player1Score);
+      console.log("Global score of player 2 : ", gameState.player2Score);
     },
     calculateScoreVertical: (gameState) => {
-      let consecutiveCount = {
-        "player:1": gameState.player1Count,
-        "player:2": gameState.player2Count,
-      };
       const gridColLength = gameState.grid[0].length;
-
+      let scoreToAdd = 0;
       GameService.victory.checkVictoryVertical(gameState.grid);
 
       for (let col = 0; col < gridColLength; col++) {
@@ -581,7 +578,7 @@ const GameService = {
                   gameState.grid[row][col].owner === gameState.grid[row + 1][col].owner &&
                   gameState.grid[row + 1][col].owner === gameState.grid[row + 2][col].owner
                 ) {
-                  consecutiveCount["player:1"] = 1;
+                  scoreToAdd = 1;
                 }
               } else {
                 if (
@@ -590,7 +587,7 @@ const GameService = {
                   gameState.grid[row + 1][col].owner === gameState.grid[row + 2][col].owner &&
                   gameState.grid[row + 2][col].owner === gameState.grid[row + 3][col].owner
                 ) {
-                  consecutiveCount["player:1"] = 2;
+                  scoreToAdd = 2;
                   break;
                 }
                 if (
@@ -598,7 +595,7 @@ const GameService = {
                   gameState.grid[row][col].owner === gameState.grid[row + 1][col].owner &&
                   gameState.grid[row + 1][col].owner === gameState.grid[row + 2][col].owner
                 ) {
-                  consecutiveCount["player:1"] = 1;
+                  scoreToAdd = 1;
                 }
               }
               // Check if the owner is player 2
@@ -610,7 +607,7 @@ const GameService = {
                   gameState.grid[row][col].owner === gameState.grid[row + 1][col].owner &&
                   gameState.grid[row + 1][col].owner === gameState.grid[row + 2][col].owner
                 ) {
-                  consecutiveCount["player:2"] = 1;
+                  scoreToAdd = 1;
                 }
               } else {
                 if (
@@ -619,7 +616,7 @@ const GameService = {
                   gameState.grid[row + 1][col].owner === gameState.grid[row + 2][col].owner &&
                   gameState.grid[row + 2][col].owner === gameState.grid[row + 3][col].owner
                 ) {
-                  consecutiveCount["player:2"] = 2;
+                  scoreToAdd = 2;
                   break;
                 }
                 if (
@@ -627,7 +624,7 @@ const GameService = {
                   gameState.grid[row][col].owner === gameState.grid[row + 1][col].owner &&
                   gameState.grid[row + 1][col].owner === gameState.grid[row + 2][col].owner
                 ) {
-                  consecutiveCount["player:2"] = 1;
+                  scoreToAdd = 1;
                 }
               }
             }
@@ -635,119 +632,162 @@ const GameService = {
         }
       }
 
-      console.log("vertical score : ", consecutiveCount);
-    },
-    calculateScoreDiagonal: (gameState) => {
-      let consecutiveCount = {
-        "player:1": gameState.player1Count,
-        "player:2": gameState.player2Count,
-      };
-      const gridColLength = gameState.grid[0].length;
-
-      GameService.victory.checkVictoryDiagonal(gameState.grid);
-
-      let player1OwnedCells = [];
-
-      for (let row = 0; row < gameState.grid.length; row++) {
-        for (let col = 0; col < gameState.grid; col++) {
-          // If row and col are the same and the cell has an owner
-          if (gameState.grid[row][col].owner) {
-            // Check if the owner is player 1
-            if (gameState.grid[row][col].owner === "player:1") {
-              player1OwnedCells.push({
-                index: [row, col],
-                grid: gameState.grid[row][col],
-              });
-              // break;
-            }
-
-            // Check if the owner is player 2
-            if (gameState.grid[row][col].owner === "player:2") {
-              player2OwnedCells.push({
-                index: [row, col],
-                grid: grid[row][col],
-              });
-              // break;
-            }
-          }
-        }
+      if(gameState.currentTurn === "player:1") {
+        gameState.player1Score += scoreToAdd;
+      } else {
+        gameState.player2Score += scoreToAdd;
       }
+      console.log("-----------------------------------------------------------------------------------------------");
+      console.log("vertical score to add to ", gameState.currentTurn, " : ", scoreToAdd);
+      console.log("Global score of player 1 : ", gameState.player1Score);
+      console.log("Global score of player 2 : ", gameState.player2Score);
+    },
+    calculateScoreDiagonal: (gameState, lastRowIndex, lastColIndex) => {
+      const currentPlayer = gameState.currentTurn;
+      let scoreToAdd = 0;
 
-      const player1OwnedCellsIndexes = player1OwnedCells.map(
-        (cell) => cell.index
-      );
+      // Gather diagonals from bottom-left to top-right (incremental score)
+      const diagonalBLtoTR = GameService.score.gatherDiagonal(gameState, lastRowIndex, lastColIndex, 1, -1);
+      scoreToAdd += GameService.score.calculatePointsFromDiagonal(diagonalBLtoTR, currentPlayer);
 
-      const diagonalSequencesLength3 = GameService.score.getDiagonalSequences(
-        5,
-        3
-      );
-      const diagonalSequencesLength4 = GameService.score.getDiagonalSequences(
-        5,
-        4
-      );
+      // Gather diagonals from top-left to bottom-right (incremental score)
+      const diagonalTLtoBR = GameService.score.gatherDiagonal(gameState, lastRowIndex, lastColIndex, 1, 1);
+      scoreToAdd += GameService.score.calculatePointsFromDiagonal(diagonalTLtoBR, currentPlayer);
 
-      console.log("Diagonal Sequences Length 3:", diagonalSequencesLength3);
-      console.log("Diagonal Sequences Length 4:", diagonalSequencesLength4);
-
-      const player1Combinations3 =
-        GameService.utils.generateCombinationsFromArray(
-          player1OwnedCellsIndexes,
-          3
-        );
-
-      const player1Combinations4 =
-        GameService.utils.generateCombinationsFromArray(
-          player1OwnedCellsIndexes,
-          4
-        );
-
-      let point = 1;
-      diagonalSequencesLength3.forEach((sequence) => {
-        player1Combinations3.forEach((combination) => {
-          if (JSON.stringify(combination) === JSON.stringify(sequence)) {
-            consecutiveCount["player:1"] = point++;
-          }
-        });
-      });
-
-      diagonalSequencesLength4.forEach((sequence) => {
-        player1Combinations4.forEach((combination) => {
-          if (JSON.stringify(combination) === JSON.stringify(sequence)) {
-            consecutiveCount["player:1"] = point++ - 1;
-          }
-        });
-      });
-
-      console.log("diagonal score : ", consecutiveCount);
+      // Update the player's score
+      GameService.score.updatePlayerScore(gameState, scoreToAdd, "diagonal");
+    },
+    // Calculate the score points based on the alignment count
+    calculatePoints: (count) => {
+      if (count >= 4) return 2;
+      if (count == 3) return 1;
+      return 0;
     },
 
-    getDiagonalSequences: (gridSize, sequenceLength) => {
-      const sequences = [];
+    // Calculate points from a diagonal array of cells
+    calculatePointsFromDiagonal: (cells, currentPlayer) => {
+      let count = 0;
+      let points = 0;
 
-      // Iterate over each cell in the grid
-      for (let i = 0; i < gridSize; i++) {
-        for (let j = 0; j < gridSize; j++) {
-          // Check for diagonals starting from this cell
-          const diagonal1 = [];
-          const diagonal2 = [];
-          for (let k = 0; k < sequenceLength; k++) {
-            if (i + k < gridSize && j + k < gridSize) {
-              diagonal1.push([i + k, j + k]);
-            }
-            if (i + k < gridSize && j - k >= 0) {
-              diagonal2.push([i + k, j - k]);
-            }
-          }
-          if (diagonal1.length === sequenceLength) {
-            sequences.push(diagonal1);
-          }
-          if (diagonal2.length === sequenceLength) {
-            sequences.push(diagonal2);
-          }
+      cells.forEach((cell) => {
+        if (cell.owner === currentPlayer) {
+          count++;
+        } else {
+          points += GameService.score.calculatePoints(count);
+          count = 0;
         }
+      });
+
+      points += GameService.score.calculatePoints(count); // Final count
+      return points;
+    },
+
+    // Update the player's score
+    updatePlayerScore: (gameState, newScore, scoreType) => {
+      const previousScore = gameState.currentTurn === "player:1" ? gameState.player1Score : gameState.player2Score;
+      const scoreDifference = newScore - previousScore;
+
+      if (gameState.currentTurn === "player:1") {
+        gameState.player1Score += scoreDifference;
+      } else {
+        gameState.player2Score += scoreDifference;
       }
 
-      return sequences;
+      console.log(`-----------------------------------------------------------------------------------------------`);
+      console.log(`${scoreType} score to add to`, gameState.currentTurn, ":", scoreDifference);
+      console.log("Global score of player 1:", gameState.player1Score);
+      console.log("Global score of player 2:", gameState.player2Score);
+    },
+
+    detectAlignmentTypeAndScore: (gameState, lastRowIndex, lastColIndex) => {
+      const currentPlayer = gameState.currentTurn;
+      let isHorizontal = false;
+      let isVertical = false;
+      let isDiagonal = false;
+    
+      // Check horizontal alignment (row-based)
+      const row = gameState.grid[lastRowIndex];
+      if (
+        GameService.score.checkAlignment(row.map(cell => cell.owner === currentPlayer), lastColIndex)
+      ) {
+        isHorizontal = true;
+      }
+    
+      // Check vertical alignment (column-based)
+      const column = gameState.grid.map(row => row[lastColIndex].owner === currentPlayer);
+      if (GameService.score.checkAlignment(column, lastRowIndex)) {
+        isVertical = true;
+      }
+    
+      // Check diagonals (Top-left to Bottom-right)
+      const diagonalTLtoBR = GameService.score.gatherDiagonal(gameState, lastRowIndex, lastColIndex, 1, 1);
+      if (GameService.score.checkAlignment(diagonalTLtoBR.map(cell => cell.owner === currentPlayer), diagonalTLtoBR.findIndex(cell => cell.row === lastRowIndex && cell.col === lastColIndex))) {
+        isDiagonal = true;
+      }
+    
+      // Check diagonals (Bottom-left to Top-right)
+      const diagonalBLtoTR = GameService.score.gatherDiagonal(gameState, lastRowIndex, lastColIndex, 1, -1);
+      if (GameService.score.checkAlignment(diagonalBLtoTR.map(cell => cell.owner === currentPlayer), diagonalBLtoTR.findIndex(cell => cell.row === lastRowIndex && cell.col === lastColIndex))) {
+        isDiagonal = true;
+      }
+    
+      // Calculate score based on detected alignment type
+      if (isHorizontal) {
+        GameService.score.calculateScoreHorizontal(gameState);
+      }
+      if (isVertical) {
+        GameService.score.calculateScoreVertical(gameState);
+      }
+      if (isDiagonal) {
+        GameService.score.calculateScoreDiagonal(gameState, lastRowIndex, lastColIndex);
+      }
+    },
+    
+    // Helper function to check alignment in an array
+    checkAlignment: (alignmentArray, centralIndex) => {    
+      let left = centralIndex - 1;
+      let right = centralIndex + 1;
+      let count = 1;
+    
+      // Check consecutive tokens to the left
+      while (left >= 0 && alignmentArray[left]) {
+        count++;
+        left--;
+      }
+    
+      // Check consecutive tokens to the right
+      while (right < alignmentArray.length && alignmentArray[right]) {
+        count++;
+        right++;
+      }
+    
+      // Determine if the alignment matches the minimum requirement
+      return count >= MINIMUM_ALIGNED_TOKENS;
+    },
+    
+    // Helper function to gather diagonals based on an incremental direction
+    gatherDiagonal: (gameState, startRow, startCol, rowIncrement, colIncrement) => {
+      const diagonal = [];
+      let row = startRow;
+      let col = startCol;
+
+      // Move backward to the start of the diagonal
+      while (row >= 0 && col >= 0 && row < gameState.grid.length && col < gameState.grid[0].length) {
+        diagonal.unshift({ row, col, owner: gameState.grid[row][col].owner });
+        row -= rowIncrement;
+        col -= colIncrement;
+      }
+
+      // Move forward to extend the diagonal
+      row = startRow + rowIncrement;
+      col = startCol + colIncrement;
+      while (row >= 0 && col >= 0 && row < gameState.grid.length && col < gameState.grid[0].length) {
+        diagonal.push({ row, col, owner: gameState.grid[row][col].owner });
+        row += rowIncrement;
+        col += colIncrement;
+      }
+
+      return diagonal;
     },
   },
 
