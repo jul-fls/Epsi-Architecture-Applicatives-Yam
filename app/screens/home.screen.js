@@ -34,6 +34,9 @@ export default function HomeScreen({ navigation }) {
             </View>
           </View>
           <View style={styles.buttonContainer}>
+            <View style={styles.symbolFrameContainer}>
+              <Image source={require("../assets/symbol_frame.png")} />
+            </View>
             <View>
               <TouchableOpacity
                 onPress={() => navigation.navigate("OnlineGameScreen")}
@@ -58,6 +61,9 @@ export default function HomeScreen({ navigation }) {
                 <Text style={styles.buttonText}>Jouer contre le bot</Text>
               </TouchableOpacity>
             </View>
+            <View style={styles.symbolFrameContainer}>
+              <Image source={require("../assets/symbol_frame.png")} />
+            </View>
           </View>
           <View style={styles.imageContainer && styles.footerContainer}>
             <Image source={require("../assets/beasts.png")} />
@@ -77,6 +83,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginHorizontal: 30,
+  },
+  symbolFrameContainer: {
+    alignSelf: "center",
+    marginVertical: 10,
   },
   titleContainer: {
     marginTop: 70,
