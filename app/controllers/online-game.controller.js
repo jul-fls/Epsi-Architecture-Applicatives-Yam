@@ -1,7 +1,7 @@
 // <app/controller / online - game.controller.js
 
 import React, { useEffect, useState, useContext } from "react";
-import { StyleSheet, Text, View, ImageBackground } from "react-native";
+import { StyleSheet, Text, View, ImageBackground, Image } from "react-native";
 import { SocketContext } from "../contexts/socket.context";
 import Board from "../components/board/board.component";
 import LottieView from "lottie-react-native";
@@ -41,7 +41,7 @@ export default function OnlineGameController() {
     <View style={styles.container}>
       {!inQueue && !inGame && (
         <>
-          <Text style={styles.paragraph}>Waiting for server datas...</Text>
+          <Text style={styles.waitingTitle}>Waiting for server datas...</Text>
         </>
       )}
       {inQueue && (
@@ -52,24 +52,32 @@ export default function OnlineGameController() {
             style={styles.background}
           >
             <View style={styles.informationContainer}>
-              <View style={{ width: 100 }}>
-                <LottieView source={ANIMATION.BORED} autoPlay loop />
-              </View>
+              <View></View>
               <View>
-                <Text style={styles.paragraph}>
-                  En attendant un autre joueur ...
+                <Text style={styles.waitingTitle}>
+                  En attendant un autre joueur
                 </Text>
               </View>
-              <View>
+              <View style={{ width: 150 }}>
                 <LottieView source={ANIMATION.DICE_LOADING} autoPlay loop />
               </View>
               <View style={styles.tipsContainer}>
-                <Text style={styles.tipsTitle}>LE SAVIEZ-VOUS ?</Text>
+                <View>
+                  <Image
+                    style={{ alignSelf: "center" }}
+                    source={IMAGE.TEXT_FRAME}
+                  />
+                  <Text style={styles.tipsTitle}>LE SAVIEZ-VOUS ?</Text>
+                  <Image
+                    style={{ alignSelf: "center" }}
+                    source={IMAGE.TEXT_FRAME}
+                  />
+                </View>
                 <Text style={[styles.tips, styles.tipsQuestion]}>
-                  QUESTION : {tipText.QUESTION}
+                  {tipText.QUESTION}
                 </Text>
                 <Text style={[styles.tips, styles.tipsResponse]}>
-                  RESPONSE : {tipText.RESPONSE}
+                  {tipText.RESPONSE}
                 </Text>
               </View>
             </View>
@@ -89,7 +97,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLOR.ZELDA_PRIMARY,
     alignItems: "center",
-    width: "100%",
     height: "100%",
   },
   background: {
@@ -99,45 +106,43 @@ const styles = StyleSheet.create({
   },
   informationContainer: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
     marginHorizontal: 30,
+    marginBottom: 30,
   },
-  paragraph: {
-    fontSize: 20,
+  waitingTitle: {
+    marginTop: 40,
+    fontSize: 25,
     color: COLOR.WHITE,
     fontFamily: "Roboto",
     textAlign: "center",
-    marginTop: 30,
-    marginBottom: 10,
   },
   tipsContainer: {
-    borderWidth: 1,
-    borderColor: COLOR.WHITE,
     borderRadius: 5,
     padding: 5,
     backgroundColor: COLOR.TRANSPARENT,
     width: "100%",
-    marginTop: 30,
-  },
-  tips: {
-    fontSize: 15,
-    color: COLOR.WHITE,
-    fontFamily: "Roboto",
-    textAlign: "left",
   },
   tipsTitle: {
-    fontSize: 20,
+    fontSize: 21,
     color: COLOR.ZELDA_BLUE,
     fontFamily: "Hylia-Serif",
     textAlign: "center",
   },
+  tips: {
+    color: COLOR.WHITE,
+    fontFamily: "Roboto",
+    textAlign: "left",
+  },
   tipsQuestion: {
+    fontSize: 20,
     paddingTop: 10,
     paddingBottom: 5,
     fontWeight: "bold",
   },
   tipsResponse: {
+    fontSize: 18,
     paddingTop: 5,
     paddingBottom: 10,
     fontWeight: "normal",

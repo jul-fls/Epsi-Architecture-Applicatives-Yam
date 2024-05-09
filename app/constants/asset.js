@@ -6,10 +6,15 @@ export const ANIMATION = {
 
 export const IMAGE = {
   BACKGROUND: require("../assets/background.png"),
+  BACKGROUND_TEXTURE: require("../assets/background_texture.png"),
   SYMBOL_FRAME: require("../assets/symbol_frame.png"),
   DICES: require("../assets/dices.png"),
   BEASTS: require("../assets/beasts.png"),
   BATTLE: require("../assets/battle.png"),
+  BUTTON_ACCESSORY: require("../assets/button_accessory.png"),
+  TEXT_FRAME: require("../assets/text_frame.png"),
+  TEXT_FRAME_LEFT: require("../assets/text_frame_left.png"),
+  TEXT_FRAME_RIGHT: require("../assets/text_frame_right.png"),
 
   DICE_1: require("../assets/dice_1.png"),
   DICE_2: require("../assets/dice_2.png"),

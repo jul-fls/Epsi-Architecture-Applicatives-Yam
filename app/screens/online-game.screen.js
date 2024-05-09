@@ -12,15 +12,14 @@ import {
 } from "react-native";
 import { SocketContext } from "../contexts/socket.context";
 import { COLOR } from "../constants/color";
-
-const backgroundTextureImage = require("../assets/background_texture.png");
+import { IMAGE } from "../constants/asset";
 
 export default function OnlineGameScreen({ navigation }) {
   const socket = useContext(SocketContext);
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={backgroundTextureImage}
+        source={IMAGE.BACKGROUND_TEXTURE}
         resizeMode="cover"
         style={styles.background}
       >
@@ -42,7 +41,7 @@ export default function OnlineGameScreen({ navigation }) {
               >
                 <Image
                   style={{ marginRight: 10 }}
-                  source={require("../assets/button_accessory.png")}
+                  source={IMAGE.BUTTON_ACCESSORY}
                 />
                 <Text style={styles.buttonText}>Revenir au menu</Text>
               </TouchableOpacity>
