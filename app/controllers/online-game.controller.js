@@ -1,12 +1,19 @@
 // <app/controller / online - game.controller.js
 
 import React, { useEffect, useState, useContext } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  ActivityIndicator,
+} from "react-native";
 import { SocketContext } from "../contexts/socket.context";
 import Board from "../components/board/board.component";
 import { COLOR } from "../constants/color";
 
 export default function OnlineGameController() {
+  const backgroundImage = require("../assets/background.png");
   const socket = useContext(SocketContext);
   const [inQueue, setInQueue] = useState(false);
   const [inGame, setInGame] = useState(false);
@@ -35,7 +42,18 @@ export default function OnlineGameController() {
       )}
       {inQueue && (
         <>
-          <Text style={styles.paragraph}>Waiting for another player...</Text>
+          <ImageBackground
+            source={backgroundImage}
+            resizeMode="stretch"
+            style={styles.background}
+          >
+            <View style={styles.paragraphContainer}>
+              <Text style={styles.paragraph}>
+                Waiting for another player...
+              </Text>
+              <ActivityIndicator size="large" color={COLOR.ZELDA_BLUE} />
+            </View>
+          </ImageBackground>
         </>
       )}
       {inGame && (
@@ -55,7 +73,18 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
+  background: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+  },
+  paragraphContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   paragraph: {
     fontSize: 16,
+    color: COLOR.WHITE,
   },
 });
