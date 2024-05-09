@@ -19,13 +19,22 @@ function App() {
     <SocketContext.Provider value={socket}>
       <NavigationContainer
         theme={{
-          colors: { background: COLOR.ZELDA_PRIMARY, border: COLOR.DARK_GREEN },
+          colors: { background: COLOR.ZELDA_PRIMARY, border: COLOR.ZELDA_BLUE },
         }}
       >
         <Stack.Navigator initialRouteName="HomeScreen">
-          <Stack.Screen name="HomeScreen" component={HomeScreen} />
-          <Stack.Screen name="OnlineGameScreen" component={OnlineGameScreen} />
-          <Stack.Screen name="VsBotGameScreen" component={VsBotGameScreen} />
+          <Stack.Group screenOptions={{}}>
+            <Stack.Screen
+              name="HomeScreen"
+              component={HomeScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="OnlineGameScreen"
+              component={OnlineGameScreen}
+            />
+            <Stack.Screen name="VsBotGameScreen" component={VsBotGameScreen} />
+          </Stack.Group>
         </Stack.Navigator>
       </NavigationContainer>
     </SocketContext.Provider>
