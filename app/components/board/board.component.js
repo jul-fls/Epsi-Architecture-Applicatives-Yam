@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     borderBottomWidth: 1,
-    borderColor: "black",
+    borderColor: COLOR.DARK_GREEN,
   },
   opponentTimerScoreContainer: {
     flex: 4, // increased flex to provide more space

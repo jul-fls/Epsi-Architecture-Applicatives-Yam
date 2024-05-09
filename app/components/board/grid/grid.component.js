@@ -1,6 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
+import { COLOR } from "../../../constants/color";
 
 const Grid = () => {
   const socket = useContext(SocketContext);
@@ -61,7 +62,12 @@ const Grid = () => {
                 onPress={() => handleSelectCell(cell.id, rowIndex, cellIndex)}
                 disabled={!cell.canBeChecked}
               >
-                <Text style={styles.cellText}>
+                <Text
+                  style={[
+                    styles.cellText,
+                    cell.owner !== null && styles.cellPlayerOwnedText,
+                  ]}
+                >
                   {cell.viewContent}
                   <br />[{rowIndex},{cellIndex}]
                 </Text>
@@ -95,21 +101,24 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "blue",
+    borderColor: COLOR.DARK_GREEN,
   },
   cellText: {
     fontSize: 11,
   },
+  cellPlayerOwnedText: {
+    color: COLOR.WHITE,
+  },
   playerOwnedCell: {
-    backgroundColor: "lightgreen",
+    backgroundColor: COLOR.DARK_GREEN,
     opacity: 0.9,
   },
   opponentOwnedCell: {
-    backgroundColor: "lightcoral",
+    backgroundColor: COLOR.DARK_RED,
     opacity: 0.9,
   },
   canBeCheckedCell: {
-    backgroundColor: "lightblue",
+    backgroundColor: COLOR.LIGHT_GREEN,
   },
   topBorder: {
     borderTopWidth: 1,

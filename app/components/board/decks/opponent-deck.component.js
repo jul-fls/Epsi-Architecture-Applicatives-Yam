@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
 import Dice from "./dice.component";
+import { COLOR } from "../../../constants/color";
 
 const OpponentDeck = () => {
   const socket = useContext(SocketContext);
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderBottomWidth: 1,
-    borderColor: "black",
+    borderColor: COLOR.WHITE,
   },
   diceContainer: {
     flexDirection: "row",

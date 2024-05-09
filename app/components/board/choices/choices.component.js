@@ -57,11 +57,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 10,
     borderBottomWidth: 1,
-    borderColor: "black",
+    borderColor: COLOR.DARK_GREEN,
     backgroundColor: COLOR.DARK_GREEN,
   },
   choiceButton: {
-    backgroundColor: COLOR.BEIGE_LIGHT,
+    backgroundColor: COLOR.ZELDA_PRIMARY,
     borderRadius: 5,
     marginVertical: 5,
     alignItems: "center",

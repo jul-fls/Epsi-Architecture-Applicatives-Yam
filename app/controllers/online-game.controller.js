@@ -49,7 +49,7 @@ export default function OnlineGameController() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLOR.BEIGE_LIGHT,
+    backgroundColor: COLOR.ZELDA_PRIMARY,
     alignItems: "center",
     justifyContent: "center",
     width: "100%",

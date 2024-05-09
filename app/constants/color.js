@@ -1,5 +1,8 @@
 export const COLOR = {
   WHITE: "#FFFFFF",
-  BEIGE_LIGHT: "#DAD4C8",
+  ZELDA_PRIMARY: "#13133e",
+  ZELDA_BLUE: "#6BDECC",
   DARK_GREEN: "#44594A",
+  LIGHT_GREEN: "#72947C",
+  DARK_RED: "#A52A2A",
 };

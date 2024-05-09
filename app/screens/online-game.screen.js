@@ -38,7 +38,7 @@ export default function OnlineGameScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLOR.BEIGE_LIGHT,
+    backgroundColor: COLOR.ZELDA_PRIMARY,
     alignItems: "center",
     justifyContent: "center",
   },

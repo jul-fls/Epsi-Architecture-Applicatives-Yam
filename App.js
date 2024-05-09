@@ -19,7 +19,7 @@ function App() {
     <SocketContext.Provider value={socket}>
       <NavigationContainer
         theme={{
-          colors: { background: COLOR.BEIGE_LIGHT, border: COLOR.DARK_GREEN },
+          colors: { background: COLOR.ZELDA_PRIMARY, border: COLOR.DARK_GREEN },
         }}
       >
         <Stack.Navigator initialRouteName="HomeScreen">

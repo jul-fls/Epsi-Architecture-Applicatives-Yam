@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderBottomWidth: 1,
-    borderColor: "black",
+    borderColor: COLOR.WHITE,
   },
   diceContainer: {
     flexDirection: "row",
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   rollButtonText: {
     backgroundColor: COLOR.DARK_GREEN,
     padding: 10,
-    borderBlockColor: COLOR.BEIGE_LIGHT,
+    borderBlockColor: COLOR.ZELDA_PRIMARY,
     borderRadius: 5,
     color: COLOR.WHITE,
     fontWeight: "bold",
