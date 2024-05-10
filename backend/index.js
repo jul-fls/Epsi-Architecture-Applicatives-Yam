@@ -201,7 +201,7 @@ io.on("connection", (socket) => {
     // If not last throw : rollsCounter(1,2,3) <= rollsMaximum(3)
     if (
       games[gameIndex].gameState.deck.rollsCounter <=
-      games[gameIndex].gameState.deck.rollsMaximum - 1
+      games[gameIndex].gameState.deck.rollsMaximum
     ) {
       // Dices management
       games[gameIndex].gameState.deck.dices = GameService.dices.roll(
