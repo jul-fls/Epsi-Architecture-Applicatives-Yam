@@ -27,7 +27,7 @@ const OpponentTimer = () => {
               trailStrokeWidth={5}
               duration={30}
               colors={[COLOR.ZELDA_YELLOW, COLOR.GRAY, COLOR.DARK_RED]}
-              colorsTime={[10, 6, 4, 1]}
+              colorsTime={[10, 6, 1]}
               onComplete={() => ({
                 shouldRepeat: true,
                 delay: 1,

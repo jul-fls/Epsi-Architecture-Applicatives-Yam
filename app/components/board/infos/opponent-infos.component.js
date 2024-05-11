@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRightWidth: 1,
     borderColor: COLOR.WHITE,
-    backgroundColor: COLOR.DARK_GREEN,
+    backgroundColor: COLOR.ZELDA_SECONDARY,
   },
 });
 

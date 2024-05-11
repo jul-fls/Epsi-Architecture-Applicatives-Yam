@@ -106,8 +106,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    borderBottomWidth: 1,
-    borderColor: COLOR.WHITE,
   },
   diceContainer: {
     flexDirection: "row",
