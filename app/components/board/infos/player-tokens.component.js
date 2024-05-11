@@ -1,6 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
+import { COLOR } from "../../../constants/color";
+import { IMAGE } from "../../../constants/asset";
 
 const PlayerTokens = () => {
   const socket = useContext(SocketContext);
@@ -12,16 +14,23 @@ const PlayerTokens = () => {
   }, []);
   return (
     <View style={styles.playerTokensContainer}>
-      <Text>Pions restants: {playerTokens}</Text>
+      <Image style={{ width: 22, height: 22 }} source={IMAGE.PLAYER_TOKEN} />
+      <Text style={styles.playerTokensText}>{playerTokens}</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   playerTokensContainer: {
+    marginTop: 6,
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
+  },
+  playerTokensText: {
+    fontSize: 15,
+    color: COLOR.WHITE,
+    fontFamily: "roboto",
   },
 });
 export default PlayerTokens;

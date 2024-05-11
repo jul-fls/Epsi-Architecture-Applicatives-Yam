@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
-
+import { COLOR } from "../../../constants/color";
+import { DEFAULT_SET_TIMER } from "../../../constants/text";
 const Choices = () => {
   const socket = useContext(SocketContext);
 
@@ -15,7 +16,10 @@ const Choices = () => {
       setDisplayChoices(data["displayChoices"]);
       setCanMakeChoice(data["canMakeChoice"]);
       setIdSelectedChoice(data["idSelectedChoice"]);
-      setAvailableChoices(data["availableChoices"]);
+
+      setTimeout(() => {
+        setAvailableChoices(data["availableChoices"]);
+      }, DEFAULT_SET_TIMER);
     });
   }, []);
 
@@ -41,7 +45,16 @@ const Choices = () => {
             onPress={() => handleSelectChoice(choice.id)}
             disabled={!canMakeChoice || !choice.enabled}
           >
-            <Text style={styles.choiceText}>{choice.value}</Text>
+            <Text
+              style={[
+                styles.choiceText,
+                idSelectedChoice === choice.id
+                  ? { color: COLOR.ZELDA_SECONDARY }
+                  : { color: COLOR.WHITE },
+              ]}
+            >
+              {choice.value}
+            </Text>
           </TouchableOpacity>
         ))}
     </View>
@@ -56,27 +69,30 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 10,
     borderBottomWidth: 1,
-    borderColor: "black",
-    backgroundColor: "lightgrey",
+    borderColor: COLOR.ZELDA_SECONDARY,
+    backgroundColor: COLOR.ZELDA_SECONDARY,
   },
   choiceButton: {
-    backgroundColor: "white",
+    borderWidth: 1,
+    borderColor: COLOR.WHITE,
+    backgroundColor: COLOR.ZELDA_PRIMARY,
     borderRadius: 5,
-    marginVertical: 5,
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-    height: "10%",
+    height: "13%",
+
+    marginVertical: 3,
   },
   selectedChoice: {
-    backgroundColor: "lightgreen",
+    backgroundColor: COLOR.ZELDA_BLUE,
   },
   choiceText: {
-    fontSize: 13,
+    fontSize: 15,
     fontWeight: "bold",
   },
   disabledChoice: {
-    opacity: 0.5,
+    opacity: 0.3,
   },
 });
 

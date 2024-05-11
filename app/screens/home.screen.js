@@ -1,30 +1,127 @@
 // app/screens/home.screen.js
 
-import { StyleSheet, View, Button } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ImageBackground,
+  TouchableOpacity,
+  Text,
+  Image,
+} from "react-native";
+import { COLOR } from "../constants/color";
+import { useFonts } from "expo-font";
+import { IMAGE } from "../constants/asset";
 
 export default function HomeScreen({ navigation }) {
+  const [fontsLoaded] = useFonts({
+    "Hylia-Serif": require("../assets/fonts/Hylia-Serif.ttf"),
+    Roboto: require("../assets/fonts/Roboto.ttf"),
+  });
+
   return (
     <View style={styles.container}>
-      <View>
-        <Button
-          title="Jouer en ligne"
-          onPress={() => navigation.navigate('OnlineGameScreen')}
-        />
-      </View>
-      <View>
-        <Button
-          title="Jouer contre le bot"
-          onPress={() => navigation.navigate('VsBotGameScreen')}
-        />
-      </View>
+      <ImageBackground
+        source={IMAGE.BACKGROUND}
+        resizeMode="stretch"
+        style={styles.background}
+      >
+        <View style={styles.wrapper}>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>YAM MASTER</Text>
+            <View style={styles.imageContainer}>
+              <Image source={IMAGE.DICES} />
+            </View>
+          </View>
+          <View style={styles.buttonContainer}>
+            <View style={styles.symbolFrameContainer}>
+              <Image source={IMAGE.SYMBOL_FRAME} />
+            </View>
+            <View>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Jouer en ligne")}
+                style={styles.button}
+              >
+                <Image style={{ marginRight: 10 }} source={IMAGE.BATTLE} />
+                <Text style={styles.buttonText}>Jouer en ligne</Text>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Jouer contre le bot")}
+                style={styles.button}
+              >
+                <Image style={{ marginRight: 10 }} source={IMAGE.BATTLE} />
+                <Text style={styles.buttonText}>Jouer contre le bot</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.symbolFrameContainer}>
+              <Image source={IMAGE.SYMBOL_FRAME} />
+            </View>
+          </View>
+        </View>
+      </ImageBackground>
     </View>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    width: "100%",
+    height: "100%",
+  },
+  wrapper: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  }
+    marginHorizontal: 30,
+  },
+  symbolFrameContainer: {
+    alignSelf: "center",
+    marginVertical: 10,
+  },
+  titleContainer: {
+    marginTop: 70,
+  },
+  title: {
+    textAlign: "center",
+    color: COLOR.WHITE,
+    fontFamily: "Hylia-Serif",
+    fontSize: 50,
+    marginBottom: 20,
+  },
+  footerContainer: {
+    marginBottom: 30,
+  },
+  imageContainer: {
+    width: "100%",
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonContainer: {
+    flex: 1,
+    justifyContent: "center",
+    width: "100%",
+    height: "100%",
+  },
+  button: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: COLOR.ZELDA_BLUE,
+    padding: 25,
+    marginVertical: 5,
+    width: "100%",
+  },
+  buttonText: {
+    fontSize: 25,
+    fontFamily: "Hylia-Serif",
+    color: COLOR.ZELDA_BLUE,
+  },
+  background: {
+    flex: 1,
+    width: null,
+    height: "100%",
+  },
 });

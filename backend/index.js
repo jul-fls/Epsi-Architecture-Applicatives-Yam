@@ -246,10 +246,10 @@ io.on("connection", (socket) => {
       games[gameIndex].gameState.choices.availableChoices = combinations;
 
       if (combinations.length == 0) {
-        games[gameIndex].gameState.timer = 3;
+        games[gameIndex].gameState.timer = 10;
       } else {
         // TODO : Quand Player séléctionne le grid, on met à jour le timer à 5
-        games[gameIndex].gameState.timer = 1;
+        games[gameIndex].gameState.timer = 5;
       }
     }
 
@@ -321,7 +321,7 @@ io.on("connection", (socket) => {
 
     // TODO: Ici calculer le score
     // TODO: Puis check si la partie s'arrête (lines / diagolales / no-more-gametokens)
-    GameService.score.detectAlignmentTypeAndScore( 
+    GameService.score.detectAlignmentTypeAndScore(
       games[gameIndex].gameState,
       data.rowIndex,
       data.cellIndex

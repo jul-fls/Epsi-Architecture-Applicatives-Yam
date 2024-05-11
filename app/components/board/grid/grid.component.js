@@ -1,6 +1,8 @@
 import React, { useEffect, useContext, useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
+import { COLOR } from "../../../constants/color";
+import { IMAGE } from "../../../constants/asset";
 
 const Grid = () => {
   const socket = useContext(SocketContext);
@@ -47,10 +49,8 @@ const Grid = () => {
                 key={cell.id + rowIndex}
                 style={[
                   styles.cell,
-                  cell.owner === myPlayerId && styles.playerOwnedCell,
-                  cell.owner !== myPlayerId &&
-                    cell.owner !== null &&
-                    styles.opponentOwnedCell,
+                  cell.owner === myPlayerId,
+                  cell.owner !== myPlayerId && cell.owner !== null,
                   cell.canBeChecked &&
                     !(cell.owner === "player:1") &&
                     !(cell.owner === "player:2") &&
@@ -61,10 +61,28 @@ const Grid = () => {
                 onPress={() => handleSelectCell(cell.id, rowIndex, cellIndex)}
                 disabled={!cell.canBeChecked}
               >
-                <Text style={styles.cellText}>
-                  {cell.viewContent}
-                  <br />[{rowIndex},{cellIndex}]
-                </Text>
+                {cell.owner == null && (
+                  <Text
+                    style={[
+                      styles.cellText,
+                      cell.owner !== null && styles.cellPlayerOwnedText,
+                    ]}
+                  >
+                    {cell.viewContent}
+                  </Text>
+                )}
+                {cell.owner && (
+                  <View>
+                    <Image
+                      style={{ width: 30, height: 30 }}
+                      source={
+                        cell.owner === myPlayerId
+                          ? IMAGE.PLAYER_TOKEN
+                          : IMAGE.OPPONENT_TOKEN
+                      }
+                    />
+                  </View>
+                )}
               </TouchableOpacity>
             ))}
           </View>
@@ -75,7 +93,7 @@ const Grid = () => {
 
 const styles = StyleSheet.create({
   gridContainer: {
-    flex: 7,
+    flex: 4,
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
@@ -95,21 +113,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "blue",
+    borderColor: COLOR.WHITE,
   },
   cellText: {
-    fontSize: 11,
+    color: COLOR.WHITE,
+    fontFamily: "roboto",
+    fontWeight: "bold",
+    fontSize: 20,
   },
-  playerOwnedCell: {
-    backgroundColor: "lightgreen",
-    opacity: 0.9,
-  },
-  opponentOwnedCell: {
-    backgroundColor: "lightcoral",
-    opacity: 0.9,
+  cellPlayerOwnedText: {
+    color: COLOR.ZELDA_PRIMARY,
   },
   canBeCheckedCell: {
-    backgroundColor: "lightblue",
+    backgroundColor: COLOR.GRAY,
   },
   topBorder: {
     borderTopWidth: 1,
