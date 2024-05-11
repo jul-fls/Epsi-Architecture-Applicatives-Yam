@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
 import { COLOR } from "../../../constants/color";
-
+import { DEFAULT_SET_TIMER } from "../../../constants/text";
 const Choices = () => {
   const socket = useContext(SocketContext);
 
@@ -19,7 +19,7 @@ const Choices = () => {
 
       setTimeout(() => {
         setAvailableChoices(data["availableChoices"]);
-      }, 3500);
+      }, DEFAULT_SET_TIMER);
     });
   }, []);
 
@@ -45,7 +45,16 @@ const Choices = () => {
             onPress={() => handleSelectChoice(choice.id)}
             disabled={!canMakeChoice || !choice.enabled}
           >
-            <Text style={styles.choiceText}>{choice.value}</Text>
+            <Text
+              style={[
+                styles.choiceText,
+                idSelectedChoice === choice.id
+                  ? { color: COLOR.ZELDA_SECONDARY }
+                  : { color: COLOR.WHITE },
+              ]}
+            >
+              {choice.value}
+            </Text>
           </TouchableOpacity>
         ))}
     </View>
@@ -76,12 +85,11 @@ const styles = StyleSheet.create({
     marginVertical: 3,
   },
   selectedChoice: {
-    backgroundColor: COLOR.GRAY,
+    backgroundColor: COLOR.ZELDA_BLUE,
   },
   choiceText: {
     fontSize: 15,
     fontWeight: "bold",
-    color: COLOR.WHITE,
   },
   disabledChoice: {
     opacity: 0.3,

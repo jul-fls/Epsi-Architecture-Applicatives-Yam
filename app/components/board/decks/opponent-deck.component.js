@@ -5,7 +5,7 @@ import LottieView from "lottie-react-native";
 import Dice from "./dice.component";
 import { COLOR } from "../../../constants/color";
 import { ANIMATION } from "../../../constants/asset";
-
+import { DEFAULT_SET_TIMER } from "../../../constants/text";
 const OpponentDeck = () => {
   const socket = useContext(SocketContext);
   const [displayOpponentDeck, setDisplayOpponentDeck] = useState(false);
@@ -19,7 +19,7 @@ const OpponentDeck = () => {
       if (data["displayOpponentDeck"]) {
         setTimeout(() => {
           setOpponentDices(data["dices"]);
-        }, 3500);
+        }, DEFAULT_SET_TIMER);
       }
     });
   }, []);

@@ -5,13 +5,14 @@ import { SocketContext } from "../../../contexts/socket.context";
 import Dice from "./dice.component";
 import { COLOR } from "../../../constants/color";
 import { IMAGE, ANIMATION } from "../../../constants/asset";
+import { DEFAULT_SET_TIMER } from "../../../constants/text";
 
 const PlayerDeck = () => {
   const socket = useContext(SocketContext);
   const [displayPlayerDeck, setDisplayPlayerDeck] = useState(false);
   const [dices, setDices] = useState(Array(5).fill(false));
   const [displayRollButton, setDisplayRollButton] = useState(false);
-  const [rollsCounter, setRollsCounter] = useState(0);
+  const [rollsCounter, setRollsCounter] = useState(1);
   const [rollsMaximum, setRollsMaximum] = useState(3);
   const [isAnimated, setIsAnimated] = useState(false);
 
@@ -20,9 +21,11 @@ const PlayerDeck = () => {
       setDisplayPlayerDeck(data["displayPlayerDeck"]);
       if (data["displayPlayerDeck"]) {
         setDisplayRollButton(data["displayRollButton"]);
-        setRollsCounter(data["rollsCounter"]);
         setRollsMaximum(data["rollsMaximum"]);
         setDices(data["dices"]);
+        setTimeout(() => {
+          setRollsCounter(data["rollsCounter"]);
+        }, DEFAULT_SET_TIMER);
       }
     });
   }, []);
