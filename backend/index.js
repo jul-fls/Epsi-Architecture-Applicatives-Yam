@@ -201,7 +201,7 @@ io.on("connection", (socket) => {
     // If not last throw : rollsCounter(1,2,3) <= rollsMaximum(3)
     if (
       games[gameIndex].gameState.deck.rollsCounter <=
-      games[gameIndex].gameState.deck.rollsMaximum
+      games[gameIndex].gameState.deck.rollsMaximum -1
     ) {
       // Dices management
       games[gameIndex].gameState.deck.dices = GameService.dices.roll(
@@ -246,10 +246,10 @@ io.on("connection", (socket) => {
       games[gameIndex].gameState.choices.availableChoices = combinations;
 
       if (combinations.length == 0) {
-        games[gameIndex].gameState.timer = 10;
+        games[gameIndex].gameState.timer = 3;
       } else {
         // TODO : Quand Player séléctionne le grid, on met à jour le timer à 5
-        games[gameIndex].gameState.timer = 5;
+        games[gameIndex].gameState.timer += 5;
       }
     }
 
@@ -333,8 +333,7 @@ io.on("connection", (socket) => {
         ? "player:2"
         : "player:1";
     games[gameIndex].gameState.timer = GameService.timer.getTurnDuration();
-    const playersHaveRemainingTokens =
-      GameService.tokens.checkAvailablePlayerTokens(games[gameIndex].gameState);
+    const playersHaveRemainingTokens = GameService.tokens.checkAvailablePlayerTokens(games[gameIndex].gameState);
 
     if (!playersHaveRemainingTokens) {
       games[gameIndex].gameState.timer = 0;
