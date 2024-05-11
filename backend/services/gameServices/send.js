@@ -108,6 +108,23 @@ const send = {
         };
         return { playerInfos: playerInfos, opponentInfos: opponentInfos };
       },
+
+      victoryState: (gameResult) => {
+        console.log("gameResult", gameResult);
+        // return a json object "gameInfos" with all the inside infos of GameResult
+        const gameInfos = {
+          gameDuration: gameResult.gameDuration,
+          winner: gameResult.winner,
+          loser: gameResult.loser,
+          gameType: gameResult.gameType,
+          winnerUsedTokens: gameResult.winnerUsedTokens,
+          loserUsedTokens: gameResult.loserUsedTokens,
+          winnerScore: gameResult.winnerScore,
+          loserScore: gameResult.loserScore,
+          victoryType: gameResult.victoryType,
+        };
+        return gameInfos;
+      },
     },
 }
 
