@@ -72,12 +72,12 @@ const PlayerDeck = () => {
           </View>
 
           {displayRollButton && rollsCounter <= rollsMaximum && (
-            <>
+            <View style={styles.rollButtonContainer}>
               <TouchableOpacity style={styles.rollButton} onPress={rollDices}>
                 <Image style={{ marginRight: 10 }} source={IMAGE.ARROW_RIGHT} />
                 <Text style={styles.rollButtonText}>ROLL</Text>
               </TouchableOpacity>
-            </>
+            </View>
           )}
         </>
       )}
@@ -97,16 +97,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "70%",
     justifyContent: "space-between",
-    marginBottom: 10,
+    marginBottom: 5,
   },
   rollInfoText: {
     color: COLOR.WHITE,
     fontFamily: "roboto",
     fontSize: 15,
     padding: 5,
-    borderWidth: 1,
-    borderColor: COLOR.WHITE,
     marginBottom: 5,
+  },
+  rollButtonContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 5,
   },
   rollButton: {
     flex: 1,
@@ -118,8 +123,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLOR.ZELDA_BLUE,
     borderRadius: 5,
-    width: 100,
-    marginBottom: 5,
+    width: 150,
   },
 
   rollButtonText: {
