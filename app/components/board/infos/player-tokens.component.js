@@ -14,7 +14,7 @@ const PlayerTokens = () => {
   }, []);
   return (
     <View style={styles.playerTokensContainer}>
-      <Image style={{ width: 20, height: 20 }} source={IMAGE.PLAYER_TOKEN} />
+      <Image style={{ width: 22, height: 22 }} source={IMAGE.PLAYER_TOKEN} />
       <Text style={styles.playerTokensText}>{playerTokens}</Text>
     </View>
   );
@@ -22,7 +22,7 @@ const PlayerTokens = () => {
 
 const styles = StyleSheet.create({
   playerTokensContainer: {
-    marginTop: 4,
+    marginTop: 6,
     flex: 1,
     justifyContent: "space-between",
     alignItems: "center",

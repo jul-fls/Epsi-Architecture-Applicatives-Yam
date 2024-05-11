@@ -4,6 +4,7 @@ export const ANIMATION = {
   DICE: require("../assets/lottie/dice.json"),
   WAITING: require("../assets/lottie/waiting.json"),
   SPY: require("../assets/lottie/spy.json"),
+  CLOCK: require("../assets/lottie/clock.json"),
 };
 
 export const IMAGE = {

@@ -30,9 +30,10 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: "roboto",
     fontWeight: "bold",
-    color: COLOR.WHITE,
+    color: COLOR.ZELDA_BLUE,
   },
   playerScoreText: {
+    marginTop: 5,
     fontSize: 15,
     color: COLOR.WHITE,
     fontFamily: "roboto",

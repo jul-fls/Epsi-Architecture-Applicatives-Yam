@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
-
+import LottieView from "lottie-react-native";
 import { SocketContext } from "../../../contexts/socket.context";
 import { COLOR } from "../../../constants/color";
-
+import { ANIMATION } from "../../../constants/asset";
 const PlayerTimer = () => {
   const socket = useContext(SocketContext);
   const [playerTimer, setPlayerTimer] = useState(0);
@@ -22,7 +22,7 @@ const PlayerTimer = () => {
           <View style={{ marginTop: 5 }}>
             <CountdownCircleTimer
               isPlaying={playerTimer !== 0 ? true : false}
-              size={23}
+              size={20}
               strokeWidth={5}
               trailStrokeWidth={5}
               duration={30}
@@ -39,10 +39,22 @@ const PlayerTimer = () => {
               })}
             />
           </View>
-          <Text style={{ color: COLOR.WHITE }}>{playerTimer} ⏳</Text>
+          <Text
+            style={[
+              styles.playerTimerText,
+              playerTimer < 20 && { color: COLOR.ZELDA_YELLOW },
+              playerTimer < 10 && { color: COLOR.LIGHT_RED },
+            ]}
+          >
+            {playerTimer} ⏳
+          </Text>
         </View>
       ) : (
-        <Text style={{ color: COLOR.WHITE }}>0 ⏳</Text>
+        <View>
+          <View style={styles.animationContainer}>
+            <LottieView source={ANIMATION.CLOCK} autoPlay loop />
+          </View>
+        </View>
       )}
     </View>
   );
@@ -53,6 +65,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  playerTimerText: {
+    fontSize: 15,
+    color: COLOR.WHITE,
+    fontFamily: "roboto",
+    width: 50,
+  },
+  animationContainer: {
+    width: 53,
+    alignSelf: "center",
   },
 });
 
