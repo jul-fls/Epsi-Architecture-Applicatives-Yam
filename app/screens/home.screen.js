@@ -38,7 +38,7 @@ export default function HomeScreen({ navigation }) {
             </View>
             <View>
               <TouchableOpacity
-                onPress={() => navigation.navigate("OnlineGameScreen")}
+                onPress={() => navigation.navigate("Jouer en ligne")}
                 style={styles.button}
               >
                 <Image style={{ marginRight: 10 }} source={IMAGE.BATTLE} />
@@ -47,7 +47,7 @@ export default function HomeScreen({ navigation }) {
             </View>
             <View>
               <TouchableOpacity
-                onPress={() => navigation.navigate("VsBotGameScreen")}
+                onPress={() => navigation.navigate("Jouer contre le bot")}
                 style={styles.button}
               >
                 <Image style={{ marginRight: 10 }} source={IMAGE.BATTLE} />

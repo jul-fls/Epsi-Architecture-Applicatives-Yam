@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   tipsTitle: {
-    fontSize: 21,
+    fontSize: 20,
     color: COLOR.ZELDA_BLUE,
     fontFamily: "Hylia-Serif",
     textAlign: "center",
@@ -136,13 +136,13 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   tipsQuestion: {
-    fontSize: 20,
+    fontSize: 17,
     paddingTop: 10,
     paddingBottom: 5,
     fontWeight: "bold",
   },
   tipsResponse: {
-    fontSize: 18,
+    fontSize: 16,
     paddingTop: 5,
     paddingBottom: 10,
     fontWeight: "normal",

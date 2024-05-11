@@ -74,7 +74,7 @@ const PlayerDeck = () => {
             {displayRollButton && rollsCounter <= rollsMaximum && (
               <TouchableOpacity style={styles.rollButton} onPress={rollDices}>
                 <Image style={{ marginRight: 10 }} source={IMAGE.ARROW_RIGHT} />
-                <Text style={styles.rollButtonText}>ROLL</Text>
+                <Text style={styles.rollButtonText}>LANCER</Text>
               </TouchableOpacity>
             )}
           </View>

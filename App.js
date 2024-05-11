@@ -24,6 +24,7 @@ function App() {
         <NavigationContainer
           theme={{
             colors: {
+              text: COLOR.WHITE,
               background: "transparent",
               border: COLOR.ZELDA_BLUE,
             },
@@ -32,16 +33,16 @@ function App() {
           <Stack.Navigator initialRouteName="HomeScreen">
             <Stack.Group screenOptions={{}}>
               <Stack.Screen
-                name="HomeScreen"
+                name="Yam Master"
                 component={HomeScreen}
                 options={{ headerShown: false }}
               />
               <Stack.Screen
-                name="OnlineGameScreen"
+                name="Jouer en ligne"
                 component={OnlineGameScreen}
               />
               <Stack.Screen
-                name="VsBotGameScreen"
+                name="Jouer contre le bot"
                 component={VsBotGameScreen}
               />
             </Stack.Group>
