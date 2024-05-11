@@ -49,10 +49,8 @@ const Grid = () => {
                 key={cell.id + rowIndex}
                 style={[
                   styles.cell,
-                  cell.owner === myPlayerId && styles.playerOwnedCell,
-                  cell.owner !== myPlayerId &&
-                    cell.owner !== null &&
-                    styles.opponentOwnedCell,
+                  cell.owner === myPlayerId,
+                  cell.owner !== myPlayerId && cell.owner !== null,
                   cell.canBeChecked &&
                     !(cell.owner === "player:1") &&
                     !(cell.owner === "player:2") &&
@@ -71,7 +69,6 @@ const Grid = () => {
                     ]}
                   >
                     {cell.viewContent}
-                    <br />[{rowIndex},{cellIndex}]
                   </Text>
                 )}
                 {cell.owner && (
@@ -119,18 +116,13 @@ const styles = StyleSheet.create({
     borderColor: COLOR.WHITE,
   },
   cellText: {
-    fontSize: 11,
+    color: COLOR.WHITE,
+    fontFamily: "roboto",
+    fontWeight: "bold",
+    fontSize: 15,
   },
   cellPlayerOwnedText: {
     color: COLOR.ZELDA_PRIMARY,
-  },
-  playerOwnedCell: {
-    // backgroundColor: COLOR.ZELDA_BLUE,
-    // opacity: 0.9,
-  },
-  opponentOwnedCell: {
-    // backgroundColor: COLOR.WHITE,
-    // opacity: 0.9,
   },
   canBeCheckedCell: {
     backgroundColor: COLOR.LIGHT_GREEN,

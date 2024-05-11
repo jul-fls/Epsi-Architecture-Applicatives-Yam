@@ -1,9 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
 import { View, TouchableOpacity, Text, StyleSheet, Image } from "react-native";
+import LottieView from "lottie-react-native";
 import { SocketContext } from "../../../contexts/socket.context";
 import Dice from "./dice.component";
 import { COLOR } from "../../../constants/color";
-import { IMAGE } from "../../../constants/asset";
+import { IMAGE, ANIMATION } from "../../../constants/asset";
 
 const PlayerDeck = () => {
   const socket = useContext(SocketContext);
@@ -43,7 +44,7 @@ const PlayerDeck = () => {
 
   return (
     <View style={styles.deckPlayerContainer}>
-      {displayPlayerDeck && (
+      {displayPlayerDeck ? (
         <>
           <>
             <View style={styles.rollInfoContainer}>
@@ -56,7 +57,6 @@ const PlayerDeck = () => {
               )}
             </View>
           </>
-
           <View style={styles.diceContainer}>
             {dices.map((diceData, index) => (
               <Dice
@@ -70,7 +70,6 @@ const PlayerDeck = () => {
               />
             ))}
           </View>
-
           <View style={styles.rollButtonContainer}>
             {displayRollButton && rollsCounter <= rollsMaximum && (
               <TouchableOpacity style={styles.rollButton} onPress={rollDices}>
@@ -78,6 +77,19 @@ const PlayerDeck = () => {
                 <Text style={styles.rollButtonText}>ROLL</Text>
               </TouchableOpacity>
             )}
+          </View>
+        </>
+      ) : (
+        <>
+          <View>
+            <View style={{ width: 100, margin: "auto" }}>
+              <LottieView source={ANIMATION.WAITING} autoPlay loop />
+            </View>
+            <View style={{ width: "100%" }}>
+              <Text style={styles.waitOpponentText}>
+                En attente de l'adversaire
+              </Text>
+            </View>
           </View>
         </>
       )}
@@ -129,13 +141,17 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: 150,
   },
-
   rollButtonText: {
     color: COLOR.ZELDA_BLUE,
     fontWeight: "bold",
     fontFamily: "Hylia-Serif",
     fontSize: 15,
     textAlign: "center",
+  },
+  waitOpponentText: {
+    color: COLOR.WHITE,
+    fontFamily: "roboto",
+    fontSize: 15,
   },
 });
 

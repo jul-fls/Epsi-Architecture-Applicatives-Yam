@@ -29,7 +29,6 @@ const Dice = ({
   };
 
   const handleAnimationFinish = () => {
-    console.log("hello");
     setIsAnimated(false);
   };
   return (

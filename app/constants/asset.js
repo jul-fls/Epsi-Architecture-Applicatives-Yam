@@ -2,6 +2,8 @@ export const ANIMATION = {
   DICE_LOADING: require("../assets/lottie/dice_loading.json"),
   BORED: require("../assets/lottie/bored.json"),
   DICE: require("../assets/lottie/dice.json"),
+  WAITING: require("../assets/lottie/waiting.json"),
+  SPY: require("../assets/lottie/spy.json"),
 };
 
 export const IMAGE = {

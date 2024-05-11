@@ -1,8 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
+import LottieView from "lottie-react-native";
 import Dice from "./dice.component";
 import { COLOR } from "../../../constants/color";
+import { ANIMATION } from "../../../constants/asset";
 
 const OpponentDeck = () => {
   const socket = useContext(SocketContext);
@@ -22,7 +24,7 @@ const OpponentDeck = () => {
 
   return (
     <View style={styles.deckOpponentContainer}>
-      {displayOpponentDeck && (
+      {displayOpponentDeck ? (
         <View style={styles.diceContainer}>
           {opponentDices.map((diceData, index) => (
             <Dice
@@ -33,6 +35,14 @@ const OpponentDeck = () => {
             />
           ))}
         </View>
+      ) : (
+        <>
+          <View>
+            <View style={{ width: 100, margin: "auto" }}>
+              <LottieView source={ANIMATION.SPY} autoPlay loop />
+            </View>
+          </View>
+        </>
       )}
     </View>
   );
