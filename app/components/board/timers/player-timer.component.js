@@ -21,18 +21,13 @@ const PlayerTimer = () => {
         <View>
           <View style={{ marginTop: 5 }}>
             <CountdownCircleTimer
-              isPlaying={playerTimer !== 0 ? true : false}
+              isPlaying={true}
               size={20}
               strokeWidth={5}
               trailStrokeWidth={5}
               duration={30}
-              colors={[
-                COLOR.ZELDA_BLUE,
-                COLOR.GRAY,
-                COLOR.ZELDA_YELLOW,
-                COLOR.DARK_RED,
-              ]}
-              colorsTime={[10, 6, 3, 0]}
+              colors={[COLOR.ZELDA_BLUE, COLOR.GRAY, COLOR.DARK_RED]}
+              colorsTime={[10, 6, 4, 1]}
               onComplete={() => ({
                 shouldRepeat: true,
                 delay: 1,
