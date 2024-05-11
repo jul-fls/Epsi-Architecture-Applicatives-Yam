@@ -24,7 +24,7 @@ const Board = ({ gameViewState }) => {
       >
         <View style={[styles.row, { height: "8%" }]}>
           <OpponentInfos />
-          <View style={styles.opponentTimerScoreContainer}>
+          <View style={styles.opponentTimerScoreTokenContainer}>
             <OpponentTimer />
             <OpponentScore />
             <OpponentTokens />
@@ -42,10 +42,10 @@ const Board = ({ gameViewState }) => {
         </View>
         <View style={[styles.row, { height: "8%" }]}>
           <PlayerInfos />
-          <View style={styles.playerTimerScoreContainer}>
-            <PlayerTimer />
+          <View style={styles.playerTimerScoreTokenContainer}>
             <PlayerScore />
             <PlayerTokens />
+            <PlayerTimer />
           </View>
         </View>
       </ImageBackground>
@@ -71,21 +71,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     borderBottomWidth: 1,
-    borderColor: COLOR.DARK_GREEN,
+    borderColor: COLOR.ZELDA_SECONDARY,
   },
-  opponentTimerScoreContainer: {
-    flex: 4, // increased flex to provide more space
-    flexDirection: "column",
+  opponentTimerScoreTokenContainer: {
+    flex: 5, // increased flex to provide more space
+    flexDirection: "row",
     justifyContent: "space-around", // changed from center to space-around for better distribution
     alignItems: "center",
-    backgroundColor: COLOR.DARK_GREEN,
+    backgroundColor: COLOR.ZELDA_SECONDARY,
   },
-  playerTimerScoreContainer: {
-    flex: 4, // increased flex to provide more space
-    flexDirection: "column",
+  playerTimerScoreTokenContainer: {
+    flex: 5, // increased flex to provide more space
+    flexDirection: "row",
     justifyContent: "space-around", // changed from center to space-around for better distribution
     alignItems: "center",
-    backgroundColor: COLOR.DARK_GREEN,
+    backgroundColor: COLOR.ZELDA_SECONDARY,
   },
 });
 

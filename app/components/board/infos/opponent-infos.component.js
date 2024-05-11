@@ -19,7 +19,7 @@ const OpponentInfos = () => {
 };
 const styles = StyleSheet.create({
   opponentInfosContainer: {
-    flex: 6,
+    flex: 5,
     justifyContent: "center",
     alignItems: "center",
     borderRightWidth: 1,

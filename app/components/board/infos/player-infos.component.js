@@ -23,12 +23,12 @@ const PlayerInfos = () => {
 
 const styles = StyleSheet.create({
   playerInfosContainer: {
-    flex: 6,
+    flex: 5,
     justifyContent: "center",
     alignItems: "center",
     borderRightWidth: 1,
     borderColor: COLOR.WHITE,
-    backgroundColor: COLOR.DARK_GREEN,
+    backgroundColor: COLOR.ZELDA_SECONDARY,
   },
 });
 

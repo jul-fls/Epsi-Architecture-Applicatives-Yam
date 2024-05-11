@@ -13,16 +13,29 @@ const PlayerScore = () => {
   }, []);
   return (
     <View style={styles.playerScoreContainer}>
-      <Text style={{ color: COLOR.WHITE }}>Score: {playerScore}</Text>
+      <Text style={styles.playerScoreTitle}>SCORE</Text>
+      <Text style={styles.playerScoreText}>{playerScore}</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   playerScoreContainer: {
+    marginTop: 4,
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
+  },
+  playerScoreTitle: {
+    fontSize: 15,
+    fontFamily: "roboto",
+    fontWeight: "bold",
+    color: COLOR.WHITE,
+  },
+  playerScoreText: {
+    fontSize: 15,
+    color: COLOR.WHITE,
+    fontFamily: "roboto",
   },
 });
 
