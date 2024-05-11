@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import PlayerTimer from "./infos/timers/player-timer.component";
 import OpponentTimer from "./infos/timers/opponent-timer.component";
@@ -14,20 +14,12 @@ import PlayerTokens from "./infos/tokens/player-tokens.component";
 import OpponentTokens from "./infos/tokens/opponent-tokens.component";
 import { COLOR } from "../../constants/color";
 import { IMAGE } from "../../constants/asset";
-import { SocketContext } from "../../contexts/socket.context";
+import GameInfo from "./infos/game/game-info.component";
 
 const Board = ({ gameViewState }) => {
-  const socket = useContext(SocketContext);
-  const [gameInfos, setGameInfos] = useState({});
-
-  useEffect(() => {
-    socket.on("game.game-over", (data) => {
-      setGameInfos(data["gameInfos"]);
-    });
-  }, []);
-
   return (
     <View style={styles.container}>
+      <GameInfo />
       <ImageBackground
         style={styles.background}
         source={IMAGE.BACKGROUND_TEXTURE}

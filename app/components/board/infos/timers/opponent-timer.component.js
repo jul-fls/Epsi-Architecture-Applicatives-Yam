@@ -15,6 +15,7 @@ const OpponentTimer = () => {
       setOpponentTimer(data["opponentTimer"]);
     });
   }, []);
+
   return (
     <View style={styles.opponentTimerContainer}>
       {opponentTimer !== 0 ? (
