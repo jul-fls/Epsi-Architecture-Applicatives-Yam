@@ -201,7 +201,7 @@ io.on("connection", (socket) => {
     // If not last throw : rollsCounter(1,2,3) <= rollsMaximum(3)
     if (
       games[gameIndex].gameState.deck.rollsCounter <=
-      games[gameIndex].gameState.deck.rollsMaximum + 1
+      games[gameIndex].gameState.deck.rollsMaximum
     ) {
       // Dices management
       games[gameIndex].gameState.deck.dices = GameService.dices.roll(
@@ -321,11 +321,11 @@ io.on("connection", (socket) => {
 
     // TODO: Ici calculer le score
     // TODO: Puis check si la partie s'arrête (lines / diagolales / no-more-gametokens)
-    GameService.score.calculateScoreHorizontal(games[gameIndex].gameState);
-
-    GameService.score.calculateScoreVertical(games[gameIndex].gameState);
-
-    GameService.score.calculateScoreDiagonal(games[gameIndex].gameState);
+    GameService.score.detectAlignmentTypeAndScore(
+      games[gameIndex].gameState,
+      data.rowIndex,
+      data.cellIndex
+    ); // i'm coding this function
 
     // Sinon on finit le tour
     games[gameIndex].gameState.currentTurn =
