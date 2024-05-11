@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
 import { COLOR } from "../../../constants/color";
+import { IMAGE } from "../../../constants/asset";
 
 const OpponentTokens = () => {
   const socket = useContext(SocketContext);
@@ -13,18 +14,23 @@ const OpponentTokens = () => {
   }, []);
   return (
     <View style={styles.opponentTokensContainer}>
-      <Text style={{ color: COLOR.WHITE }}>
-        Pions restants: {opponentTokens}
-      </Text>
+      <Image style={{ width: 22, height: 22 }} source={IMAGE.OPPONENT_TOKEN} />
+      <Text style={styles.opponentTokensText}>{opponentTokens}</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   opponentTokensContainer: {
+    marginTop: 6,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  opponentTokensText: {
+    fontSize: 15,
+    color: COLOR.WHITE,
+    fontFamily: "roboto",
   },
 });
 
