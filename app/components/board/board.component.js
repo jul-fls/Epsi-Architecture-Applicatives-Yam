@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
-import PlayerTimer from "./timers/player-timer.component";
-import OpponentTimer from "./timers/opponent-timer.component";
+import PlayerTimer from "./infos/timers/player-timer.component";
+import OpponentTimer from "./infos/timers/opponent-timer.component";
 import PlayerDeck from "./decks/player-deck.component";
 import OpponentDeck from "./decks/opponent-deck.component";
 import Choices from "./choices/choices.component";
