@@ -1,3 +1,4 @@
+import React, { useState, useContext, useEffect } from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import PlayerTimer from "./timers/player-timer.component";
 import OpponentTimer from "./timers/opponent-timer.component";
@@ -5,16 +6,26 @@ import PlayerDeck from "./decks/player-deck.component";
 import OpponentDeck from "./decks/opponent-deck.component";
 import Choices from "./choices/choices.component";
 import Grid from "./grid/grid.component";
-import PlayerInfos from "./infos/player-infos.component";
-import OpponentInfos from "./infos/opponent-infos.component";
-import PlayerScore from "./infos/player-score.component";
-import OpponentScore from "./infos/opponent-score.component";
-import PlayerTokens from "./infos/player-tokens.component";
-import OpponentTokens from "./infos/opponent-tokens.component";
+import PlayerInfos from "./infos/players/player-infos.component";
+import OpponentInfos from "./infos/players/opponent-infos.component";
+import PlayerScore from "./infos/scores/player-score.component";
+import OpponentScore from "./infos/scores/opponent-score.component";
+import PlayerTokens from "./infos/tokens/player-tokens.component";
+import OpponentTokens from "./infos/tokens/opponent-tokens.component";
 import { COLOR } from "../../constants/color";
 import { IMAGE } from "../../constants/asset";
+import { SocketContext } from "../../contexts/socket.context";
 
 const Board = ({ gameViewState }) => {
+  const socket = useContext(SocketContext);
+  const [gameInfos, setGameInfos] = useState({});
+
+  useEffect(() => {
+    socket.on("game.game-over", (data) => {
+      setGameInfos(data["gameInfos"]);
+    });
+  }, []);
+
   return (
     <View style={styles.container}>
       <ImageBackground

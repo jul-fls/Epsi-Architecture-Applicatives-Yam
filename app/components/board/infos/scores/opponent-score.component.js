@@ -1,38 +1,39 @@
 import React, { useState, useContext, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { SocketContext } from "../../../contexts/socket.context";
-import { COLOR } from "../../../constants/color";
+import { SocketContext } from "../../../../contexts/socket.context";
+import { COLOR } from "../../../../constants/color";
 
-const PlayerScore = () => {
+const OpponentScore = () => {
   const socket = useContext(SocketContext);
-  const [playerScore, setPlayerScore] = useState(0);
+  const [opponentScore, setOpponentScore] = useState(0);
   useEffect(() => {
     socket.on("game.players-infos.view-state", (data) => {
-      setPlayerScore(data["playerInfos"]["score"]);
+      setOpponentScore(data["opponentInfos"]["score"]);
     });
   }, []);
   return (
-    <View style={styles.playerScoreContainer}>
-      <Text style={styles.playerScoreTitle}>SCORE</Text>
-      <Text style={styles.playerScoreText}>{playerScore}</Text>
+    <View style={styles.opponentScoreContainer}>
+      <Text style={styles.opponentScoreTitle}>SCORE</Text>
+
+      <Text style={styles.opponentScoreText}>{opponentScore}</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  playerScoreContainer: {
+  opponentScoreContainer: {
     marginTop: 4,
     flex: 1,
     justifyContent: "space-between",
     alignItems: "center",
   },
-  playerScoreTitle: {
+  opponentScoreTitle: {
     fontSize: 15,
     fontFamily: "roboto",
     fontWeight: "bold",
-    color: COLOR.ZELDA_BLUE,
+    color: COLOR.ZELDA_YELLOW,
   },
-  playerScoreText: {
+  opponentScoreText: {
     marginTop: 5,
     fontSize: 15,
     color: COLOR.WHITE,
@@ -40,4 +41,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PlayerScore;
+export default OpponentScore;

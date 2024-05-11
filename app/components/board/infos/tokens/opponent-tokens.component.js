@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
-import { SocketContext } from "../../../contexts/socket.context";
-import { COLOR } from "../../../constants/color";
-import { IMAGE } from "../../../constants/asset";
+import { SocketContext } from "../../../../contexts/socket.context";
+import { COLOR } from "../../../../constants/color";
+import { IMAGE } from "../../../../constants/asset";
 
 const OpponentTokens = () => {
   const socket = useContext(SocketContext);

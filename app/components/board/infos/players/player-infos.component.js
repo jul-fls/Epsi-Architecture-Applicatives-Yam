@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
-import { SocketContext } from "../../../contexts/socket.context";
-import { COLOR } from "../../../constants/color";
-import { IMAGE } from "../../../constants/asset";
-import { replaceString } from "../../../assets/utils/utility";
+import { SocketContext } from "../../../../contexts/socket.context";
+import { COLOR } from "../../../../constants/color";
+import { IMAGE } from "../../../../constants/asset";
+import { replaceString } from "../../../../assets/utils/utility";
 
 const PlayerInfos = () => {
   const socket = useContext(SocketContext);
