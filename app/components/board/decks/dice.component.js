@@ -49,10 +49,13 @@ const Dice = ({
       ) : (
         <View>
           {value !== "" && (
-            <Image
-              style={{ width: 30, height: 30 }}
-              source={diceImages[value]}
-            />
+            <View>
+              <Image
+                style={{ width: 30, height: 30 }}
+                source={diceImages[value]}
+              />
+              {locked && <Text style={styles.lockIndicator}>🔒</Text>}
+            </View>
           )}
         </View>
       )}
@@ -82,6 +85,12 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "center",
     alignItems: "center",
+  },
+  lockIndicator: {
+    position: "absolute",
+    alignSelf: "center",
+    top: -20,
+    fontSize: 15,
   },
   diceText: {
     fontSize: 20,
