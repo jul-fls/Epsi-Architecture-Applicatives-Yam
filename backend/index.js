@@ -247,9 +247,6 @@ io.on("connection", (socket) => {
 
       if (combinations.length == 0) {
         games[gameIndex].gameState.timer = 3;
-      } else {
-        // TODO : Quand Player séléctionne le grid, on met à jour le timer à 5
-        games[gameIndex].gameState.timer += 5;
       }
     }
 
