@@ -15,6 +15,7 @@ export const IMAGE = {
   DICES: require("../assets/images/dices.png"),
   BEASTS: require("../assets/images/beasts.png"),
   BATTLE: require("../assets/images/battle.png"),
+  BATTLE_OPPONENT: require("../assets/images/battle_opponent.png"),
   BUTTON_ACCESSORY: require("../assets/images/button_accessory.png"),
   TEXT_FRAME: require("../assets/images/text_frame.png"),
   TEXT_FRAME_LEFT: require("../assets/images/text_frame_left.png"),

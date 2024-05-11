@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
 import { COLOR } from "../../../constants/color";
 import { IMAGE } from "../../../constants/asset";
+import { replaceString } from "../../../assets/utils/utility";
 
 const PlayerInfos = () => {
   const socket = useContext(SocketContext);
@@ -16,7 +17,10 @@ const PlayerInfos = () => {
   return (
     <View style={styles.playerInfosContainer}>
       <Image style={{ marginRight: 10 }} source={IMAGE.BATTLE} />
-      <Text style={styles.playerInfosText}>{playerInfos.playerKey}</Text>
+      <Text style={styles.playerInfosText}>
+        {playerInfos.playerKey &&
+          replaceString(playerInfos.playerKey, "player:", "joueur ")}
+      </Text>
       <Image style={{ marginLeft: 10 }} source={IMAGE.BATTLE} />
     </View>
   );

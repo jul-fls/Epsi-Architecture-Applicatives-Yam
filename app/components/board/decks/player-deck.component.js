@@ -76,10 +76,15 @@ const PlayerDeck = () => {
           </View>
           <View style={styles.rollButtonContainer}>
             {displayRollButton && rollsCounter <= rollsMaximum && (
-              <TouchableOpacity style={styles.rollButton} onPress={rollDices}>
-                <Image style={{ marginRight: 10 }} source={IMAGE.ARROW_RIGHT} />
-                <Text style={styles.rollButtonText}>LANCER</Text>
-              </TouchableOpacity>
+              <View>
+                <TouchableOpacity style={styles.rollButton} onPress={rollDices}>
+                  <Image
+                    style={{ marginRight: 10 }}
+                    source={IMAGE.ARROW_RIGHT}
+                  />
+                  <Text style={styles.rollButtonText}>LANCER</Text>
+                </TouchableOpacity>
+              </View>
             )}
           </View>
         </>
@@ -128,7 +133,7 @@ const styles = StyleSheet.create({
   },
   rollButtonContainer: {
     flex: 1,
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 5,
