@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLOR.ZELDA_BLUE,
     borderRadius: 5,
-    width: 150,
+    width: 120,
   },
   rollButtonText: {
     color: COLOR.ZELDA_BLUE,

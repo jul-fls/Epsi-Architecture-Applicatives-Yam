@@ -14,7 +14,7 @@ import { IMAGE } from "../constants/asset";
 
 export default function HomeScreen({ navigation }) {
   const [fontsLoaded] = useFonts({
-    "Hylia-Serif": require("../assets/fonts/HyliaSerif.ttf"),
+    "Hylia-Serif": require("../assets/fonts/Hylia-Serif.ttf"),
     Roboto: require("../assets/fonts/Roboto.ttf"),
   });
 
@@ -58,9 +58,6 @@ export default function HomeScreen({ navigation }) {
               <Image source={IMAGE.SYMBOL_FRAME} />
             </View>
           </View>
-          <View style={styles.imageContainer && styles.footerContainer}>
-            <Image source={IMAGE.BEASTS} />
-          </View>
         </View>
       </ImageBackground>
     </View>
@@ -69,6 +66,8 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: "100%",
+    height: "100%",
   },
   wrapper: {
     flex: 1,
@@ -103,6 +102,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     width: "100%",
+    height: "100%",
   },
   button: {
     flex: 1,

@@ -119,13 +119,13 @@ const styles = StyleSheet.create({
     color: COLOR.WHITE,
     fontFamily: "roboto",
     fontWeight: "bold",
-    fontSize: 15,
+    fontSize: 20,
   },
   cellPlayerOwnedText: {
     color: COLOR.ZELDA_PRIMARY,
   },
   canBeCheckedCell: {
-    backgroundColor: COLOR.LIGHT_GREEN,
+    backgroundColor: COLOR.GRAY,
   },
   topBorder: {
     borderTopWidth: 1,
