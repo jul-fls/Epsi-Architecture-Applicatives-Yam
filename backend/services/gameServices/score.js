@@ -3,8 +3,6 @@ const init = require("./init");
 
 const score = {
     calculateScoreHorizontal: (gameState) => {
-        victory.checkVictoryHorizontal(gameState.grid);
-
         let scoreToAdd = 0;
         for (let row = 0; row < gameState.grid.length; row++) {
             for (
@@ -92,7 +90,6 @@ const score = {
     calculateScoreVertical: (gameState) => {
         const gridColLength = gameState.grid[0].length;
         let scoreToAdd = 0;
-        victory.checkVictoryVertical(gameState.grid);
 
         for (let col = 0; col < gridColLength; col++) {
             for (let row = 0; row < gameState.grid.length - (init.MINIMUM_ALIGNED_TOKENS() - 1); row++) {

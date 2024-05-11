@@ -89,13 +89,13 @@ const newPlayerInQueue = (socket) => {
   if (queue.length >= 2) {
     const player1Socket = queue.shift();
     const player2Socket = queue.shift();
-    createGame(player1Socket, player2Socket);
+    createGame(player1Socket, player2Socket, "online");
   } else {
     socket.emit("queue.added", GameService.send.forPlayer.viewQueueState());
   }
 };
 
-const createGame = (player1Socket, player2Socket) => {
+const createGame = (player1Socket, player2Socket, type) => {
   // init objet (game) with this first level of structure:
   // - gameState : { .. evolutive object .. }
   // - idGame : just in case ;)
@@ -103,6 +103,9 @@ const createGame = (player1Socket, player2Socket) => {
   // - player2Socket: socket instance key "joueur:2"
   const newGame = GameService.init.gameState();
   newGame["idGame"] = uniqid();
+  newGame["gameState"]["gameType"] = type;
+  newGame["gameState"]["gameStartTime"] = Date.now();
+  newGame["gameState"]["gameEndTime"] = null;
   newGame["player1Socket"] = player1Socket;
   newGame["player2Socket"] = player2Socket;
 
@@ -127,7 +130,7 @@ const createGame = (player1Socket, player2Socket) => {
   updateClientsViewPlayersInfos(games[gameIndex]);
 
   // timer every second
-  const gameInterval = setInterval(() => {
+  games[gameIndex].gameInterval = setInterval(() => {
     // timer variable decreased
     games[gameIndex].gameState.timer--;
 
@@ -160,11 +163,11 @@ const createGame = (player1Socket, player2Socket) => {
 
   // remove intervals at deconnection
   player1Socket.on("disconnect", () => {
-    clearInterval(gameInterval);
+    clearInterval(games[gameIndex].gameInterval);
   });
 
   player2Socket.on("disconnect", () => {
-    clearInterval(gameInterval);
+    clearInterval(games[gameIndex].gameInterval);
   });
 };
 const leaveQueue = (socket) => {
@@ -330,17 +333,22 @@ io.on("connection", (socket) => {
         ? "player:2"
         : "player:1";
     games[gameIndex].gameState.timer = GameService.timer.getTurnDuration();
-    const playersHaveRemainingTokens = GameService.tokens.checkAvailablePlayerTokens(games[gameIndex].gameState);
-
-    if (!playersHaveRemainingTokens) {
-      games[gameIndex].gameState.timer = 0;
-      // TODO : Fin de partie
-      console.log("Fin de partie");
-
-      // TODO : Reset de la partie
-      // INIT
-      // GameService.init.gameState();
-      // GameService.init.grid();
+    const VictoryResult = GameService.victory.checkVictory(games[gameIndex].gameState);
+    if (VictoryResult.winner != null) {
+      console.log("VictoryResult: ", VictoryResult);
+      games[gameIndex].player1Socket.emit(
+        "game.game-over",
+        GameService.send.forPlayer.victoryState(VictoryResult)
+      );
+      games[gameIndex].player2Socket.emit(
+        "game.game-over",
+        GameService.send.forPlayer.victoryState(VictoryResult)
+      );
+      clearInterval(games[gameIndex].gameInterval);
+      games.splice(gameIndex, 1);
+      return;
+      // fin de la partie
+      // on stoppe tout
     }
     // On remet le deck et les choix à zéro (la grille, elle, ne change pas)
     games[gameIndex].gameState.deck = GameService.init.deck();

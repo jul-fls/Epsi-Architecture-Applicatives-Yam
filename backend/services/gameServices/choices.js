@@ -89,6 +89,17 @@ const choices = {
       }
 
       return availableCombinations;
+      // return [
+      //   { id: "brelan1", value: "Brelan 1" },
+      //   { id: "brelan3", value: "Brelan 3" },
+      //   { id: "brelan4", value: "Brelan 4" },
+      //   { id: "brelan6", value: "Brelan 6" },
+      //   { id: "full", value: "Full" },
+      //   { id: "carre", value: "Carré" },
+      //   { id: "yam", value: "Yam" },
+      //   { id: "moinshuit", value: "≤8" },
+      //   { id: "sec", value: "Sec" },
+      // ]; // For testing purposes
     },
 
     filterChoicesEnabler: (grid, combinations) => {
