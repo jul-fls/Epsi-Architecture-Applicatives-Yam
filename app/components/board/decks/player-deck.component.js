@@ -70,6 +70,7 @@ const PlayerDeck = () => {
                 onPress={toggleDiceLock}
                 isAnimated={isAnimated}
                 setIsAnimated={setIsAnimated}
+                isPlayer={true}
               />
             ))}
           </View>

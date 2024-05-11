@@ -12,6 +12,7 @@ const Dice = ({
   opponent,
   isAnimated,
   setIsAnimated,
+  isPlayer,
 }) => {
   const handlePress = () => {
     if (!opponent) {
@@ -33,7 +34,19 @@ const Dice = ({
   };
   return (
     <TouchableOpacity
-      style={[styles.dice, locked && styles.lockedDice]}
+      style={[
+        styles.dice,
+        isPlayer
+          ? {
+              backgroundColor: COLOR.ZELDA_BLUE,
+              borderColor: COLOR.ZELDA_BLUE,
+            }
+          : {
+              backgroundColor: COLOR.ZELDA_YELLOW,
+              borderColor: COLOR.ZELDA_YELLOW,
+            },
+        locked && styles.lockedDice,
+      ]}
       onPress={handlePress}
       disabled={opponent}
     >
@@ -67,7 +80,6 @@ const styles = StyleSheet.create({
   dice: {
     width: 40,
     height: 40,
-    backgroundColor: COLOR.ZELDA_BLUE,
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
@@ -75,7 +87,6 @@ const styles = StyleSheet.create({
   lockedDice: {
     backgroundColor: COLOR.GRAY,
     borderWidth: 2,
-    borderColor: COLOR.ZELDA_BLUE,
   },
   diceAnimationContainer: {
     paddingBottom: 10,

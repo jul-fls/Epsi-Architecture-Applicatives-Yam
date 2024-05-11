@@ -13,16 +13,31 @@ const OpponentScore = () => {
   }, []);
   return (
     <View style={styles.opponentScoreContainer}>
-      <Text style={{ color: COLOR.WHITE }}>Score: {opponentScore}</Text>
+      <Text style={styles.opponentScoreTitle}>SCORE</Text>
+
+      <Text style={styles.opponentScoreText}>{opponentScore}</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   opponentScoreContainer: {
+    marginTop: 4,
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
+  },
+  opponentScoreTitle: {
+    fontSize: 15,
+    fontFamily: "roboto",
+    fontWeight: "bold",
+    color: COLOR.ZELDA_YELLOW,
+  },
+  opponentScoreText: {
+    marginTop: 5,
+    fontSize: 15,
+    color: COLOR.WHITE,
+    fontFamily: "roboto",
   },
 });
 

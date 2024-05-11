@@ -52,7 +52,7 @@ const PlayerTimer = () => {
       ) : (
         <View>
           <View style={styles.animationContainer}>
-            <LottieView source={ANIMATION.CLOCK} autoPlay loop />
+            <LottieView source={ANIMATION.SAND_CLOCK_BLUE} autoPlay loop />
           </View>
         </View>
       )}

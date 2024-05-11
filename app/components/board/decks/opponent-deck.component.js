@@ -34,6 +34,7 @@ const OpponentDeck = () => {
               locked={diceData.locked}
               value={diceData.value}
               opponent={true}
+              isPlayer={false}
             />
           ))}
         </View>

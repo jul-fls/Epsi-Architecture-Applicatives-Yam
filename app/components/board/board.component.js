@@ -25,9 +25,9 @@ const Board = ({ gameViewState }) => {
         <View style={[styles.row, { height: "8%" }]}>
           <OpponentInfos />
           <View style={styles.opponentTimerScoreTokenContainer}>
-            <OpponentTimer />
             <OpponentScore />
             <OpponentTokens />
+            <OpponentTimer />
           </View>
         </View>
         <View style={[styles.row, { height: "25%" }]}>
