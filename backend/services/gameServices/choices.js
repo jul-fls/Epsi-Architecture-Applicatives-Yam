@@ -88,28 +88,7 @@ const choices = {
         }
       }
 
-      // return availableCombinations;
-      return [
-        { value: "Yam", id: "yam" },
-        { value: "≤8", id: "moinshuit" },
-        { value: "Brelan 1", id: "brelan1" },
-        { value: "Brelan 2", id: "brelan2" },
-        { value: "Full", id: "full" },
-        { value: "Suite", id: "suite" },
-        { value: "Brelan 4", id: "brelan4" },
-        { value: "Brelan 5", id: "brelan5" },
-        { value: "Brelan 6", id: "brelan6" },
-        { value: "Sec", id: "sec" },
-        { value: "Brelan 3", id: "brelan3"},
-        { value: "Carré", id: "carre" },
-      ];
-      // return [
-      //   { value: "Brelan 1", id: "brelan1" },
-      //   { value: "Brelan 3", id: "brelan3" },
-      //   { value: "Défi", id: "defi" },
-      //   { value: "Brelan 4", id: "brelan4" },
-      //   { value: "Brelan 6", id: "brelan6" },
-      // ];
+      return availableCombinations;
     },
 
     filterChoicesEnabler: (grid, combinations) => {
