@@ -16,6 +16,8 @@ export const IMAGE = {
   TEXT_FRAME_LEFT: require("../assets/images/text_frame_left.png"),
   TEXT_FRAME_RIGHT: require("../assets/images/text_frame_right.png"),
   ARROW_RIGHT: require("../assets/images/arrow_right.png"),
+  PLAYER_TOKEN: require("../assets/images/player_token.png"),
+  OPPONENT_TOKEN: require("../assets/images/opponent_token.png"),
 
   DICE_1: require("../assets/images/dice_1.png"),
   DICE_2: require("../assets/images/dice_2.png"),

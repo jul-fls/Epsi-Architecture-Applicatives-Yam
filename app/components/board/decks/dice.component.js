@@ -71,9 +71,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   lockedDice: {
-    backgroundColor: COLOR.LOCKED,
-    borderWidth: 1,
-    borderColor: COLOR.WHITE,
+    backgroundColor: COLOR.GRAY,
+    borderWidth: 2,
+    borderColor: COLOR.ZELDA_BLUE,
   },
   diceAnimationContainer: {
     paddingBottom: 10,

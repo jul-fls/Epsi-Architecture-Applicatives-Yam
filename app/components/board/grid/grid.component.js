@@ -1,7 +1,8 @@
 import React, { useEffect, useContext, useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
 import { COLOR } from "../../../constants/color";
+import { IMAGE } from "../../../constants/asset";
 
 const Grid = () => {
   const socket = useContext(SocketContext);
@@ -62,15 +63,29 @@ const Grid = () => {
                 onPress={() => handleSelectCell(cell.id, rowIndex, cellIndex)}
                 disabled={!cell.canBeChecked}
               >
-                <Text
-                  style={[
-                    styles.cellText,
-                    cell.owner !== null && styles.cellPlayerOwnedText,
-                  ]}
-                >
-                  {cell.viewContent}
-                  <br />[{rowIndex},{cellIndex}]
-                </Text>
+                {cell.owner == null && (
+                  <Text
+                    style={[
+                      styles.cellText,
+                      cell.owner !== null && styles.cellPlayerOwnedText,
+                    ]}
+                  >
+                    {cell.viewContent}
+                    <br />[{rowIndex},{cellIndex}]
+                  </Text>
+                )}
+                {cell.owner && (
+                  <View>
+                    <Image
+                      style={{ width: 30, height: 30 }}
+                      source={
+                        cell.owner === myPlayerId
+                          ? IMAGE.PLAYER_TOKEN
+                          : IMAGE.OPPONENT_TOKEN
+                      }
+                    />
+                  </View>
+                )}
               </TouchableOpacity>
             ))}
           </View>
@@ -101,21 +116,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: COLOR.DARK_GREEN,
+    borderColor: COLOR.WHITE,
   },
   cellText: {
     fontSize: 11,
   },
   cellPlayerOwnedText: {
-    color: COLOR.WHITE,
+    color: COLOR.ZELDA_PRIMARY,
   },
   playerOwnedCell: {
-    backgroundColor: COLOR.DARK_GREEN,
-    opacity: 0.9,
+    // backgroundColor: COLOR.ZELDA_BLUE,
+    // opacity: 0.9,
   },
   opponentOwnedCell: {
-    backgroundColor: COLOR.DARK_RED,
-    opacity: 0.9,
+    // backgroundColor: COLOR.WHITE,
+    // opacity: 0.9,
   },
   canBeCheckedCell: {
     backgroundColor: COLOR.LIGHT_GREEN,

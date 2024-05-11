@@ -45,17 +45,17 @@ const PlayerDeck = () => {
     <View style={styles.deckPlayerContainer}>
       {displayPlayerDeck && (
         <>
-          {displayRollButton && (
-            <>
-              <View style={styles.rollInfoContainer}>
+          <>
+            <View style={styles.rollInfoContainer}>
+              {displayRollButton && (
                 <Text style={styles.rollInfoText}>
-                  Lancer{" "}
-                  <Text style={{ fontWeight: "bold" }}>{rollsCounter}</Text> /{" "}
+                  Lancer
+                  <Text style={{ fontWeight: "bold" }}>{rollsCounter}</Text> /
                   {rollsMaximum}
                 </Text>
-              </View>
-            </>
-          )}
+              )}
+            </View>
+          </>
 
           <View style={styles.diceContainer}>
             {dices.map((diceData, index) => (
@@ -71,14 +71,14 @@ const PlayerDeck = () => {
             ))}
           </View>
 
-          {displayRollButton && rollsCounter <= rollsMaximum && (
-            <View style={styles.rollButtonContainer}>
+          <View style={styles.rollButtonContainer}>
+            {displayRollButton && rollsCounter <= rollsMaximum && (
               <TouchableOpacity style={styles.rollButton} onPress={rollDices}>
                 <Image style={{ marginRight: 10 }} source={IMAGE.ARROW_RIGHT} />
                 <Text style={styles.rollButtonText}>ROLL</Text>
               </TouchableOpacity>
-            </View>
-          )}
+            )}
+          </View>
         </>
       )}
     </View>
@@ -99,12 +99,15 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 5,
   },
+  rollInfoContainer: {
+    height: 30,
+    padding: 5,
+    marginBottom: 5,
+  },
   rollInfoText: {
     color: COLOR.WHITE,
     fontFamily: "roboto",
     fontSize: 15,
-    padding: 5,
-    marginBottom: 5,
   },
   rollButtonContainer: {
     flex: 1,
@@ -112,6 +115,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 5,
+    height: 50,
   },
   rollButton: {
     flex: 1,
