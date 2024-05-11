@@ -26,7 +26,6 @@ function App() {
             colors: {
               text: COLOR.WHITE,
               background: "transparent",
-              border: COLOR.ZELDA_BLUE,
             },
           }}
         >

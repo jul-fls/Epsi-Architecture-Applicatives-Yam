@@ -71,6 +71,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: COLOR.ZELDA_SECONDARY,
     backgroundColor: COLOR.ZELDA_SECONDARY,
+    borderWidth: 1,
+    borderTopColor: COLOR.WHITE,
+    borderBottomColor: COLOR.WHITE,
   },
   choiceButton: {
     borderWidth: 1,
