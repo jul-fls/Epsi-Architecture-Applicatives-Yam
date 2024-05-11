@@ -93,7 +93,7 @@ const Grid = () => {
 
 const styles = StyleSheet.create({
   gridContainer: {
-    flex: 7,
+    flex: 4,
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",

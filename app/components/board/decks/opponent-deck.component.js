@@ -17,7 +17,9 @@ const OpponentDeck = () => {
     socket.on("game.deck.view-state", (data) => {
       setDisplayOpponentDeck(data["displayOpponentDeck"]);
       if (data["displayOpponentDeck"]) {
-        setOpponentDices(data["dices"]);
+        setTimeout(() => {
+          setOpponentDices(data["dices"]);
+        }, 3500);
       }
     });
   }, []);

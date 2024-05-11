@@ -60,28 +60,31 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 10,
     borderBottomWidth: 1,
-    borderColor: COLOR.DARK_GREEN,
-    backgroundColor: COLOR.DARK_GREEN,
+    borderColor: COLOR.ZELDA_SECONDARY,
+    backgroundColor: COLOR.ZELDA_SECONDARY,
   },
   choiceButton: {
+    borderWidth: 1,
+    borderColor: COLOR.WHITE,
     backgroundColor: COLOR.ZELDA_PRIMARY,
     borderRadius: 5,
-    marginVertical: 5,
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-    height: "10%",
+    height: "13%",
+
+    marginVertical: 3,
   },
   selectedChoice: {
-    backgroundColor: COLOR.WHITE,
+    backgroundColor: COLOR.GRAY,
   },
   choiceText: {
-    fontSize: 13,
+    fontSize: 15,
     fontWeight: "bold",
-    color: COLOR.DARK_GREEN,
+    color: COLOR.WHITE,
   },
   disabledChoice: {
-    opacity: 0.5,
+    opacity: 0.3,
   },
 });
 
