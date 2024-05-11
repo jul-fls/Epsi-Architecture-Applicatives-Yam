@@ -39,7 +39,15 @@ const PlayerDeck = () => {
   };
 
   const rollDices = () => {
-    if (rollsCounter <= rollsMaximum) {
+    if (rollsCounter === rollsMaximum) {
+      setIsAnimated(true);
+      setTimeout(() => {
+        socket.emit("game.dices.roll");
+      }, DEFAULT_SET_TIMER);
+      return;
+    }
+
+    if (rollsCounter < rollsMaximum) {
       socket.emit("game.dices.roll");
       setIsAnimated(true);
     }
@@ -51,7 +59,7 @@ const PlayerDeck = () => {
         <>
           <>
             <View style={styles.rollInfoContainer}>
-              {displayRollButton && rollsCounter < rollsMaximum + 1 && (
+              {displayRollButton && (
                 <Text style={styles.rollInfoText}>
                   Lancer
                   <Text style={{ fontWeight: "bold" }}>{rollsCounter}</Text> /
