@@ -30,7 +30,7 @@ function App() {
             },
           }}
         >
-          <Stack.Navigator initialRouteName="HomeScreen">
+          <Stack.Navigator initialRouteName="Yam Master">
             <Stack.Group screenOptions={{}}>
               <Stack.Screen
                 name="Yam Master"

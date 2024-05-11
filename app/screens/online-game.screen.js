@@ -36,7 +36,7 @@ export default function OnlineGameScreen({ navigation }) {
             <OnlineGameController />
             <View style={styles.buttonContainer}>
               <TouchableOpacity
-                onPress={() => navigation.navigate("HomeScreen")}
+                onPress={() => navigation.navigate("Yam Master")}
                 style={styles.button}
               >
                 <Image
