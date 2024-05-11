@@ -5980,6 +5980,11 @@ rc@~1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-countdown-circle-timer@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.npmjs.org/react-countdown-circle-timer/-/react-countdown-circle-timer-3.2.1.tgz"
+  integrity sha512-yBAy/9ILXOiFbLBM+3jS72TW5LeRcH8wkRC9NNqMpUkCXkGjSnaeRbJMsR9lsYF0oVXjSDbJaRbCuVMT+9HnKA==
+
 react-devtools-core@^4.27.7:
   version "4.28.5"
   resolved "https://registry.npmjs.org/react-devtools-core/-/react-devtools-core-4.28.5.tgz"
@@ -6120,7 +6125,7 @@ react-shallow-renderer@^16.15.0:
     object-assign "^4.1.1"
     react-is "^16.12.0 || ^17.0.0 || ^18.0.0"
 
-react@*, "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", react@^18.0.0, react@^18.2.0, react@>=16.8, react@>=17.0.0, "react@16 - 18", react@18.2.0:
+react@*, "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", react@^18.0.0, react@^18.2.0, react@>=16.8, react@>=16.8.0, react@>=17.0.0, "react@16 - 18", react@18.2.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
