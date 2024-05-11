@@ -51,7 +51,7 @@ const PlayerDeck = () => {
         <>
           <>
             <View style={styles.rollInfoContainer}>
-              {displayRollButton && (
+              {displayRollButton && rollsCounter < rollsMaximum + 1 && (
                 <Text style={styles.rollInfoText}>
                   Lancer
                   <Text style={{ fontWeight: "bold" }}>{rollsCounter}</Text> /
@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
     color: COLOR.WHITE,
     fontFamily: "roboto",
     fontSize: 15,
+    paddingRight: 4,
   },
   rollButtonContainer: {
     flex: 1,
