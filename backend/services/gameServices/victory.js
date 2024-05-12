@@ -21,51 +21,81 @@ const victory = {
         console.log("The game is over, no more tokens available");
         victoryType = "score";
         let scoreWinner = victory.checkScores(gameState);
+        console.log("winner (in checkVictory): ", scoreWinner);
         winner = scoreWinner;
       }
 
       if (winner != null) {
-        winner = winner.split(":")[1];
-        gameState.gameEndTime = Date.now();
-        gameDurationTimestamp = gameState.gameEndTime - gameState.gameStartTime;
-        // now format it like this: 00:00:00, remove hours part if less than 1 hour
-        gameDuration = new Date(gameDurationTimestamp).toISOString().substr(11, 8);
-        console.log("Game duration (in victory.js): ", gameDuration);
-        loser = winner === "1" ? "2" : "1";
-        gameType = gameState.gameType;
-        winnerUsedTokens = init.MAX_TOKENS() - gameState[`player${winner}Tokens`];
-        loserUsedTokens = init.MAX_TOKENS() - gameState[`player${loser}Tokens`];
-        winnerScore = gameState[`player${winner}Score`];
-        loserScore = gameState[`player${loser}Score`];
-        if (victoryType === "alignment") {
-          winnerScore = null;
-          loserScore = null;
+        if(winner !== "draw"){
+          winner = winner.split(":")[1];
+          gameState.gameEndTime = Date.now();
+          gameDurationTimestamp = gameState.gameEndTime - gameState.gameStartTime;
+          gameDuration = new Date(gameDurationTimestamp).toISOString().substr(11, 8);
+          console.log("Game duration (in victory.js): ", gameDuration);
+          loser = winner === "1" ? "2" : "1";
+          gameType = gameState.gameType;
+          winnerUsedTokens = init.MAX_TOKENS() - gameState[`player${winner}Tokens`];
+          loserUsedTokens = init.MAX_TOKENS() - gameState[`player${loser}Tokens`];
+          winnerScore = gameState[`player${winner}Score`];
+          loserScore = gameState[`player${loser}Score`];
+          if (victoryType === "alignment") {
+            winnerScore = null;
+            loserScore = null;
+          }
+          const gameResult = {
+            gameType,
+            gameDuration,
+            winner,
+            loser,
+            winnerUsedTokens,
+            loserUsedTokens,
+            winnerScore,
+            loserScore,
+            victoryType,
+          };
+          return gameResult;
+        }else if(winner === "draw"){
+          winner = "draw",
+          gameState.gameEndTime = Date.now();
+          gameDurationTimestamp = gameState.gameEndTime - gameState.gameStartTime;
+          gameDuration = new Date(gameDurationTimestamp).toISOString().substr(11, 8);
+          loser = "draw";
+          gameType = gameState.gameType;
+          winnerUsedTokens = init.MAX_TOKENS() - gameState[`player1Tokens`];
+          loserUsedTokens = init.MAX_TOKENS() - gameState[`player2Tokens`];
+          winnerScore = gameState[`player1Score`];
+          loserScore = gameState[`player2Score`];
+          if (victoryType === "alignment") {
+            winnerScore = null;
+            loserScore = null;
+          }
+
+          const gameResult = {
+            gameType,
+            gameDuration,
+            winner,
+            loser,
+            winnerUsedTokens,
+            loserUsedTokens,
+            winnerScore,
+            loserScore,
+            victoryType
+          };
+          return gameResult;
         }
-        const gameResult = {
-          gameType,
-          gameDuration,
-          winner,
-          loser,
-          winnerUsedTokens,
-          loserUsedTokens,
-          winnerScore,
-          loserScore,
-          victoryType,
-        };
-        return gameResult;
-      }else{
-        const gameResult = {
-          gameType: null,
-          gameDuration: null,
-          winner: null,
-          loser: null,
-          winnerUsedTokens: null,
-          loserUsedTokens: null,
-          winnerScore: null,
-          loserScore: null,
-          victoryType: null,
-        };
-        return gameResult;
+        }else{
+          const gameResult = {
+            gameType: null,
+            gameDuration: null,
+            winner: null,
+            loser: null,
+            winnerUsedTokens: null,
+            loserUsedTokens: null,
+            winnerScore: null,
+            loserScore: null,
+            victoryType: null,
+          };
+          return gameResult;
       }
     },
     checkScores: (gameState) => {
@@ -82,6 +112,7 @@ const victory = {
         winner = "draw";
         console.log("It's a draw");
       }
+      console.log("winner (in checkScores): ", winner)
       return winner;
     },
     checkVictoryHorizontal: (grid) => {
