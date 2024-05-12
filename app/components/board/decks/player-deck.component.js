@@ -37,9 +37,17 @@ const PlayerDeck = () => {
   };
 
   const rollDices = () => {
-    if (rollsCounter <= rollsMaximum) {
+    if (rollsCounter === rollsMaximum) {
       setIsDiceAnimated(true);
+      setTimeout(() => {
+        socket.emit("game.dices.roll");
+      }, 3500);
+      return;
+    }
+
+    if (rollsCounter < rollsMaximum) {
       socket.emit("game.dices.roll");
+      setIsDiceAnimated(true);
     }
   };
 
