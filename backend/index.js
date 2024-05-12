@@ -4,6 +4,8 @@ const io = require("socket.io")(http);
 var uniqid = require("uniqid");
 const GameService = require("./services/game.services");
 
+const bot = require("./bot.js");
+
 // ---------------------------------------------------
 // -------- CONSTANTS AND GLOBAL VARIABLES -----------
 // ---------------------------------------------------
@@ -82,16 +84,54 @@ const updateClientsViewPlayersInfos = (game) => {
   }, 200);
 };
 
-const newPlayerInQueue = (socket) => {
+const newPlayerInQueue = async (socket, gameType) => {
   queue.push(socket);
+  if(gameType === "bot"){
+    // call bot.js method to simulate a bot player and get his socket.id
+    // then add it to the queue    
+    bot.startBot();
+    let botSocket = null;  // Declare a variable outside the loop to store the bot's socket
 
-  // Queue management
-  if (queue.length >= 2) {
-    const player1Socket = queue.shift();
-    const player2Socket = queue.shift();
-    createGame(player1Socket, player2Socket, "online");
-  } else {
-    socket.emit("queue.added", GameService.send.forPlayer.viewQueueState());
+    await setTimeout(() => {
+        const connectedSockets = io.of("/").sockets;
+        const socketArray = Array.from(connectedSockets.values()); // Convert Map values to an array
+        botSocket = socketArray[socketArray.length - 1]; // Get the last socket
+
+        if(botSocket) {
+            console.log("Bot Socket ID:", botSocket.id);
+        } else {
+            console.log("No bot connected.");
+        }
+        queue.push(botSocket);
+        console.log("Queue Length:", queue.length);
+        // Queue management
+        if (queue.length >= 2) {
+          // setTimeout(() => {
+            // console.log("queue length >= 2",queue)
+          
+          const player1Socket = queue.shift();
+          const player2Socket = queue.shift();
+          console.log(`[${player1Socket.id}] and [${player2Socket.id}] are in game of type ${gameType}`);
+          createGame(player1Socket, player2Socket, gameType);
+        // }, 2000);
+        } else {
+          socket.emit("queue.added", GameService.send.forPlayer.viewQueueState());
+        }
+    }, 2000);
+  }else{
+    // Queue management
+    if (queue.length >= 2) {
+      // setTimeout(() => {
+        // console.log("queue length >= 2",queue)
+      
+      const player1Socket = queue.shift();
+      const player2Socket = queue.shift();
+      console.log(`[${player1Socket.id}] and [${player2Socket.id}] are in game of type ${gameType}`);
+      createGame(player1Socket, player2Socket, gameType);
+    // }, 2000);
+    } else {
+      socket.emit("queue.added", GameService.send.forPlayer.viewQueueState());
+    }
   }
 };
 
@@ -119,10 +159,10 @@ const createGame = (player1Socket, player2Socket, type) => {
     "game.start",
     GameService.send.forPlayer.gameViewState("player:1", games[gameIndex])
   );
-  games[gameIndex].player2Socket.emit(
-    "game.start",
-    GameService.send.forPlayer.gameViewState("player:2", games[gameIndex])
-  );
+  
+  console.log("Emitting to player2, Socket ID:", games[gameIndex].player2Socket.id);
+  console.log("Is player2 socket connected?", games[gameIndex].player2Socket.connected);
+  games[gameIndex].player2Socket.emit("game.start", GameService.send.forPlayer.gameViewState("player:2", games[gameIndex]));
 
   updateClientsViewTimers(games[gameIndex]);
   updateClientsViewDecks(games[gameIndex]);
@@ -159,14 +199,10 @@ const createGame = (player1Socket, player2Socket, type) => {
       updateClientsViewChoices(games[gameIndex]);
       updateClientsViewGrid(games[gameIndex]);
 
-      // emit socket "game.change-turn" to both players with the game as data
-      games[gameIndex].player1Socket.emit(
-        "game.change-turn",
-        GameService.send.forPlayer.changeTurnState(games[gameIndex])
-      );
+      // emit socket "game.change-turn" to bot player (always player2) with the gameState as data
       games[gameIndex].player2Socket.emit(
         "game.change-turn",
-        GameService.send.forPlayer.changeTurnState(games[gameIndex])
+        games[gameIndex].gameState
       );
     }
   }, 1000);
@@ -217,9 +253,9 @@ const resetGame = (gameIndex) => {
 io.on("connection", (socket) => {
   console.log(`[${socket.id}] socket connected`);
 
-  socket.on("queue.join", () => {
+  socket.on("queue.join", async (gameType) => {
     console.log(`[${socket.id}] new player in queue `);
-    newPlayerInQueue(socket);
+    await newPlayerInQueue(socket, gameType);
   });
 
   socket.on("queue.leave", () => {
@@ -404,6 +440,10 @@ io.on("connection", (socket) => {
       // fin de la partie
       // on stoppe tout
     }
+  });
+
+  socket.on("test-bot", (data) => {
+    console.log("received data : ", data);
   });
 });
 
