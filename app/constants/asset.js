@@ -9,6 +9,7 @@ export const ANIMATION = {
 };
 
 export const IMAGE = {
+  ROBOT: require("../assets/images/robot.png"),
   PLAYER: require("../assets/images/player.png"),
   OPPONENT: require("../assets/images/opponent.png"),
   V: require("../assets/images/v.png"),

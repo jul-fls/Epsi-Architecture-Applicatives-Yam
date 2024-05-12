@@ -94,6 +94,7 @@ const send = {
             ? gameState.player1Tokens
             : gameState.player2Tokens,
         playerKey: playerKey,
+        gameType: gameState.gameType,
       };
       const opponentInfos = {
         score:
@@ -105,6 +106,7 @@ const send = {
             ? gameState.player2Tokens
             : gameState.player1Tokens,
         playerKey: playerKey === "player:1" ? "player:2" : "player:1",
+        gameType: gameState.gameType,
       };
       return { playerInfos: playerInfos, opponentInfos: opponentInfos };
     },

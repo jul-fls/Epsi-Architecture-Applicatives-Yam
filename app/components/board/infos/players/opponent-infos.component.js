@@ -7,18 +7,34 @@ import { replaceString } from "../../../../assets/utils/utility";
 const OpponentInfos = () => {
   const socket = useContext(SocketContext);
   const [opponentInfos, setOpponentInfos] = useState({});
+  const [gameType, setGameType] = useState("");
+
   useEffect(() => {
     socket.on("game.players-infos.view-state", (data) => {
       setOpponentInfos(data["opponentInfos"]);
+      setGameType(data["opponentInfos"]["gameType"]);
     });
   }, []);
+
   return (
     <View style={styles.opponentInfosContainer}>
-      <Image style={styles.opponentImage} source={IMAGE.OPPONENT} />
-      <Text style={styles.opponentInfosText}>
-        {opponentInfos.playerKey &&
-          replaceString(opponentInfos.playerKey, "player:", "joueur ")}
-      </Text>
+      {gameType === "bot" ? (
+        <>
+          <Image
+            style={[styles.opponentImage, { width: 35, height: 35 }]}
+            source={IMAGE.ROBOT}
+          />
+          <Text style={styles.opponentInfosText}>Bot</Text>
+        </>
+      ) : (
+        <>
+          <Image style={styles.opponentImage} source={IMAGE.OPPONENT} />
+          <Text style={styles.opponentInfosText}>
+            {opponentInfos.playerKey &&
+              replaceString(opponentInfos.playerKey, "player:", "joueur ")}
+          </Text>
+        </>
+      )}
     </View>
   );
 };

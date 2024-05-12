@@ -26,7 +26,6 @@ const GameInfo = () => {
     });
   }, []);
 
-  console.log("gameInfos :: ", gameInfos);
   return (
     <View style={isGameInfosExist ? { flex: 1, position: "absolute" } : {}}>
       <Modal
@@ -98,9 +97,16 @@ const GameInfo = () => {
                   </View>
                 )}
                 <View style={styles.gameInfoDetailTitleContainer}>
-                  <Text style={styles.detailTitle}>
-                    Joueur {gameInfos.loser === "draw" ? "2" : gameInfos.loser}
-                  </Text>
+                  {gameInfos.gameType === "bot" ? (
+                    <View>
+                      <Text style={styles.detailTitle}>Bot</Text>
+                    </View>
+                  ) : (
+                    <Text style={styles.detailTitle}>
+                      Joueur{" "}
+                      {gameInfos.loser === "draw" ? "2" : gameInfos.loser}
+                    </Text>
+                  )}
                 </View>
                 <View style={styles.gameInfoDetailTitleContainer}>
                   <Text style={styles.detailTitle}>Pion(s) utilisé(s)</Text>
