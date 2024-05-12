@@ -158,6 +158,16 @@ const createGame = (player1Socket, player2Socket, type) => {
       updateClientsViewDecks(games[gameIndex]);
       updateClientsViewChoices(games[gameIndex]);
       updateClientsViewGrid(games[gameIndex]);
+
+      // emit socket "game.change-turn" to both players with the game as data
+      games[gameIndex].player1Socket.emit(
+        "game.change-turn",
+        GameService.send.forPlayer.changeTurnState(games[gameIndex])
+      );
+      games[gameIndex].player2Socket.emit(
+        "game.change-turn",
+        GameService.send.forPlayer.changeTurnState(games[gameIndex])
+      );
     }
   }, 1000);
 
