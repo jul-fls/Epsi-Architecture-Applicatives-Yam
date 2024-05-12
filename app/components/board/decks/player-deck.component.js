@@ -30,24 +30,24 @@ const PlayerDeck = () => {
 
   const toggleDiceLock = (index) => {
     const newDices = [...dices];
+    setIsDiceAnimated(false);
+
     if (newDices[index].value !== "" && displayRollButton) {
       socket.emit("game.dices.lock", newDices[index].id);
-      setIsDiceAnimated(false);
     }
   };
 
   const rollDices = () => {
+    setIsDiceAnimated(true);
+
     if (rollsCounter === rollsMaximum) {
-      setIsDiceAnimated(true);
       setTimeout(() => {
         socket.emit("game.dices.roll");
-      }, 2900);
+      }, 2500);
       return;
     }
-
-    if (rollsCounter < rollsMaximum) {
+    if (rollsCounter <= rollsMaximum) {
       socket.emit("game.dices.roll");
-      setIsDiceAnimated(true);
     }
   };
 
@@ -76,8 +76,8 @@ const PlayerDeck = () => {
                 locked={diceData.locked}
                 value={diceData.value}
                 onPress={toggleDiceLock}
-                isDiceAnimated={isDiceAnimated}
-                setIsDiceAnimated={setIsDiceAnimated}
+                // isDiceAnimated={isDiceAnimated}
+                // setIsDiceAnimated={setIsDiceAnimated}
                 isPlayer={true}
               />
             ))}
@@ -88,7 +88,7 @@ const PlayerDeck = () => {
                 <TouchableOpacity
                   style={[
                     styles.rollButton,
-                    isDiceAnimated && { display: "none", opacity: 0.5 },
+                    isDiceAnimated && { display: "none" },
                   ]}
                   onPress={rollDices}
                 >
