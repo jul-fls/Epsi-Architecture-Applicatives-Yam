@@ -123,7 +123,7 @@ const send = {
           loserScore: gameResult.loserScore,
           victoryType: gameResult.victoryType,
         };
-        return gameInfos;
+        return {gameInfos: gameInfos};
       },
     },
 }
