@@ -23,7 +23,7 @@ export default function OnlineGameController() {
     setTipText(DID_YOU_KNOW[randomIndex]);
   }, 20000),
     useEffect(() => {
-      socket.emit("queue.join");
+      socket.emit("queue.join","online");
       setInQueue(false);
       setInGame(false);
 
