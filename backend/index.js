@@ -269,7 +269,7 @@ io.on("connection", (socket) => {
       games[gameIndex].gameState.choices.availableChoices = combinations;
 
       if (combinations.length == 0) {
-        games[gameIndex].gameState.timer = 3;
+        games[gameIndex].gameState.timer = 7;
       }
     }
 
