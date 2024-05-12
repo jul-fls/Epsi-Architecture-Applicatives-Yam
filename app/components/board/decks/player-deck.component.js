@@ -60,8 +60,10 @@ const PlayerDeck = () => {
               {displayRollButton && (
                 <Text style={styles.rollInfoText}>
                   Lancer
-                  <Text style={{ fontWeight: "bold" }}>{rollsCounter}</Text> /
-                  {rollsMaximum}
+                  <Text style={{ fontWeight: "bold", marginLeft: 5 }}>
+                    {rollsCounter}
+                  </Text>
+                  /{rollsMaximum}
                 </Text>
               )}
             </View>
@@ -144,12 +146,9 @@ const styles = StyleSheet.create({
     paddingRight: 4,
   },
   rollButtonContainer: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
     marginVertical: 5,
     height: 50,
+    width: "100%",
   },
   rollButton: {
     flex: 1,
@@ -161,7 +160,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLOR.ZELDA_BLUE,
     borderRadius: 5,
-    width: 120,
+    marginHorizontal: 10,
   },
   rollButtonText: {
     color: COLOR.ZELDA_BLUE,
