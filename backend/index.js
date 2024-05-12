@@ -4,6 +4,8 @@ const io = require("socket.io")(http);
 var uniqid = require("uniqid");
 const GameService = require("./services/game.services");
 
+const bot = require("./bot.js");
+
 // ---------------------------------------------------
 // -------- CONSTANTS AND GLOBAL VARIABLES -----------
 // ---------------------------------------------------
@@ -82,25 +84,48 @@ const updateClientsViewPlayersInfos = (game) => {
   }, 200);
 };
 
-const newPlayerInQueue = (socket) => {
+const newPlayerInQueue = async (socket, gameType) => {
   queue.push(socket);
+  if (gameType === "bot") {
+    // call bot.js method to simulate a bot player and get his socket.id
+    // then add it to the queue
+    bot.startBot();
+    let botSocket = null; // Declare a variable outside the loop to store the bot's socket
 
-  // Queue management
-  if (queue.length >= 2) {
-    const player1Socket = queue.shift();
-    const player2Socket = queue.shift();
-    createGame(player1Socket, player2Socket, "online");
+    await setTimeout(() => {
+      const connectedSockets = io.of("/").sockets;
+      const socketArray = Array.from(connectedSockets.values()); // Convert Map values to an array
+      botSocket = socketArray[socketArray.length - 1]; // Get the last socket
+
+      if (botSocket) {
+        console.log("Bot Socket ID:", botSocket.id);
+      } else {
+        console.log("No bot connected.");
+      }
+      queue.push(botSocket);
+      console.log("Queue Length:", queue.length);
+      if (queue.length >= 2) {
+        const player1Socket = queue.shift();
+        const player2Socket = queue.shift();
+        // console.log(`[${player1Socket.id}] and [${player2Socket.id}] are in game of type ${gameType}`);
+        createGame(player1Socket, player2Socket, gameType);
+      } else {
+        socket.emit("queue.added", GameService.send.forPlayer.viewQueueState());
+      }
+    }, 100);
   } else {
-    socket.emit("queue.added", GameService.send.forPlayer.viewQueueState());
+    if (queue.length >= 2) {
+      const player1Socket = queue.shift();
+      const player2Socket = queue.shift();
+      // console.log(`[${player1Socket.id}] and [${player2Socket.id}] are in game of type ${gameType}`);
+      createGame(player1Socket, player2Socket, gameType);
+    } else {
+      socket.emit("queue.added", GameService.send.forPlayer.viewQueueState());
+    }
   }
 };
 
 const createGame = (player1Socket, player2Socket, type) => {
-  // init objet (game) with this first level of structure:
-  // - gameState : { .. evolutive object .. }
-  // - idGame : just in case ;)
-  // - player1Socket: socket instance key "joueur:1"
-  // - player2Socket: socket instance key "joueur:2"
   const newGame = GameService.init.gameState();
   newGame["idGame"] = uniqid();
   newGame["gameState"]["gameType"] = type;
@@ -119,6 +144,7 @@ const createGame = (player1Socket, player2Socket, type) => {
     "game.start",
     GameService.send.forPlayer.gameViewState("player:1", games[gameIndex])
   );
+
   games[gameIndex].player2Socket.emit(
     "game.start",
     GameService.send.forPlayer.gameViewState("player:2", games[gameIndex])
@@ -158,18 +184,30 @@ const createGame = (player1Socket, player2Socket, type) => {
       updateClientsViewDecks(games[gameIndex]);
       updateClientsViewChoices(games[gameIndex]);
       updateClientsViewGrid(games[gameIndex]);
+
+      // emit socket "game.change-turn" to both players with the game as data
+
+      games[gameIndex].player2Socket.emit(
+        "game.change-turn",
+        games[gameIndex].gameState
+      );
     }
   }, 1000);
 
   // remove intervals at deconnection
   player1Socket.on("disconnect", () => {
-    clearInterval(games[gameIndex].gameInterval);
+    if (gameIndex !== -1) {
+      resetGame(gameIndex);
+    }
   });
 
   player2Socket.on("disconnect", () => {
-    clearInterval(games[gameIndex].gameInterval);
+    if (gameIndex !== -1) {
+      resetGame(gameIndex);
+    }
   });
 };
+
 const leaveQueue = (socket) => {
   const index = queue.indexOf(socket);
   if (index > -1) {
@@ -179,6 +217,24 @@ const leaveQueue = (socket) => {
   socket.emit("queue.removed", GameService.send.forPlayer.viewQueueState());
 };
 
+const resetGame = (gameIndex) => {
+  const game = games[gameIndex];
+
+  if (game != undefined) {
+    const gameType = game.gameState.gameType;
+    // Clear the game interval to stop any ongoing game processes
+    clearInterval(game.gameInterval);
+
+    // Emit a reset or clean-up signal to both players, if necessary
+    game.player1Socket.emit("game.reset", "The game has been reset.");
+    game.player2Socket.emit("game.reset", "The game has been reset.");
+    bot.stopBot();
+    // Remove the game from the games array
+    games.splice(gameIndex, 1);
+    console.log(`Game ${game.idGame} has been reset.`);
+  }
+};
+
 // ---------------------------------------
 // -------- SOCKETS MANAGEMENT -----------
 // ---------------------------------------
@@ -186,9 +242,9 @@ const leaveQueue = (socket) => {
 io.on("connection", (socket) => {
   console.log(`[${socket.id}] socket connected`);
 
-  socket.on("queue.join", () => {
+  socket.on("queue.join", async (gameType) => {
     console.log(`[${socket.id}] new player in queue `);
-    newPlayerInQueue(socket);
+    await newPlayerInQueue(socket, gameType);
   });
 
   socket.on("queue.leave", () => {
@@ -204,7 +260,7 @@ io.on("connection", (socket) => {
     // If not last throw : rollsCounter(1,2,3) <= rollsMaximum(3)
     if (
       games[gameIndex].gameState.deck.rollsCounter <=
-      games[gameIndex].gameState.deck.rollsMaximum -1
+      games[gameIndex].gameState.deck.rollsMaximum - 1
     ) {
       // Dices management
       games[gameIndex].gameState.deck.dices = GameService.dices.roll(
@@ -249,7 +305,7 @@ io.on("connection", (socket) => {
       games[gameIndex].gameState.choices.availableChoices = combinations;
 
       if (combinations.length == 0) {
-        games[gameIndex].gameState.timer = 3;
+        games[gameIndex].gameState.timer = 7;
       }
     }
 
@@ -333,23 +389,6 @@ io.on("connection", (socket) => {
         ? "player:2"
         : "player:1";
     games[gameIndex].gameState.timer = GameService.timer.getTurnDuration();
-    const VictoryResult = GameService.victory.checkVictory(games[gameIndex].gameState);
-    if (VictoryResult.winner != null) {
-      console.log("VictoryResult: ", VictoryResult);
-      games[gameIndex].player1Socket.emit(
-        "game.game-over",
-        GameService.send.forPlayer.victoryState(VictoryResult)
-      );
-      games[gameIndex].player2Socket.emit(
-        "game.game-over",
-        GameService.send.forPlayer.victoryState(VictoryResult)
-      );
-      // clearInterval(games[gameIndex].gameInterval);
-      // games.splice(gameIndex, 1);
-      // return;
-      // fin de la partie
-      // on stoppe tout
-    }
     // On remet le deck et les choix à zéro (la grille, elle, ne change pas)
     games[gameIndex].gameState.deck = GameService.init.deck();
     games[gameIndex].gameState.choices = GameService.init.choices();
@@ -375,10 +414,46 @@ io.on("connection", (socket) => {
     updateClientsViewChoices(games[gameIndex]);
     updateClientsViewGrid(games[gameIndex]);
     updateClientsViewPlayersInfos(games[gameIndex]);
+    const VictoryResult = GameService.victory.checkVictory(
+      games[gameIndex].gameState
+    );
+    if (VictoryResult.winner != null) {
+      console.log("VictoryResult: ", VictoryResult);
+      games[gameIndex].player1Socket.emit(
+        "game.game-over",
+        GameService.send.forPlayer.victoryState(VictoryResult)
+      );
+      games[gameIndex].player2Socket.emit(
+        "game.game-over",
+        GameService.send.forPlayer.victoryState(VictoryResult)
+      );
+      resetGame(gameIndex);
+      // fin de la partie
+      // on stoppe tout
+    }
   });
 
-  socket.on("disconnect", (reason) => {
-    console.log(`[${socket.id}] socket disconnected - ${reason}`);
+  socket.onAny((eventName, ...args) => {
+    console.log("Server received message:", eventName, args);
+  });
+
+  socket.prependAny((eventName, ...args) => {
+    console.log("Server sent message:", eventName, args);
+  });
+
+  socket.on("test-bot", (data) => {
+    console.log("received data : ", data);
+  });
+
+  socket.on("game.cancel", (data) => {
+    // Reset the game logic here
+    const gameIndex = GameService.utils.findGameIndexBySocketId(
+      games,
+      socket.id
+    );
+    if (gameIndex !== -1) {
+      resetGame(gameIndex);
+    }
   });
 });
 

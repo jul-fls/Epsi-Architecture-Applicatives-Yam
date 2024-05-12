@@ -5,7 +5,7 @@ import { SocketContext } from "../../../contexts/socket.context";
 import Dice from "./dice.component";
 import { COLOR } from "../../../constants/color";
 import { IMAGE, ANIMATION } from "../../../constants/asset";
-import { DEFAULT_SET_TIMER } from "../../../constants/text";
+import { DiceContext } from "../../../contexts/dice.context";
 
 const PlayerDeck = () => {
   const socket = useContext(SocketContext);
@@ -14,7 +14,9 @@ const PlayerDeck = () => {
   const [displayRollButton, setDisplayRollButton] = useState(false);
   const [rollsCounter, setRollsCounter] = useState(1);
   const [rollsMaximum, setRollsMaximum] = useState(3);
-  const [isAnimated, setIsAnimated] = useState(false);
+  const [isDiceAnimated, setIsDiceAnimated] = useState(false);
+
+  const { isDiceRolled, setIsDiceRolled } = useContext(DiceContext);
 
   useEffect(() => {
     socket.on("game.deck.view-state", (data) => {
@@ -23,26 +25,38 @@ const PlayerDeck = () => {
         setDisplayRollButton(data["displayRollButton"]);
         setRollsMaximum(data["rollsMaximum"]);
         setDices(data["dices"]);
-        setTimeout(() => {
-          setRollsCounter(data["rollsCounter"]);
-        }, DEFAULT_SET_TIMER);
+        setRollsCounter(data["rollsCounter"]);
       }
     });
   }, []);
 
+  useEffect(() => {
+    setIsDiceRolled(isDiceAnimated);
+  }, [isDiceAnimated]);
+
   const toggleDiceLock = (index) => {
     const newDices = [...dices];
+
     if (newDices[index].value !== "" && displayRollButton) {
       socket.emit("game.dices.lock", newDices[index].id);
-      setIsAnimated(false);
+      setIsDiceAnimated(false);
     }
   };
 
   const rollDices = () => {
-    if (rollsCounter <= rollsMaximum) {
+    if (rollsCounter === 1) {
       socket.emit("game.dices.roll");
-      setIsAnimated(true);
+      setIsDiceAnimated(true);
+
+      return;
     }
+
+    if (rollsCounter <= rollsMaximum) {
+      setTimeout(() => {
+        socket.emit("game.dices.roll");
+      }, 2500);
+    }
+    setIsDiceAnimated(true);
   };
 
   return (
@@ -54,8 +68,10 @@ const PlayerDeck = () => {
               {displayRollButton && (
                 <Text style={styles.rollInfoText}>
                   Lancer
-                  <Text style={{ fontWeight: "bold" }}>{rollsCounter}</Text> /
-                  {rollsMaximum}
+                  <Text style={{ fontWeight: "bold", marginLeft: 5 }}>
+                    {rollsCounter}
+                  </Text>
+                  /{rollsMaximum}
                 </Text>
               )}
             </View>
@@ -68,18 +84,23 @@ const PlayerDeck = () => {
                 locked={diceData.locked}
                 value={diceData.value}
                 onPress={toggleDiceLock}
-                isAnimated={isAnimated}
-                setIsAnimated={setIsAnimated}
+                isDiceAnimated={isDiceAnimated}
+                setIsDiceAnimated={setIsDiceAnimated}
                 isPlayer={true}
               />
             ))}
           </View>
           <View style={styles.rollButtonContainer}>
             {displayRollButton && rollsCounter <= rollsMaximum && (
-              <TouchableOpacity style={styles.rollButton} onPress={rollDices}>
-                <Image style={{ marginRight: 10 }} source={IMAGE.ARROW_RIGHT} />
-                <Text style={styles.rollButtonText}>LANCER</Text>
-              </TouchableOpacity>
+              <View>
+                <TouchableOpacity style={styles.rollButton} onPress={rollDices}>
+                  <Image
+                    style={{ marginRight: 10 }}
+                    source={IMAGE.ARROW_RIGHT}
+                  />
+                  <Text style={styles.rollButtonText}>LANCER</Text>
+                </TouchableOpacity>
+              </View>
             )}
           </View>
         </>
@@ -106,6 +127,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    borderWidth: 1,
+    borderBottomColor: COLOR.WHITE,
   },
   diceContainer: {
     flexDirection: "row",
@@ -122,14 +145,12 @@ const styles = StyleSheet.create({
     color: COLOR.WHITE,
     fontFamily: "roboto",
     fontSize: 15,
+    paddingRight: 4,
   },
   rollButtonContainer: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
     marginVertical: 5,
     height: 50,
+    width: "100%",
   },
   rollButton: {
     flex: 1,
@@ -141,7 +162,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLOR.ZELDA_BLUE,
     borderRadius: 5,
-    width: 120,
+    marginHorizontal: 10,
   },
   rollButtonText: {
     color: COLOR.ZELDA_BLUE,

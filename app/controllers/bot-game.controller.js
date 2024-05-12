@@ -9,7 +9,7 @@ import { COLOR } from "../constants/color";
 import { DID_YOU_KNOW } from "../constants/text";
 import { IMAGE, ANIMATION } from "../constants/asset";
 
-export default function OnlineGameController() {
+export default function BotGameController() {
   const socket = useContext(SocketContext);
   const [inQueue, setInQueue] = useState(false);
   const [inGame, setInGame] = useState(false);
@@ -23,7 +23,7 @@ export default function OnlineGameController() {
     setTipText(DID_YOU_KNOW[randomIndex]);
   }, 20000),
     useEffect(() => {
-      socket.emit("queue.join","online");
+      socket.emit("queue.join","bot");
       setInQueue(false);
       setInGame(false);
 

@@ -1,8 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useContext } from "react";
 import { Image, View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import LottieView from "lottie-react-native";
 import { COLOR } from "../../../constants/color";
 import { ANIMATION, IMAGE } from "../../../constants/asset";
+import { DiceContext } from "../../../contexts/dice.context";
 
 const Dice = ({
   index,
@@ -10,8 +11,8 @@ const Dice = ({
   value,
   onPress,
   opponent,
-  isAnimated,
-  setIsAnimated,
+  isDiceAnimated,
+  setIsDiceAnimated,
   isPlayer,
 }) => {
   const handlePress = () => {
@@ -30,7 +31,7 @@ const Dice = ({
   };
 
   const handleAnimationFinish = () => {
-    setIsAnimated(false);
+    setIsDiceAnimated(false);
   };
   return (
     <TouchableOpacity
@@ -50,7 +51,7 @@ const Dice = ({
       onPress={handlePress}
       disabled={opponent}
     >
-      {isAnimated && !locked ? (
+      {isDiceAnimated && !locked ? (
         <View style={styles.diceAnimationContainer}>
           <LottieView
             source={ANIMATION.DICE}

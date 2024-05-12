@@ -2,10 +2,10 @@ import React, { useState, useEffect, useContext } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
 import { COLOR } from "../../../constants/color";
-import { DEFAULT_SET_TIMER } from "../../../constants/text";
+import { DiceContext } from "../../../contexts/dice.context";
 const Choices = () => {
   const socket = useContext(SocketContext);
-
+  const { isDiceRolled, setIsDiceRolled } = useContext(DiceContext);
   const [displayChoices, setDisplayChoices] = useState(false);
   const [canMakeChoice, setCanMakeChoice] = useState(false);
   const [idSelectedChoice, setIdSelectedChoice] = useState(null);
@@ -16,10 +16,7 @@ const Choices = () => {
       setDisplayChoices(data["displayChoices"]);
       setCanMakeChoice(data["canMakeChoice"]);
       setIdSelectedChoice(data["idSelectedChoice"]);
-
-      setTimeout(() => {
-        setAvailableChoices(data["availableChoices"]);
-      }, DEFAULT_SET_TIMER);
+      setAvailableChoices(data["availableChoices"]);
     });
   }, []);
 
@@ -33,6 +30,7 @@ const Choices = () => {
   return (
     <View style={styles.choicesContainer}>
       {displayChoices &&
+        !isDiceRolled &&
         availableChoices.map((choice) => (
           <TouchableOpacity
             key={choice.id}
@@ -71,6 +69,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: COLOR.ZELDA_SECONDARY,
     backgroundColor: COLOR.ZELDA_SECONDARY,
+    borderWidth: 1,
+    borderTopColor: COLOR.WHITE,
+    borderBottomColor: COLOR.WHITE,
   },
   choiceButton: {
     borderWidth: 1,

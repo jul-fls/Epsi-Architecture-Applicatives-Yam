@@ -26,7 +26,6 @@ function App() {
             colors: {
               text: COLOR.WHITE,
               background: "transparent",
-              border: COLOR.ZELDA_BLUE,
             },
           }}
         >
@@ -40,10 +39,20 @@ function App() {
               <Stack.Screen
                 name="Jouer en ligne"
                 component={OnlineGameScreen}
+                options={{
+                  headerLeft: () => null,
+                  title: "Jouer En Ligne",
+                  headerTitleAlign: "center",
+                }} // This hides the back arrow
               />
               <Stack.Screen
                 name="Jouer contre le bot"
                 component={VsBotGameScreen}
+                options={{
+                  headerLeft: () => null,
+                  title: "Jouer contre le bot",
+                  headerTitleAlign: "center",
+                }} // This hides the back arrow
               />
             </Stack.Group>
           </Stack.Navigator>

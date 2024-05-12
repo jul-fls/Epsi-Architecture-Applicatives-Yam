@@ -2,9 +2,9 @@ import React, { useState, useEffect, useContext } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import LottieView from "lottie-react-native";
-import { SocketContext } from "../../../contexts/socket.context";
-import { COLOR } from "../../../constants/color";
-import { ANIMATION } from "../../../constants/asset";
+import { COLOR } from "../../../../constants/color";
+import { ANIMATION } from "../../../../constants/asset";
+import { SocketContext } from "../../../../contexts/socket.context";
 const PlayerTimer = () => {
   const socket = useContext(SocketContext);
   const [playerTimer, setPlayerTimer] = useState(0);

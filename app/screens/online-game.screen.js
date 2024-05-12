@@ -1,6 +1,6 @@
 // app/screens/online-game.screen.js
 
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import OnlineGameController from "../controllers/online-game.controller";
 import {
   StyleSheet,
@@ -10,12 +10,41 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from "react-native";
+import { useNavigation, CommonActions } from "@react-navigation/native";
 import { SocketContext } from "../contexts/socket.context";
 import { COLOR } from "../constants/color";
 import { IMAGE } from "../constants/asset";
+import NavigationButton from "../components/navigation-button.component";
 
-export default function OnlineGameScreen({ navigation }) {
+export default function OnlineGameScreen() {
   const socket = useContext(SocketContext);
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const handleGameCancel = () => {
+      console.log("Game cancelled by the other player.");
+      navigation.navigate("Yam Master"); // Assuming "Yam Master" is your home screen
+    };
+
+    // Add event listener for game cancellation
+    socket.on("game.reset", handleGameCancel);
+
+    const unsubscribe = navigation.addListener("beforeRemove", (e) => {
+      // Prevent the default back behavior
+      e.preventDefault();
+
+      // Notify the server that the user is navigating away from the game
+      socket.emit("game.cancel", { reason: "user navigated back" });
+
+      // Continue with the original navigation action
+      navigation.dispatch(e.data.action);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [navigation, socket]);
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -23,7 +52,15 @@ export default function OnlineGameScreen({ navigation }) {
         resizeMode="cover"
         style={styles.background}
       >
-        {!socket && (
+        {socket ? (
+          <>
+            <OnlineGameController />
+            <NavigationButton
+              navigation={navigation}
+              navigationMenu={"Yam Master"}
+            />
+          </>
+        ) : (
           <>
             <Text style={styles.paragraph}>No connection with server...</Text>
             <Text style={styles.footnote}>
@@ -31,27 +68,11 @@ export default function OnlineGameScreen({ navigation }) {
             </Text>
           </>
         )}
-        {socket && (
-          <>
-            <OnlineGameController />
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate("Yam Master")}
-                style={styles.button}
-              >
-                <Image
-                  style={{ marginRight: 10 }}
-                  source={IMAGE.BUTTON_ACCESSORY}
-                />
-                <Text style={styles.buttonText}>Revenir au menu</Text>
-              </TouchableOpacity>
-            </View>
-          </>
-        )}
       </ImageBackground>
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -63,25 +84,5 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     height: "100%",
-  },
-  buttonContainer: {
-    alignItems: "center",
-    marginVertical: 10,
-    marginHorizontal: 15,
-  },
-  button: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: COLOR.ZELDA_BLUE,
-    paddingVertical: 10,
-    width: "100%",
-  },
-  buttonText: {
-    fontSize: 20,
-    fontFamily: "Hylia-Serif",
-    color: COLOR.ZELDA_BLUE,
   },
 });

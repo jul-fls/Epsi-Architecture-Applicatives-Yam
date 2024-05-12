@@ -1,4 +1,3 @@
-export const DEFAULT_SET_TIMER = 3500;
 export const DID_YOU_KNOW = [
   {
     QUESTION:

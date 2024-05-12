@@ -9,12 +9,19 @@ export const ANIMATION = {
 };
 
 export const IMAGE = {
+  ROBOT: require("../assets/images/robot.png"),
+  PLAYER: require("../assets/images/player.png"),
+  OPPONENT: require("../assets/images/opponent.png"),
+  V: require("../assets/images/v.png"),
+  P: require("../assets/images/p.png"),
+  E: require("../assets/images/e.png"),
   BACKGROUND: require("../assets/images/background.png"),
   BACKGROUND_TEXTURE: require("../assets/images/background_texture.png"),
   SYMBOL_FRAME: require("../assets/images/symbol_frame.png"),
   DICES: require("../assets/images/dices.png"),
   BEASTS: require("../assets/images/beasts.png"),
   BATTLE: require("../assets/images/battle.png"),
+  BATTLE_OPPONENT: require("../assets/images/battle_opponent.png"),
   BUTTON_ACCESSORY: require("../assets/images/button_accessory.png"),
   TEXT_FRAME: require("../assets/images/text_frame.png"),
   TEXT_FRAME_LEFT: require("../assets/images/text_frame_left.png"),

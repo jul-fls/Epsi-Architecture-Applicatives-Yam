@@ -1,55 +1,61 @@
+import React, { useState } from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
-import PlayerTimer from "./timers/player-timer.component";
-import OpponentTimer from "./timers/opponent-timer.component";
+import PlayerTimer from "./infos/timers/player-timer.component";
+import OpponentTimer from "./infos/timers/opponent-timer.component";
 import PlayerDeck from "./decks/player-deck.component";
 import OpponentDeck from "./decks/opponent-deck.component";
 import Choices from "./choices/choices.component";
 import Grid from "./grid/grid.component";
-import PlayerInfos from "./infos/player-infos.component";
-import OpponentInfos from "./infos/opponent-infos.component";
-import PlayerScore from "./infos/player-score.component";
-import OpponentScore from "./infos/opponent-score.component";
-import PlayerTokens from "./infos/player-tokens.component";
-import OpponentTokens from "./infos/opponent-tokens.component";
+import PlayerInfos from "./infos/players/player-infos.component";
+import OpponentInfos from "./infos/players/opponent-infos.component";
+import PlayerScore from "./infos/scores/player-score.component";
+import OpponentScore from "./infos/scores/opponent-score.component";
+import PlayerTokens from "./infos/tokens/player-tokens.component";
+import OpponentTokens from "./infos/tokens/opponent-tokens.component";
 import { COLOR } from "../../constants/color";
 import { IMAGE } from "../../constants/asset";
+import { DiceProvider } from "../../contexts/dice.context";
+import GameInfo from "./infos/game/game-info.component";
 
 const Board = ({ gameViewState }) => {
   return (
-    <View style={styles.container}>
-      <ImageBackground
-        style={styles.background}
-        source={IMAGE.BACKGROUND_TEXTURE}
-        resizeMode="cover"
-      >
-        <View style={[styles.row, { height: "8%" }]}>
-          <OpponentInfos />
-          <View style={styles.opponentTimerScoreTokenContainer}>
-            <OpponentScore />
-            <OpponentTokens />
-            <OpponentTimer />
+    <DiceProvider>
+      <View style={styles.container}>
+        <GameInfo />
+        <ImageBackground
+          style={styles.background}
+          source={IMAGE.BACKGROUND_TEXTURE}
+          resizeMode="cover"
+        >
+          <View style={[styles.row, { height: "8%" }]}>
+            <OpponentInfos />
+            <View style={styles.opponentTimerScoreTokenContainer}>
+              <OpponentScore />
+              <OpponentTokens />
+              <OpponentTimer />
+            </View>
           </View>
-        </View>
-        <View style={[styles.row, { height: "25%" }]}>
-          <OpponentDeck />
-        </View>
-        <View style={[styles.row, { height: "34%" }]}>
-          <Grid />
-          <Choices />
-        </View>
-        <View style={[styles.row, { height: "25%" }]}>
-          <PlayerDeck />
-        </View>
-        <View style={[styles.row, { height: "8%" }]}>
-          <PlayerInfos />
-          <View style={styles.playerTimerScoreTokenContainer}>
-            <PlayerScore />
-            <PlayerTokens />
-            <PlayerTimer />
+          <View style={[styles.row, { height: "25%" }]}>
+            <OpponentDeck />
           </View>
-        </View>
-      </ImageBackground>
-    </View>
+          <View style={[styles.row, { height: "34%" }]}>
+            <Grid />
+            <Choices />
+          </View>
+          <View style={[styles.row, { height: "25%" }]}>
+            <PlayerDeck />
+          </View>
+          <View style={[styles.row, { height: "8%" }]}>
+            <PlayerInfos />
+            <View style={styles.playerTimerScoreTokenContainer}>
+              <PlayerScore />
+              <PlayerTokens />
+              <PlayerTimer />
+            </View>
+          </View>
+        </ImageBackground>
+      </View>
+    </DiceProvider>
   );
 };
 
