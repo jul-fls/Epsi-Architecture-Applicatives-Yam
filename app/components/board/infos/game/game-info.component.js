@@ -71,7 +71,7 @@ const GameInfo = () => {
                 )}
                 <View style={styles.gameInfoDetailTitleContainer}>
                   <Text style={styles.detailTitle}>
-                    Joueur
+                    Joueur{" "}
                     {gameInfos.winner === "draw" ? "1" : gameInfos.winner}
                   </Text>
                 </View>
@@ -81,12 +81,14 @@ const GameInfo = () => {
                     {gameInfos.winnerUsedTokens}
                   </Text>
                 </View>
-                <View style={styles.gameInfoDetailTitleContainer}>
-                  <Text style={styles.detailTitle}>Score</Text>
-                  <Text style={styles.detailStatText}>
-                    {gameInfos.winnerScore}
-                  </Text>
-                </View>
+                {gameInfos.winnerScore !== null && (
+                  <View style={styles.gameInfoDetailTitleContainer}>
+                    <Text style={styles.detailTitle}>Score</Text>
+                    <Text style={styles.detailStatText}>
+                      {gameInfos.winnerScore}
+                    </Text>
+                  </View>
+                )}
               </View>
               <View style={styles.gameInfo}>
                 {!isGameDraw && (
@@ -106,12 +108,14 @@ const GameInfo = () => {
                     {gameInfos.loserUsedTokens}
                   </Text>
                 </View>
-                <View style={styles.gameInfoDetailTitleContainer}>
-                  <Text style={styles.detailTitle}>Score</Text>
-                  <Text style={styles.detailStatText}>
-                    {gameInfos.loserScore}
-                  </Text>
-                </View>
+                {gameInfos.loserScore !== null && (
+                  <View style={styles.gameInfoDetailTitleContainer}>
+                    <Text style={styles.detailTitle}>Score</Text>
+                    <Text style={styles.detailStatText}>
+                      {gameInfos.loserScore}
+                    </Text>
+                  </View>
+                )}
               </View>
             </View>
             <View style={styles.gameInfoGlobal}>
