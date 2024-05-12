@@ -37,6 +37,10 @@ const victory = {
         loserUsedTokens = init.MAX_TOKENS() - gameState[`player${loser}Tokens`];
         winnerScore = gameState[`player${winner}Score`];
         loserScore = gameState[`player${loser}Score`];
+        if (victoryType === "alignment") {
+          winnerScore = null;
+          loserScore = null;
+        }
         const gameResult = {
           gameType,
           gameDuration,
@@ -46,6 +50,7 @@ const victory = {
           loserUsedTokens,
           winnerScore,
           loserScore,
+          victoryType,
         };
         return gameResult;
       }else{
@@ -58,6 +63,7 @@ const victory = {
           loserUsedTokens: null,
           winnerScore: null,
           loserScore: null,
+          victoryType: null,
         };
         return gameResult;
       }
