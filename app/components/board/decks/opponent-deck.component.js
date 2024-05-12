@@ -1,13 +1,15 @@
 import React, { useState, useContext, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
+import { DiceContext } from "../../../contexts/dice.context";
 import LottieView from "lottie-react-native";
 import Dice from "./dice.component";
 import { COLOR } from "../../../constants/color";
 import { ANIMATION } from "../../../constants/asset";
-import { DEFAULT_SET_TIMER } from "../../../constants/text";
 const OpponentDeck = () => {
   const socket = useContext(SocketContext);
+  const { isDiceAnimated } = useContext(DiceContext);
+
   const [displayOpponentDeck, setDisplayOpponentDeck] = useState(false);
   const [opponentDices, setOpponentDices] = useState(
     Array(5).fill({ value: "", locked: false })
@@ -17,16 +19,14 @@ const OpponentDeck = () => {
     socket.on("game.deck.view-state", (data) => {
       setDisplayOpponentDeck(data["displayOpponentDeck"]);
       if (data["displayOpponentDeck"]) {
-        setTimeout(() => {
-          setOpponentDices(data["dices"]);
-        }, DEFAULT_SET_TIMER);
+        setOpponentDices(data["dices"]);
       }
     });
   }, []);
 
   return (
     <View style={styles.deckOpponentContainer}>
-      {displayOpponentDeck ? (
+      {displayOpponentDeck && !isDiceAnimated ? (
         <View style={styles.diceContainer}>
           {opponentDices.map((diceData, index) => (
             <Dice

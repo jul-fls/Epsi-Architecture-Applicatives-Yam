@@ -10,8 +10,8 @@ const Dice = ({
   value,
   onPress,
   opponent,
-  isAnimated,
-  setIsAnimated,
+  isDiceAnimated,
+  setIsDiceAnimated,
   isPlayer,
 }) => {
   const handlePress = () => {
@@ -30,7 +30,7 @@ const Dice = ({
   };
 
   const handleAnimationFinish = () => {
-    setIsAnimated(false);
+    setIsDiceAnimated(false);
   };
   return (
     <TouchableOpacity
@@ -50,7 +50,7 @@ const Dice = ({
       onPress={handlePress}
       disabled={opponent}
     >
-      {isAnimated && !locked ? (
+      {isDiceAnimated && !locked ? (
         <View style={styles.diceAnimationContainer}>
           <LottieView
             source={ANIMATION.DICE}

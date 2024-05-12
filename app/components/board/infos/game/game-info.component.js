@@ -5,7 +5,8 @@ import Modal from "react-native-modal";
 import { COLOR } from "../../../../constants/color";
 const GameInfo = () => {
   const socket = useContext(SocketContext);
-  const [gameInfos, setGameInfos] = useState({});
+  const [gameInfos, setGameInfos] = useState();
+  // const isGameInfosExist = Object.keys(gameInfos).length !== 0;
   const [isModalVisible, setModalVisible] = useState(true);
 
   useEffect(() => {
@@ -14,9 +15,11 @@ const GameInfo = () => {
     });
   }, []);
 
+  console.log("gameInfos :: ", gameInfos);
+
   return (
-    <View style={isModalVisible ? { flex: 1, position: "absolute" } : {}}>
-      <Modal style={styles.gameReviewModal} isVisible={isModalVisible}>
+    <View style={{ flex: 1, position: "absolute" }}>
+      <Modal style={styles.gameReviewModal} isVisible={false}>
         <View style={styles.gameReviewModalWrapper}>
           <View style={styles.gameReviewInfo}></View>
           <Text style={{ color: COLOR.WHITE }}>Hello!</Text>

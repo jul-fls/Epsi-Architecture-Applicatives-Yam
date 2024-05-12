@@ -5,7 +5,7 @@ import { SocketContext } from "../../../contexts/socket.context";
 import Dice from "./dice.component";
 import { COLOR } from "../../../constants/color";
 import { IMAGE, ANIMATION } from "../../../constants/asset";
-import { DEFAULT_SET_TIMER } from "../../../constants/text";
+import { DiceContext } from "../../../contexts/dice.context";
 
 const PlayerDeck = () => {
   const socket = useContext(SocketContext);
@@ -14,7 +14,7 @@ const PlayerDeck = () => {
   const [displayRollButton, setDisplayRollButton] = useState(false);
   const [rollsCounter, setRollsCounter] = useState(1);
   const [rollsMaximum, setRollsMaximum] = useState(3);
-  const [isAnimated, setIsAnimated] = useState(false);
+  const { isDiceAnimated, setIsDiceAnimated } = useContext(DiceContext);
 
   useEffect(() => {
     socket.on("game.deck.view-state", (data) => {
@@ -23,9 +23,7 @@ const PlayerDeck = () => {
         setDisplayRollButton(data["displayRollButton"]);
         setRollsMaximum(data["rollsMaximum"]);
         setDices(data["dices"]);
-        setTimeout(() => {
-          setRollsCounter(data["rollsCounter"]);
-        }, DEFAULT_SET_TIMER);
+        setRollsCounter(data["rollsCounter"]);
       }
     });
   }, []);
@@ -34,22 +32,14 @@ const PlayerDeck = () => {
     const newDices = [...dices];
     if (newDices[index].value !== "" && displayRollButton) {
       socket.emit("game.dices.lock", newDices[index].id);
-      setIsAnimated(false);
+      setIsDiceAnimated(false);
     }
   };
 
   const rollDices = () => {
-    if (rollsCounter === rollsMaximum) {
-      setIsAnimated(true);
-      setTimeout(() => {
-        socket.emit("game.dices.roll");
-      }, DEFAULT_SET_TIMER);
-      return;
-    }
-
-    if (rollsCounter < rollsMaximum) {
+    if (rollsCounter <= rollsMaximum) {
+      setIsDiceAnimated(true);
       socket.emit("game.dices.roll");
-      setIsAnimated(true);
     }
   };
 
@@ -76,8 +66,8 @@ const PlayerDeck = () => {
                 locked={diceData.locked}
                 value={diceData.value}
                 onPress={toggleDiceLock}
-                isAnimated={isAnimated}
-                setIsAnimated={setIsAnimated}
+                isDiceAnimated={isDiceAnimated}
+                setIsDiceAnimated={setIsDiceAnimated}
                 isPlayer={true}
               />
             ))}
@@ -85,7 +75,13 @@ const PlayerDeck = () => {
           <View style={styles.rollButtonContainer}>
             {displayRollButton && rollsCounter <= rollsMaximum && (
               <View>
-                <TouchableOpacity style={styles.rollButton} onPress={rollDices}>
+                <TouchableOpacity
+                  style={[
+                    styles.rollButton,
+                    isDiceAnimated && { display: "none", opacity: 0.5 },
+                  ]}
+                  onPress={rollDices}
+                >
                   <Image
                     style={{ marginRight: 10 }}
                     source={IMAGE.ARROW_RIGHT}
