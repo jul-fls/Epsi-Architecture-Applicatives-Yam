@@ -1,5 +1,8 @@
 # Yam Master
 
+![screencapture-localhost-8081-2024-05-12-23_46_31](https://github.com/jul-fls/Epsi-Architecture-Applicatives-Yam/assets/93679283/cf5f74cd-6510-4cbe-ae44-5514d75dc9a1)
+
+
 Yam Master is a strategic dice game where players aim to score points by placing their pieces on the game board, creating alignments, and blocking their opponent's pieces. The objective is to achieve the highest score or to create a horizontal, vertical, or diagonal alignment of five pieces.
 
 ## Description
@@ -47,7 +50,7 @@ For detailed rules of the game, please refer to the [Game Rules](https://regle.e
 
 ## Usage
 
-1. Prepare two terminals so as to launch FRONT and BACK
+### 1. Prepare two terminals so as to launch FRONT and BACK
    
 - FRONT :
   ```bash
@@ -60,7 +63,10 @@ For detailed rules of the game, please refer to the [Game Rules](https://regle.e
   npm run start
   ```
 
-2. Follow the instructions provided to run the application on your desired platform (e.g., iOS simulator, Android emulator or [expo go](https://expo.dev/go)).
+### 2. (WEB) Enter `127.0.0.1:8081` in your navigator.
+
+### 3. (MOBILE) Follow the instructions provided to run the application on your desired platform (e.g., iOS simulator, Android emulator or [expo go](https://expo.dev/go)).
+
 
 
 ## Contributors
