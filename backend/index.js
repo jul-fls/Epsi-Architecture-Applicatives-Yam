@@ -163,13 +163,18 @@ const createGame = (player1Socket, player2Socket, type) => {
 
   // remove intervals at deconnection
   player1Socket.on("disconnect", () => {
-    clearInterval(games[gameIndex].gameInterval);
+    if (gameIndex !== -1) {
+      resetGame(gameIndex);
+    }
   });
 
   player2Socket.on("disconnect", () => {
-    clearInterval(games[gameIndex].gameInterval);
+    if (gameIndex !== -1) {
+      resetGame(gameIndex);
+    }
   });
 };
+
 const leaveQueue = (socket) => {
   const index = queue.indexOf(socket);
   if (index > -1) {
@@ -177,6 +182,21 @@ const leaveQueue = (socket) => {
   }
 
   socket.emit("queue.removed", GameService.send.forPlayer.viewQueueState());
+};
+
+const resetGame = (gameIndex) => {
+  const game = games[gameIndex];
+  
+  // Clear the game interval to stop any ongoing game processes
+  clearInterval(game.gameInterval);
+
+  // Emit a reset or clean-up signal to both players, if necessary
+  game.player1Socket.emit("game.reset", "The game has been reset.");
+  game.player2Socket.emit("game.reset", "The game has been reset.");
+
+  // Remove the game from the games array
+  games.splice(gameIndex, 1);
+  console.log(`Game ${game.idGame} has been reset.`);
 };
 
 // ---------------------------------------
@@ -249,7 +269,7 @@ io.on("connection", (socket) => {
       games[gameIndex].gameState.choices.availableChoices = combinations;
 
       if (combinations.length == 0) {
-        games[gameIndex].gameState.timer = 3;
+        games[gameIndex].gameState.timer = 7;
       }
     }
 
@@ -333,23 +353,6 @@ io.on("connection", (socket) => {
         ? "player:2"
         : "player:1";
     games[gameIndex].gameState.timer = GameService.timer.getTurnDuration();
-    const VictoryResult = GameService.victory.checkVictory(games[gameIndex].gameState);
-    if (VictoryResult.winner != null) {
-      console.log("VictoryResult: ", VictoryResult);
-      games[gameIndex].player1Socket.emit(
-        "game.game-over",
-        GameService.send.forPlayer.victoryState(VictoryResult)
-      );
-      games[gameIndex].player2Socket.emit(
-        "game.game-over",
-        GameService.send.forPlayer.victoryState(VictoryResult)
-      );
-      // clearInterval(games[gameIndex].gameInterval);
-      // games.splice(gameIndex, 1);
-      // return;
-      // fin de la partie
-      // on stoppe tout
-    }
     // On remet le deck et les choix à zéro (la grille, elle, ne change pas)
     games[gameIndex].gameState.deck = GameService.init.deck();
     games[gameIndex].gameState.choices = GameService.init.choices();
@@ -375,10 +378,21 @@ io.on("connection", (socket) => {
     updateClientsViewChoices(games[gameIndex]);
     updateClientsViewGrid(games[gameIndex]);
     updateClientsViewPlayersInfos(games[gameIndex]);
-  });
-
-  socket.on("disconnect", (reason) => {
-    console.log(`[${socket.id}] socket disconnected - ${reason}`);
+    const VictoryResult = GameService.victory.checkVictory(games[gameIndex].gameState);
+    if (VictoryResult.winner != null) {
+      console.log("VictoryResult: ", VictoryResult);
+      games[gameIndex].player1Socket.emit(
+        "game.game-over",
+        GameService.send.forPlayer.victoryState(VictoryResult)
+      );
+      games[gameIndex].player2Socket.emit(
+        "game.game-over",
+        GameService.send.forPlayer.victoryState(VictoryResult)
+      );
+      resetGame(gameIndex);
+      // fin de la partie
+      // on stoppe tout
+    }
   });
 });
 
