@@ -12,36 +12,59 @@ For detailed rules of the game, please refer to the [Game Rules](https://regle.e
 
 ## Installation
 
-1. Clone the repository:
+### 1. Clone the repository:
 
    ```bash
    git clone https://github.com/jul-fls/Epsi-Architecture-Applicatives-Yam.git
    ```
 
-2. Navigate to the project directory:
+### 2. Install dependencies:
 
-   ```bash
-   cd project-directory
-   ```
+- FRONT :
+  ```bash
+  npm install
+  ```
 
-3. Install dependencies:
+- BACK (Web Socket) :
+  ```bash
+  cd backend/
+  npm install
+  ```
 
-   ```bash
-   npm install
-   ```
+### 3. Navigate to the project directory:
+
+![image](https://github.com/jul-fls/Epsi-Architecture-Applicatives-Yam/assets/93679283/7f8c2d2c-00ba-4710-9bfa-964a2d675561)
+
+- FRONT :
+  ```bash
+  cd app/
+  ```
+
+- BACK (Web Socket) :
+  ```bash
+  cd backend/
+  ```
 
 ## Usage
 
-1. Start the development server:
+1. Prepare two terminals so as to launch FRONT and BACK
+   
+- FRONT :
+  ```bash
+  npx expo start
+  ```
 
-   ```bash
-   npm start
-   ```
+- BACK (Web Socket) :
+  ```bash
+  cd backend/
+  npm run start
+  ```
 
-2. Follow the instructions provided to run the application on your desired platform (e.g., iOS simulator, Android emulator, etc.).
+2. Follow the instructions provided to run the application on your desired platform (e.g., iOS simulator, Android emulator or [expo go](https://expo.dev/go)).
 
-## WebSocket Setup
 
-1. Ensure that the backend services are running with WebSocket support.
+## Contributors
+- Julien FLUSIN
+- Sangmin SHIM
 
-2. In the frontend code, configure the WebSocket connection to point to the correct backend URL.
+(4/15/2024 ~ 5/12/2024)
