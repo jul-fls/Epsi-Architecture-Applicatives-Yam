@@ -20,15 +20,7 @@ function startBot() {
     socket.on("game.start", (gameViewState) => {
         console.log("Game started", gameViewState);
         console.log("Bot is in game with Player 1:", gameViewState.idOpponent);
-        // performBotActions(); // Adjust function to manage actions
     });
-
-    function performBotActions() {
-        setTimeout(() => {
-        console.log("Bot is rolling dices");
-        socket.emit("game.dices.roll");
-        }, 3000);
-    }
 
     socket.on("game.change-turn", (gameState) => {
         if (gameState.currentTurn === "player:2") {
@@ -36,10 +28,6 @@ function startBot() {
             performBotActions(gameState);
         }
     });
-
-    function decideAction(gameState) {
-        console.log("Bot is deciding the next move, current gameState :", gameState);
-    }
 
     socket.onAny((eventName, ...args) => {
         console.log("Bot received message:", eventName, args);
@@ -53,6 +41,17 @@ function stopBot() {
         socket.disconnect();
         console.log("Bot disconnected");
     }
+}
+
+function performBotActions() {
+    setTimeout(() => {
+    console.log("Bot is rolling dices");
+    socket.emit("game.dices.roll");
+    }, 3000);
+}
+
+function decideAction(gameState) {
+    console.log("Bot is deciding the next move, current gameState :", gameState);
 }
 
 module.exports = { startBot, stopBot };
