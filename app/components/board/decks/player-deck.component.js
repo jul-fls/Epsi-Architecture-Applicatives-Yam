@@ -41,7 +41,7 @@ const PlayerDeck = () => {
       setIsDiceAnimated(true);
       setTimeout(() => {
         socket.emit("game.dices.roll");
-      }, 3500);
+      }, 2900);
       return;
     }
 
