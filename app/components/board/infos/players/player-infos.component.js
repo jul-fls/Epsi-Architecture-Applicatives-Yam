@@ -17,10 +17,13 @@ const PlayerInfos = () => {
   return (
     <View style={styles.playerInfosContainer}>
       <Image style={styles.playerImage} source={IMAGE.PLAYER} />
-      <Text style={styles.playerInfosText}>
-        {playerInfos.playerKey &&
-          replaceString(playerInfos.playerKey, "player:", "joueur ")}
-      </Text>
+      <View style={styles.playerInfosTextContainer}>
+        <Text style={styles.playerInfosText}>
+          {playerInfos.playerKey &&
+            replaceString(playerInfos.playerKey, "player:", "joueur ")}
+        </Text>
+        <Text style={{ color: COLOR.WHITE }}>(MOI)</Text>
+      </View>
     </View>
   );
 };
@@ -39,6 +42,11 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     marginRight: 10,
+  },
+  playerInfosTextContainer: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
   playerInfosText: {
     color: COLOR.WHITE,
