@@ -104,31 +104,21 @@ const newPlayerInQueue = async (socket, gameType) => {
         }
         queue.push(botSocket);
         console.log("Queue Length:", queue.length);
-        // Queue management
         if (queue.length >= 2) {
-          // setTimeout(() => {
-            // console.log("queue length >= 2",queue)
-          
           const player1Socket = queue.shift();
           const player2Socket = queue.shift();
-          console.log(`[${player1Socket.id}] and [${player2Socket.id}] are in game of type ${gameType}`);
+          // console.log(`[${player1Socket.id}] and [${player2Socket.id}] are in game of type ${gameType}`);
           createGame(player1Socket, player2Socket, gameType);
-        // }, 2000);
         } else {
           socket.emit("queue.added", GameService.send.forPlayer.viewQueueState());
         }
-    }, 2000);
+    }, 50);
   }else{
-    // Queue management
     if (queue.length >= 2) {
-      // setTimeout(() => {
-        // console.log("queue length >= 2",queue)
-      
       const player1Socket = queue.shift();
       const player2Socket = queue.shift();
-      console.log(`[${player1Socket.id}] and [${player2Socket.id}] are in game of type ${gameType}`);
+      // console.log(`[${player1Socket.id}] and [${player2Socket.id}] are in game of type ${gameType}`);
       createGame(player1Socket, player2Socket, gameType);
-    // }, 2000);
     } else {
       socket.emit("queue.added", GameService.send.forPlayer.viewQueueState());
     }
@@ -136,11 +126,6 @@ const newPlayerInQueue = async (socket, gameType) => {
 };
 
 const createGame = (player1Socket, player2Socket, type) => {
-  // init objet (game) with this first level of structure:
-  // - gameState : { .. evolutive object .. }
-  // - idGame : just in case ;)
-  // - player1Socket: socket instance key "joueur:1"
-  // - player2Socket: socket instance key "joueur:2"
   const newGame = GameService.init.gameState();
   newGame["idGame"] = uniqid();
   newGame["gameState"]["gameType"] = type;
@@ -160,9 +145,10 @@ const createGame = (player1Socket, player2Socket, type) => {
     GameService.send.forPlayer.gameViewState("player:1", games[gameIndex])
   );
   
-  console.log("Emitting to player2, Socket ID:", games[gameIndex].player2Socket.id);
-  console.log("Is player2 socket connected?", games[gameIndex].player2Socket.connected);
-  games[gameIndex].player2Socket.emit("game.start", GameService.send.forPlayer.gameViewState("player:2", games[gameIndex]));
+  games[gameIndex].player2Socket.emit(
+    "game.start",
+    GameService.send.forPlayer.gameViewState("player:2", games[gameIndex])
+  );
 
   updateClientsViewTimers(games[gameIndex]);
   updateClientsViewDecks(games[gameIndex]);
@@ -444,6 +430,18 @@ io.on("connection", (socket) => {
 
   socket.on("test-bot", (data) => {
     console.log("received data : ", data);
+  });
+
+  socket.on('game.cancel', (data) => {
+    console.log(`[${socket.id}] requested game reset, reason: ${data.reason}`);
+    // Reset the game logic here
+    const gameIndex = GameService.utils.findGameIndexBySocketId(
+      games,
+      socket.id
+    );
+    if (gameIndex !== -1) {
+      resetGame(gameIndex);
+    }
   });
 });
 
