@@ -13,6 +13,7 @@ import {
 import { SocketContext } from "../contexts/socket.context";
 import { COLOR } from "../constants/color";
 import { IMAGE } from "../constants/asset";
+import NavigationButton from "../components/navigation-button.component";
 
 export default function OnlineGameScreen({ navigation }) {
   const socket = useContext(SocketContext);
@@ -34,18 +35,10 @@ export default function OnlineGameScreen({ navigation }) {
         {socket && (
           <>
             <OnlineGameController />
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate("Yam Master")}
-                style={styles.button}
-              >
-                <Image
-                  style={{ marginRight: 10 }}
-                  source={IMAGE.BUTTON_ACCESSORY}
-                />
-                <Text style={styles.buttonText}>Revenir au menu</Text>
-              </TouchableOpacity>
-            </View>
+            <NavigationButton
+              navigation={navigation}
+              navigationMenu={"Yam Master"}
+            />
           </>
         )}
       </ImageBackground>
@@ -63,25 +56,5 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     height: "100%",
-  },
-  buttonContainer: {
-    alignItems: "center",
-    marginVertical: 10,
-    marginHorizontal: 15,
-  },
-  button: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: COLOR.ZELDA_BLUE,
-    paddingVertical: 10,
-    width: "100%",
-  },
-  buttonText: {
-    fontSize: 20,
-    fontFamily: "Hylia-Serif",
-    color: COLOR.ZELDA_BLUE,
   },
 });
