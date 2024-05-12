@@ -11,6 +11,9 @@ export const ANIMATION = {
 export const IMAGE = {
   PLAYER: require("../assets/images/player.png"),
   OPPONENT: require("../assets/images/opponent.png"),
+  V: require("../assets/images/v.png"),
+  P: require("../assets/images/p.png"),
+  E: require("../assets/images/e.png"),
   BACKGROUND: require("../assets/images/background.png"),
   BACKGROUND_TEXTURE: require("../assets/images/background_texture.png"),
   SYMBOL_FRAME: require("../assets/images/symbol_frame.png"),

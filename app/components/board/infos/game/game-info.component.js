@@ -10,6 +10,7 @@ import {
 import { SocketContext } from "../../../../contexts/socket.context";
 import Modal from "react-native-modal";
 import { COLOR } from "../../../../constants/color";
+import { IMAGE } from "../../../../constants/asset";
 import NavigationButton from "../../../navigation-button.component";
 
 const GameInfo = () => {
@@ -35,9 +36,12 @@ const GameInfo = () => {
         <View style={styles.gameInfoModalWrapper}>
           <Text style={styles.gameInfoTitle}>Résumé de la partie</Text>
           <View style={styles.gameInfoContainer}>
-            <Text style={[styles.gameInfoSemiTitle, { marginBottom: 10 }]}>
-              Egalité
-            </Text>
+            <View style={styles.gameInfoSemiTitleContainer}>
+              <Image style={{ width: 35, height: 35 }} source={IMAGE.E} />
+              <Text style={[styles.gameInfoSemiTitle, { marginBottom: 10 }]}>
+                galité
+              </Text>
+            </View>
             <View
               style={[
                 styles.gameInfoPlayers,
@@ -54,41 +58,54 @@ const GameInfo = () => {
                   { borderRightWidth: 1, borderColor: COLOR.WHITE },
                 ]}
               >
-                <Text style={styles.gameInfoSemiTitle}>Vainqueur</Text>
-                <View style={styles.gameInfoDetailTitleContainer}>
-                  <Text style={styles.detailTitle}>joueur1</Text>
+                <View style={styles.gameInfoSemiTitleContainer}>
+                  <Image style={{ width: 35, height: 35 }} source={IMAGE.V} />
+                  <Text style={styles.gameInfoSemiTitle}>ainqueur</Text>
                 </View>
                 <View style={styles.gameInfoDetailTitleContainer}>
-                  <Text style={styles.detailTitle}>Title (Token)</Text>
+                  <Text style={styles.detailTitle}>Joueur 'winner'</Text>
+                </View>
+                <View style={styles.gameInfoDetailTitleContainer}>
+                  <Text style={styles.detailTitle}>Pion(s)</Text>
                   <Text style={styles.detailStatText}>10</Text>
                 </View>
                 <View style={styles.gameInfoDetailTitleContainer}>
-                  <Text style={styles.detailTitle}>Title (Score)</Text>
+                  <Text style={styles.detailTitle}>Score</Text>
                   <Text style={styles.detailStatText}>10</Text>
                 </View>
               </View>
               <View style={styles.gameInfo}>
-                <Text style={styles.gameInfoSemiTitle}>Perdent</Text>
-                <View style={styles.gameInfoDetailTitleContainer}>
-                  <Text style={styles.detailTitle}>joueur 2</Text>
+                <View style={styles.gameInfoSemiTitleContainer}>
+                  <Image style={{ width: 35, height: 35 }} source={IMAGE.P} />
+                  <Text style={styles.gameInfoSemiTitle}>erdant</Text>
                 </View>
                 <View style={styles.gameInfoDetailTitleContainer}>
-                  <Text style={styles.detailTitle}>Title (Token)</Text>
+                  <Text style={styles.detailTitle}>joueur 'loser'</Text>
+                </View>
+                <View style={styles.gameInfoDetailTitleContainer}>
+                  <Text style={styles.detailTitle}>Pion(s)</Text>
                   <Text style={styles.detailStatText}>10</Text>
                 </View>
                 <View style={styles.gameInfoDetailTitleContainer}>
-                  <Text style={styles.detailTitle}>Title (Score)</Text>
+                  <Text style={styles.detailTitle}>Score</Text>
                   <Text style={styles.detailStatText}>10</Text>
                 </View>
               </View>
             </View>
             <View style={styles.gameInfoGlobal}>
               <View style={{ width: "50%" }}>
-                <Text style={styles.gameInfoSemiTitle}>Duration</Text>
+                <Text style={styles.gameInfoSemiTitle}>Durée</Text>
                 <Text style={styles.globalInfoText}>01:02:03</Text>
               </View>
               <View style={{ width: "50%" }}>
-                <Text style={styles.gameInfoSemiTitle}>Victory Type</Text>
+                <Text
+                  style={[
+                    styles.gameInfoSemiTitle,
+                    { fontSize: 21, letterSpacing: 0 },
+                  ]}
+                >
+                  Type de victoire
+                </Text>
                 <Text style={styles.globalInfoText}>Alignement</Text>
               </View>
             </View>
@@ -135,7 +152,8 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 10,
+    marginHorizontal: 15,
+    padding: 5,
     height: "100%",
     borderWidth: 1,
     borderColor: COLOR.WHITE,
@@ -145,10 +163,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
   },
+  gameInfoSemiTitleContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   gameInfoSemiTitle: {
     textAlign: "center",
-    fontSize: 27,
+    fontSize: 23,
     color: COLOR.WHITE,
+    letterSpacing: 2,
   },
   gameInfo: {
     flex: 1,
@@ -161,12 +186,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   detailTitle: {
+    fontFamily: "roboto",
     fontWeight: "bold",
-    fontSize: 15,
+    fontSize: 20,
     color: COLOR.WHITE,
   },
   detailStatText: {
-    fontSize: 15,
+    fontFamily: "roboto",
+    fontSize: 18,
     color: COLOR.WHITE,
   },
   gameInfoGlobal: {
