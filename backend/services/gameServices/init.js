@@ -1,5 +1,5 @@
 const TURN_DURATION = 30;
-const MAX_TOKENS = 2;
+const MAX_TOKENS = 12;
 const MINIMUM_ALIGNED_TOKENS = 3;
 const DECK_INIT = {
   dices: [
