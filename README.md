@@ -9,11 +9,6 @@ https://github.com/jul-fls/Epsi-Architecture-Applicatives-Yam/assets/93679283/3e
 ## 2) En attente de joueur
 https://github.com/jul-fls/Epsi-Architecture-Applicatives-Yam/assets/93679283/f911fdf1-d292-4504-a6b7-998496e6ab17
 
-## 3) Résumé de la partie
-https://github.com/jul-fls/Epsi-Architecture-Applicatives-Yam/assets/93679283/81f731e2-7eb7-4cc3-a2a5-97cfe6b2a851
-
-
-
 Yam Master is a strategic dice game where players aim to score points by placing their pieces on the game board, creating alignments, and blocking their opponent's pieces. The objective is to achieve the highest score or to create a horizontal, vertical, or diagonal alignment of five pieces.
 
 ## Description
