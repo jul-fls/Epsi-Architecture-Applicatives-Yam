@@ -5,7 +5,7 @@ import { COLOR } from "../../../constants/color";
 import { DiceContext } from "../../../contexts/dice.context";
 const Choices = () => {
   const socket = useContext(SocketContext);
-  const { isDiceRolled } = useContext(DiceContext);
+  const { isDiceRolled, setIsDiceRolled } = useContext(DiceContext);
   const [displayChoices, setDisplayChoices] = useState(false);
   const [canMakeChoice, setCanMakeChoice] = useState(false);
   const [idSelectedChoice, setIdSelectedChoice] = useState(null);

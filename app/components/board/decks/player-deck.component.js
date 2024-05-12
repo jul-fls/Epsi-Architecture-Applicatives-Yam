@@ -93,13 +93,7 @@ const PlayerDeck = () => {
           <View style={styles.rollButtonContainer}>
             {displayRollButton && rollsCounter <= rollsMaximum && (
               <View>
-                <TouchableOpacity
-                  style={[
-                    styles.rollButton,
-                    isDiceAnimated && { display: "none" },
-                  ]}
-                  onPress={rollDices}
-                >
+                <TouchableOpacity style={styles.rollButton} onPress={rollDices}>
                   <Image
                     style={{ marginRight: 10 }}
                     source={IMAGE.ARROW_RIGHT}
