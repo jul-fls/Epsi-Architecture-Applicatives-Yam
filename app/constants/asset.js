@@ -9,6 +9,8 @@ export const ANIMATION = {
 };
 
 export const IMAGE = {
+  PLAYER: require("../assets/images/player.png"),
+  OPPONENT: require("../assets/images/opponent.png"),
   BACKGROUND: require("../assets/images/background.png"),
   BACKGROUND_TEXTURE: require("../assets/images/background_texture.png"),
   SYMBOL_FRAME: require("../assets/images/symbol_frame.png"),

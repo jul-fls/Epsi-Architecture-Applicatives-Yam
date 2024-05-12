@@ -16,12 +16,11 @@ const PlayerInfos = () => {
   }, []);
   return (
     <View style={styles.playerInfosContainer}>
-      <Image style={{ marginRight: 10 }} source={IMAGE.BATTLE} />
+      <Image style={styles.playerImage} source={IMAGE.PLAYER} />
       <Text style={styles.playerInfosText}>
         {playerInfos.playerKey &&
           replaceString(playerInfos.playerKey, "player:", "joueur ")}
       </Text>
-      <Image style={{ marginLeft: 10 }} source={IMAGE.BATTLE} />
     </View>
   );
 };
@@ -35,6 +34,11 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
     borderColor: COLOR.WHITE,
     backgroundColor: COLOR.ZELDA_SECONDARY,
+  },
+  playerImage: {
+    width: 40,
+    height: 40,
+    marginRight: 10,
   },
   playerInfosText: {
     color: COLOR.WHITE,

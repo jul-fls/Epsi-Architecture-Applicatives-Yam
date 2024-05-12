@@ -14,12 +14,11 @@ const OpponentInfos = () => {
   }, []);
   return (
     <View style={styles.opponentInfosContainer}>
-      <Image style={{ marginRight: 10 }} source={IMAGE.BATTLE_OPPONENT} />
+      <Image style={styles.opponentImage} source={IMAGE.OPPONENT} />
       <Text style={styles.opponentInfosText}>
         {opponentInfos.playerKey &&
           replaceString(opponentInfos.playerKey, "player:", "joueur ")}
       </Text>
-      <Image style={{ marginLeft: 10 }} source={IMAGE.BATTLE_OPPONENT} />
     </View>
   );
 };
@@ -32,6 +31,11 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
     borderColor: COLOR.WHITE,
     backgroundColor: COLOR.ZELDA_SECONDARY,
+  },
+  opponentImage: {
+    width: 40,
+    height: 40,
+    marginRight: 10,
   },
   opponentInfosText: {
     color: COLOR.WHITE,
