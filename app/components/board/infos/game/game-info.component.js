@@ -29,8 +29,8 @@ const GameInfo = () => {
       <Modal
         style={styles.gameInfoModal}
         isVisible={
-          // isGameInfosExist
-          true
+          isGameInfosExist
+          // true
         }
       >
         <View style={styles.gameInfoModalWrapper}>

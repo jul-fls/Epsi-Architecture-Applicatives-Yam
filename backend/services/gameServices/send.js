@@ -126,11 +126,6 @@ const send = {
         return {gameInfos: gameInfos};
       },
 
-      changeTurnState: (currentTurn) => {
-        return {
-          currentTurn: currentTurn,
-        };
-      },
     },
 }
 

@@ -160,13 +160,10 @@ const createGame = (player1Socket, player2Socket, type) => {
       updateClientsViewGrid(games[gameIndex]);
 
       // emit socket "game.change-turn" to both players with the game as data
-      games[gameIndex].player1Socket.emit(
-        "game.change-turn",
-        GameService.send.forPlayer.changeTurnState(games[gameIndex])
-      );
+
       games[gameIndex].player2Socket.emit(
         "game.change-turn",
-        GameService.send.forPlayer.changeTurnState(games[gameIndex])
+        games[gameIndex].gameState
       );
     }
   }, 1000);
@@ -405,6 +402,15 @@ io.on("connection", (socket) => {
       // on stoppe tout
     }
   });
+
+  socket.onAny((eventName, ...args) => {
+    console.log("Server received message:", eventName, args);
+  });
+  
+  socket.prependAny((eventName, ...args) => {
+    console.log("Server sent message:", eventName, args);
+  });
+
 });
 
 // -----------------------------------
