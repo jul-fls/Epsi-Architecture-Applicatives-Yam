@@ -1,35 +1,47 @@
-# Socket IO Example
+# Yam Master
 
-<p>
-  <!-- iOS -->
-  <a href="https://itunes.apple.com/app/apple-store/id982107779">
-    <img alt="Supports Expo iOS" longdesc="Supports Expo iOS" src="https://img.shields.io/badge/iOS-4630EB.svg?style=flat-square&logo=APPLE&labelColor=999999&logoColor=fff" />
-  </a>
-  <!-- Android -->
-  <a href="https://play.google.com/store/apps/details?id=host.exp.exponent&referrer=blankexample">
-    <img alt="Supports Expo Android" longdesc="Supports Expo Android" src="https://img.shields.io/badge/Android-4630EB.svg?style=flat-square&logo=ANDROID&labelColor=A4C639&logoColor=fff" />
-  </a>
-  <!-- Web -->
-  <a href="https://docs.expo.dev/workflow/web/">
-    <img alt="Supports Expo Web" longdesc="Supports Expo Web" src="https://img.shields.io/badge/web-4630EB.svg?style=flat-square&logo=GOOGLE-CHROME&labelColor=4285F4&logoColor=fff" />
-  </a>
-</p>
+Yam Master is a strategic dice game where players aim to score points by placing their pieces on the game board, creating alignments, and blocking their opponent's pieces. The objective is to achieve the highest score or to create a horizontal, vertical, or diagonal alignment of five pieces.
 
-This example shows how to connect and interact with socket-io backends.
+## Description
 
-## 🚀 How to use
+Yam Master is an adaptation of the classic dice game Yam's. Players take turns rolling five dice and trying to achieve different combinations, which allow them to place their pieces on the game board. The game continues until one player runs out of pieces or achieves an alignment of five pieces, resulting in an instant victory.
 
-### Running the app
+## Game Rules
 
-- Run `yarn` or `npm install`
-- Open `App.js` and change the `socketEndpoint` at the top of the file to point to your endpoint.
-- Open `app` with `yarn start` or `npm run start` to try it out.
+For detailed rules of the game, please refer to the [Game Rules](https://regle.escaleajeux.fr/yamma_rg.pdf) section below.
 
-### Running the server
+## Installation
 
-- `cd` into the `backend` directory and run `yarn` or `npm install`, then run `yarn start` or `npm run start`
-- Install [ngrok](https://ngrok.com/download) and run `ngrok http 3000` and copy the https url that looks something like this `https://f7333e87.ngrok.io`.
+1. Clone the repository:
 
-## 📝 Notes
+   ```bash
+   git clone https://github.com/jul-fls/Epsi-Architecture-Applicatives-Yam.git
+   ```
 
-React Native provides a socket-io compatible WebSocket implementation, some people get tripped up on the https requirement so this example helps to clarify how you can get it running.
+2. Navigate to the project directory:
+
+   ```bash
+   cd project-directory
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+## Usage
+
+1. Start the development server:
+
+   ```bash
+   npm start
+   ```
+
+2. Follow the instructions provided to run the application on your desired platform (e.g., iOS simulator, Android emulator, etc.).
+
+## WebSocket Setup
+
+1. Ensure that the backend services are running with WebSocket support.
+
+2. In the frontend code, configure the WebSocket connection to point to the correct backend URL.
