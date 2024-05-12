@@ -112,7 +112,7 @@ const newPlayerInQueue = async (socket, gameType) => {
         } else {
           socket.emit("queue.added", GameService.send.forPlayer.viewQueueState());
         }
-    }, 50);
+    }, 100);
   }else{
     if (queue.length >= 2) {
       const player1Socket = queue.shift();
@@ -218,14 +218,16 @@ const leaveQueue = (socket) => {
 
 const resetGame = (gameIndex) => {
   const game = games[gameIndex];
+
   if(game != undefined){
+    const gameType = game.gameState.gameType;
     // Clear the game interval to stop any ongoing game processes
     clearInterval(game.gameInterval);
 
     // Emit a reset or clean-up signal to both players, if necessary
     game.player1Socket.emit("game.reset", "The game has been reset.");
     game.player2Socket.emit("game.reset", "The game has been reset.");
-
+    bot.stopBot();
     // Remove the game from the games array
     games.splice(gameIndex, 1);
     console.log(`Game ${game.idGame} has been reset.`);
@@ -433,7 +435,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on('game.cancel', (data) => {
-    console.log(`[${socket.id}] requested game reset, reason: ${data.reason}`);
     // Reset the game logic here
     const gameIndex = GameService.utils.findGameIndexBySocketId(
       games,

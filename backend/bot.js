@@ -1,11 +1,13 @@
 // bot.js
+
 const io = require("socket.io-client");
 let socket = null;
 
 function startBot() {
-    let socket = io("http://localhost:3000", {
+    socket = io("http://localhost:3000", {
         autoConnect: true,
     });
+
     socket.on("connect", () => {
         console.log("Bot connected as Player 2 with ID:", socket.id);
         // socket.emit("queue.join", "bot");
@@ -30,8 +32,8 @@ function startBot() {
 
     socket.on("game.change-turn", (gameState) => {
         if (gameState.currentTurn === "player:2") {
-        console.log("Bot's turn to play");
-        decideAction(gameState);
+            console.log("Bot's turn to play");
+            performBotActions(gameState);
         }
     });
 
@@ -46,4 +48,11 @@ function startBot() {
     return socket;
 }
 
-module.exports = { startBot };
+function stopBot() {
+    if (socket) {
+        socket.disconnect();
+        console.log("Bot disconnected");
+    }
+}
+
+module.exports = { startBot, stopBot };

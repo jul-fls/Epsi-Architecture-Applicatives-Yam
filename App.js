@@ -40,10 +40,12 @@ function App() {
               <Stack.Screen
                 name="Jouer en ligne"
                 component={OnlineGameScreen}
+                options={{ headerLeft: () => null }}  // This hides the back arrow
               />
               <Stack.Screen
                 name="Jouer contre le bot"
                 component={VsBotGameScreen}
+                options={{ headerLeft: () => null }}  // This hides the back arrow
               />
             </Stack.Group>
           </Stack.Navigator>
