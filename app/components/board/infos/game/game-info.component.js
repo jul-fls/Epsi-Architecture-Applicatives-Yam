@@ -71,7 +71,8 @@ const GameInfo = () => {
                 )}
                 <View style={styles.gameInfoDetailTitleContainer}>
                   <Text style={styles.detailTitle}>
-                    Joueur {gameInfos.winner}
+                    Joueur
+                    {gameInfos.winner === "draw" ? "1" : gameInfos.winner}
                   </Text>
                 </View>
                 <View style={styles.gameInfoDetailTitleContainer}>
@@ -96,7 +97,7 @@ const GameInfo = () => {
                 )}
                 <View style={styles.gameInfoDetailTitleContainer}>
                   <Text style={styles.detailTitle}>
-                    Joueur {gameInfos.loser}
+                    Joueur {gameInfos.loser === "draw" ? "2" : gameInfos.loser}
                   </Text>
                 </View>
                 <View style={styles.gameInfoDetailTitleContainer}>
@@ -130,7 +131,7 @@ const GameInfo = () => {
                   Type de victoire
                 </Text>
                 <Text style={styles.globalInfoText}>
-                  {gameInfos.victoryType}
+                  {isGameDraw ? "-" : gameInfos.victoryType}
                 </Text>
               </View>
             </View>

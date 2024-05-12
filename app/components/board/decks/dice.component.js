@@ -11,8 +11,8 @@ const Dice = ({
   value,
   onPress,
   opponent,
-  // isDiceAnimated,
-  // setIsDiceAnimated,
+  isDiceAnimated,
+  setIsDiceAnimated,
   isPlayer,
 }) => {
   const handlePress = () => {
@@ -20,7 +20,6 @@ const Dice = ({
       onPress(index);
     }
   };
-  const { isDiceAnimated, setIsDiceAnimated } = useContext(DiceContext);
 
   const diceImages = {
     1: IMAGE.DICE_1,

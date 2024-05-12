@@ -8,7 +8,7 @@ import { COLOR } from "../../../constants/color";
 import { ANIMATION } from "../../../constants/asset";
 const OpponentDeck = () => {
   const socket = useContext(SocketContext);
-  const { isDiceAnimated } = useContext(DiceContext);
+  const { isDiceRolled } = useContext(DiceContext);
 
   const [displayOpponentDeck, setDisplayOpponentDeck] = useState(false);
   const [opponentDices, setOpponentDices] = useState(
@@ -26,17 +26,18 @@ const OpponentDeck = () => {
 
   return (
     <View style={styles.deckOpponentContainer}>
-      {displayOpponentDeck && !isDiceAnimated ? (
+      {displayOpponentDeck ? (
         <View style={styles.diceContainer}>
-          {opponentDices.map((diceData, index) => (
-            <Dice
-              key={index}
-              locked={diceData.locked}
-              value={diceData.value}
-              opponent={true}
-              isPlayer={false}
-            />
-          ))}
+          {!isDiceRolled &&
+            opponentDices.map((diceData, index) => (
+              <Dice
+                key={index}
+                locked={diceData.locked}
+                value={diceData.value}
+                opponent={true}
+                isPlayer={false}
+              />
+            ))}
         </View>
       ) : (
         <>

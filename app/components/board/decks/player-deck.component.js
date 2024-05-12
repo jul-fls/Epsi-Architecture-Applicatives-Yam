@@ -14,7 +14,9 @@ const PlayerDeck = () => {
   const [displayRollButton, setDisplayRollButton] = useState(false);
   const [rollsCounter, setRollsCounter] = useState(1);
   const [rollsMaximum, setRollsMaximum] = useState(3);
-  const { isDiceAnimated, setIsDiceAnimated } = useContext(DiceContext);
+  const [isDiceAnimated, setIsDiceAnimated] = useState(false);
+
+  const { isDiceRolled, setIsDiceRolled } = useContext(DiceContext);
 
   useEffect(() => {
     socket.on("game.deck.view-state", (data) => {
@@ -28,27 +30,33 @@ const PlayerDeck = () => {
     });
   }, []);
 
+  useEffect(() => {
+    setIsDiceRolled(isDiceAnimated);
+  }, [isDiceAnimated]);
+
   const toggleDiceLock = (index) => {
     const newDices = [...dices];
-    setIsDiceAnimated(false);
 
     if (newDices[index].value !== "" && displayRollButton) {
       socket.emit("game.dices.lock", newDices[index].id);
+      setIsDiceAnimated(false);
     }
   };
 
   const rollDices = () => {
-    setIsDiceAnimated(true);
+    if (rollsCounter === 1) {
+      socket.emit("game.dices.roll");
+      setIsDiceAnimated(true);
 
-    if (rollsCounter === rollsMaximum) {
+      return;
+    }
+
+    if (rollsCounter <= rollsMaximum) {
       setTimeout(() => {
         socket.emit("game.dices.roll");
       }, 2500);
-      return;
     }
-    if (rollsCounter <= rollsMaximum) {
-      socket.emit("game.dices.roll");
-    }
+    setIsDiceAnimated(true);
   };
 
   return (
@@ -76,8 +84,8 @@ const PlayerDeck = () => {
                 locked={diceData.locked}
                 value={diceData.value}
                 onPress={toggleDiceLock}
-                // isDiceAnimated={isDiceAnimated}
-                // setIsDiceAnimated={setIsDiceAnimated}
+                isDiceAnimated={isDiceAnimated}
+                setIsDiceAnimated={setIsDiceAnimated}
                 isPlayer={true}
               />
             ))}

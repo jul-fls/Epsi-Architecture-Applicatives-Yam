@@ -5,7 +5,7 @@ import { COLOR } from "../../../constants/color";
 import { DiceContext } from "../../../contexts/dice.context";
 const Choices = () => {
   const socket = useContext(SocketContext);
-  const { isDiceAnimated } = useContext(DiceContext);
+  const { isDiceRolled } = useContext(DiceContext);
   const [displayChoices, setDisplayChoices] = useState(false);
   const [canMakeChoice, setCanMakeChoice] = useState(false);
   const [idSelectedChoice, setIdSelectedChoice] = useState(null);
@@ -30,7 +30,7 @@ const Choices = () => {
   return (
     <View style={styles.choicesContainer}>
       {displayChoices &&
-        !isDiceAnimated &&
+        !isDiceRolled &&
         availableChoices.map((choice) => (
           <TouchableOpacity
             key={choice.id}
